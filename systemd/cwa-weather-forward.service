@@ -1,0 +1,19 @@
+[Unit]
+Description=CWA Weather domain-scoped explicit proxy
+After=network-online.target tailscaled.service cwa-weather-api.service cwa-weather-codec.service
+Wants=network-online.target
+[Service]
+User=jamie
+Group=jamie
+WorkingDirectory=/home/jamie/cwa-weather-proxy
+Environment=PYTHONUNBUFFERED=1
+Environment=CWA_PROXY_MODE=forward
+ExecStart=/home/jamie/cwa-weather-proxy/.venv/bin/mitmdump --listen-host 100.78.140.101 --listen-port 18940 --set confdir=/home/jamie/cwa-weather-proxy/certs/mitm --certs weatherkit.apple.com=/home/jamie/cwa-weather-proxy/certs/weatherkit.pem --allow-hosts ^weatherkit\.apple\.com:443$ --set flow_detail=0 --set termlog_verbosity=warn -s /home/jamie/cwa-weather-proxy/addon.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+UMask=0077
+[Install]
+WantedBy=multi-user.target

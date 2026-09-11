@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/jamie/cwa-weather-proxy/cwa_snapshot.py')
+s=p.read_text()
+s=s.replace('normalize_forecast,nearest_location','normalize_forecast,nearest_location,distance')
+s=s.replace("COUNTY_IDS=json.loads((ROOT/'cwa_regions.json').read_text())", "COUNTY_IDS=json.loads((ROOT/'cwa_regions.json').read_text())\nTOWNS=json.loads((ROOT/'town_index.json').read_text())\ndef forecast_town(lat,lon):\n    choices=[(distance(lat,lon,t['latitude'],t['longitude']),t) for t in TOWNS]\n    closest=min(choices,key=lambda t:t[0])\n    return closest if closest[0]<=60 else None")
+s=s.replace("    results=await asyncio.gather", "    forecast_reference=forecast_town(lat,lon)\n    if not forecast_reference:raise Unavailable('outside forecast reference coverage')\n    forecast_distance,forecast_place=forecast_reference\n    results=await asyncio.gather",1)
+s=s.replace("county=geo.get('CountyName','').replace('台','臺')", "county=forecast_place['county']")
+s=s.replace("'county':county,'stationTown'", "'county':county,'forecastTown':forecast_place['town'],'forecastDistanceKm':round(forecast_distance,3),'stationCounty':geo.get('CountyName'),'stationTown'")
+s=s.replace("nearest fresh station; county inferred from station", "nearest fresh station; forecast selected independently by nearest CWA reference point; administrative area approximate")
+s=s.replace("near=nearest_location(d,lat,lon)", "loc=next((l for g in groups for l in g.get('Location',[]) if l.get('LocationName')==forecast_place['town']),None)\n            near=(forecast_distance,loc) if loc else None")
+s=s.replace("nearest forecast centroid", "nearest CWA forecast reference point")
+p.write_text(s)
+print('Forecast reference selection updated independently from observation station')

@@ -1,0 +1,16 @@
+[Unit]
+Description=CWA Apple Weather FlatBuffers scalar mapper
+After=network-online.target
+[Service]
+User=jamie
+Group=jamie
+WorkingDirectory=/home/jamie/cwa-weather-proxy
+ExecStart=/home/linuxbrew/.linuxbrew/bin/node /home/jamie/cwa-weather-proxy/codec_server.mjs
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+UMask=0077
+[Install]
+WantedBy=multi-user.target

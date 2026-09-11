@@ -1,0 +1,16 @@
+{
+  "version": "1.0.1",
+  "mode": "split-dns-relay-routes",
+  "relayPrefixes": [
+    "17.253.0.0/16",
+    "2403:300:a00::/40",
+    "2620:149:a00::/40",
+    "2a01:b740:a00::/40"
+  ],
+  "relayDomains": [
+    "tether.edge.apple",
+    "tether.v.aaplimg.com"
+  ],
+  "note": "Weather uses its tailnet DNS rewrite. These additional specific subnets carry known Apple relay infrastructure so enrolled clients' UDP/443 can be rejected on Pi5. They require Tailscale admin approval and do not replace client default routes. Shared destination IPs can carry other Apple traffic. Verify relay coverage when roaming; these are measured prefixes, not a guarantee of all future relay IPs.",
+  "ipv6MissingUplinkPolicy": "enrolled relay TCP/443 fast reset when FIB has no route; IPv4 fallback"
+}

@@ -1,0 +1,24 @@
+{
+  "verifiedAt": 1789117280,
+  "source": "Tailscale Admin Console; four saved rows visually verified after updates",
+  "domains": {
+    "weatherkit.apple.com": {
+      "nameserver": "100.78.140.101",
+      "useWithExitNode": true
+    },
+    "tthr.apple.com": {
+      "nameserver": "100.78.140.101",
+      "useWithExitNode": true
+    },
+    "tether.edge.apple": {
+      "nameserver": "100.78.140.101",
+      "useWithExitNode": true
+    },
+    "tether.v.aaplimg.com": {
+      "nameserver": "100.78.140.101",
+      "useWithExitNode": true
+    }
+  },
+  "globalDNS": "unchanged",
+  "existingSubnetRoutes": "unchanged"
+}

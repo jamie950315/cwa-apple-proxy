@@ -1,0 +1,58 @@
+table inet cwa_weather {
+	set relay4 {
+		type ipv4_addr
+		flags interval
+		elements = { 17.253.0.0/16 }
+	}
+
+	set relay6 {
+		type ipv6_addr
+		flags interval
+		elements = { 2403:300:a00::/40,
+			     2620:149:a00::/40,
+			     2a01:b740:a00::/40 }
+	}
+
+	set clients4 {
+		type ipv4_addr
+		flags interval
+		elements = { 100.122.163.78, 100.123.14.68 }
+	}
+
+	set clients6 {
+		type ipv6_addr
+		flags interval
+		elements = { fd7a:115c:a1e0::b01:e9a,
+			     fd7a:115c:a1e0::eb36:a34f }
+	}
+
+	set bridge4 {
+		type ipv4_addr
+		flags interval
+		elements = { 100.78.140.101 }
+	}
+
+	set bridge6 {
+		type ipv6_addr
+		flags interval
+		elements = { fd7a:115c:a1e0::5901:8c9c }
+	}
+
+	chain prerouting {
+		type filter hook prerouting priority filter - 10; policy accept;
+		iifname "tailscale0" ip6 saddr @clients6 ip6 daddr @relay6 udp dport 443 counter packets 242 bytes 465816 reject comment "cwa IPv6 relay QUIC early fallback"
+		iifname "tailscale0" ip6 saddr @clients6 ip6 daddr @relay6 tcp dport 443 fib daddr oif missing counter packets 43 bytes 3624 reject with tcp reset comment "cwa IPv6 relay missing-uplink fast fallback"
+	}
+
+	chain input {
+		type filter hook input priority filter - 10; policy accept;
+		iifname "tailscale0" ip saddr @clients4 ip daddr @bridge4 udp dport 443 counter packets 0 bytes 0 reject comment "cwa direct tailnet QUIC fallback"
+		iifname "tailscale0" ip6 saddr @clients6 ip6 daddr @bridge6 udp dport 443 counter packets 0 bytes 0 reject comment "cwa direct tailnet QUIC fallback"
+	}
+
+	chain forward {
+		type filter hook forward priority filter - 10; policy accept;
+		iifname "tailscale0" ip saddr @clients4 ip daddr @relay4 udp dport 443 counter packets 230 bytes 426214 reject comment "cwa selective relay QUIC fallback"
+		iifname "tailscale0" ip6 saddr @clients6 ip6 daddr @relay6 udp dport 443 counter packets 0 bytes 0 reject comment "cwa selective relay QUIC fallback"
+	}
+}

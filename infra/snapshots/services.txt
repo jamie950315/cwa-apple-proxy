@@ -1,0 +1,18 @@
+  UNIT                             LOAD   ACTIVE   SUB     DESCRIPTION
+  cwa-weather-api.service          loaded active   running CWA Weather normalized data API
+  cwa-weather-codec.service        loaded active   running CWA Apple Weather FlatBuffers scalar mapper
+  cwa-weather-forward.service      loaded active   running CWA Weather domain-scoped explicit proxy
+  cwa-weather-model.service        loaded inactive dead    CWA WRF precipitation and sea-level pressure cache refresh
+  cwa-weather-proxy.service        loaded active   running CWA Apple Weather reverse proxy
+  cwa-weather-route-status.service loaded inactive dead    CWA Weather selective-route approval status
+  cwa-weather-routing.service      loaded active   exited  Opt-in CWA Weather split-routing transport policy
+  cwa-weather-sni.service          loaded active   running CWA Weather TLS SNI router
+  cwa-weather-model.timer          loaded active   waiting Hourly CWA WRF cache update
+  cwa-weather-route-status.timer   loaded active   waiting Refresh CWA selective route approval status every minute
+
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+        SUB    → The low-level unit activation state, values depend on unit type.
+
+10 loaded units listed.
+To show all installed unit files use 'systemctl list-unit-files'.

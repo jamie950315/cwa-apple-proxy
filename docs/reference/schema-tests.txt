@@ -1,0 +1,514 @@
+{
+  "source": {
+    "id": "1789067343103901835",
+    "host": "weatherkit.apple.com",
+    "path": "/api/v2/weather/zh-Hant-TW/25.090/121.560",
+    "query": {
+      "timezone": [
+        "Asia/Taipei"
+      ],
+      "dataSets": [
+        "airQuality,currentWeather,dataNotice,forecastDaily,forecastHourly,forecastNextHour,forecastPeriodic,news,historicalComparisons,weatherAlerts,weatherChanges"
+      ],
+      "country": [
+        "TW"
+      ]
+    },
+    "method": "GET",
+    "status": 200,
+    "contentType": "application/vnd.apple.flatbuffer;messageType=WK2.Weather",
+    "bytes": 40844,
+    "userAgent": "WeatherKit_Weather_macOS_Version 27.0 (Build 26A5425a)",
+    "accept": "application/vnd.apple.flatbuffer;messageType=WK2.Weather",
+    "time": 1789067343.1039414
+  },
+  "current": {
+    "metadata": {
+      "attributionUrl": "https://developer.apple.com/weatherkit/data-source-attribution-internal/",
+      "expireTime": 1789067643,
+      "language": null,
+      "latitude": 25.09000015258789,
+      "longitude": 121.55999755859375,
+      "providerLogo": null,
+      "providerName": null,
+      "readTime": 1789067343,
+      "reportedTime": 1789067343,
+      "temporarilyUnavailable": false,
+      "sourceType": "MODELED"
+    },
+    "asOf": 1789067343,
+    "cloudCover": 48,
+    "cloudCoverHighAltPct": 0,
+    "cloudCoverLowAltPct": 39,
+    "cloudCoverMidAltPct": 14,
+    "conditionCode": "PARTLY_CLOUDY",
+    "daylight": false,
+    "humidity": 90,
+    "perceivedPrecipitationIntensity": 0.4206424951553345,
+    "precipitationAmount1h": 0,
+    "precipitationAmount24h": 1.8654576539993286,
+    "precipitationAmount6h": 0,
+    "precipitationAmountNext1h": 0,
+    "precipitationAmountNext1hByType": [],
+    "precipitationAmountNext24h": 5.884089946746826,
+    "precipitationAmountNext24hByType": [
+      {
+        "expected": 5.884089946746826,
+        "expectedSnow": 0,
+        "maximumSnow": 0,
+        "minimumSnow": 0,
+        "precipitationType": "RAIN"
+      }
+    ],
+    "precipitationAmountNext6h": 0.7417874932289124,
+    "precipitationAmountNext6hByType": [
+      {
+        "expected": 0.7417874932289124,
+        "expectedSnow": 0,
+        "maximumSnow": 0,
+        "minimumSnow": 0,
+        "precipitationType": "RAIN"
+      }
+    ],
+    "precipitationAmountPrevious1hByType": [],
+    "precipitationAmountPrevious24hByType": [
+      {
+        "expected": 1.8654576539993286,
+        "expectedSnow": 0,
+        "maximumSnow": 0,
+        "minimumSnow": 0,
+        "precipitationType": "RAIN"
+      }
+    ],
+    "precipitationAmountPrevious6hByType": [],
+    "precipitationIntensity": 0.13309501111507416,
+    "pressure": 1014.3200073242188,
+    "pressureTrend": "FALLING",
+    "snowfallAmount1h": 0,
+    "snowfallAmount24h": 0,
+    "snowfallAmount6h": 0,
+    "snowfallAmountNext1h": 0,
+    "snowfallAmountNext24h": 0,
+    "snowfallAmountNext6h": 0,
+    "temperature": 24.3812198638916,
+    "temperatureApparent": 25.164241790771484,
+    "unknown34": 0,
+    "temperatureDewPoint": 22.633743286132812,
+    "uvIndex": 0,
+    "visibility": 11433.41796875,
+    "windDirection": 78,
+    "windGust": 19.747121810913086,
+    "windSpeed": 8.770743370056152
+  },
+  "hour": {
+    "cloudCover": 38,
+    "cloudCoverHighAltPct": 0,
+    "cloudCoverLowAltPct": 12,
+    "cloudCoverMidAltPct": 15,
+    "conditionCode": "PARTLY_CLOUDY",
+    "daylight": false,
+    "forecastStart": 1788962400,
+    "humidity": 88,
+    "perceivedPrecipitationIntensity": 0.11699999868869781,
+    "precipitationAmount": 0.009999999776482582,
+    "precipitationChance": 2,
+    "precipitationIntensity": 0.009999999776482582,
+    "precipitationType": "RAIN",
+    "pressure": 1012.4500122070312,
+    "pressureTrend": "RISING",
+    "snowfallAmount": 0,
+    "snowfallIntensity": 0,
+    "temperature": 24.68000030517578,
+    "temperatureApparent": 25.943801879882812,
+    "unknown20": 0,
+    "temperatureDewPoint": 22.557998657226562,
+    "uvIndex": 0,
+    "visibility": 15927,
+    "windDirection": 89,
+    "windGust": 11.052000045776367,
+    "windSpeed": 5.497199535369873
+  },
+  "hourCount": 274,
+  "day": {
+    "conditionCode": "DRIZZLE",
+    "forecastEnd": 1789056000,
+    "forecastStart": 1788969600,
+    "humidityMax": 90,
+    "humidityMin": 66,
+    "maxUvIndex": 8,
+    "moonPhase": "WANING_CRESCENT",
+    "moonrise": 1788985650,
+    "moonset": 1789032473,
+    "precipitationAmount": 1.4060001373291016,
+    "precipitationAmountByType": [
+      {
+        "expected": 1.4060001373291016,
+        "expectedSnow": 0,
+        "maximumSnow": 0,
+        "minimumSnow": 0,
+        "precipitationType": "RAIN"
+      }
+    ],
+    "precipitationChance": 61,
+    "precipitationType": "RAIN",
+    "snowfallAmount": 0,
+    "solarMidnight": 1789055441,
+    "solarNoon": 1789012238,
+    "sunrise": 1788989861,
+    "sunriseCivil": 1788988479,
+    "sunriseNautical": 1788986867,
+    "sunriseAstronomical": 1788985234,
+    "sunset": 1789034608,
+    "sunsetCivil": 1789035988,
+    "sunsetNautical": 1789037599,
+    "sunsetAstronomical": 1789039231,
+    "temperatureMax": 29.524532318115234,
+    "temperatureMaxTime": 1789009065,
+    "temperatureMin": 23.357765197753906,
+    "temperatureMinTime": 1788989201,
+    "visibilityMax": 19475,
+    "visibilityMin": 11668,
+    "windGustSpeedMax": 33.56999969482422,
+    "windSpeedAvg": 11.400825500488281,
+    "windSpeedMax": 19.004398345947266,
+    "daytimeForecast": {
+      "cloudCover": 56,
+      "cloudCoverHighAltPct": 4,
+      "cloudCoverLowAltPct": 21,
+      "cloudCoverMidAltPct": 32,
+      "conditionCode": "PARTLY_CLOUDY",
+      "forecastEnd": 1789038000,
+      "forecastStart": 1788994800,
+      "humidity": 75,
+      "humidityMax": 89,
+      "humidityMin": 66,
+      "precipitationAmount": 0.9539999961853027,
+      "precipitationAmountByType": [
+        {
+          "expected": 0.9539999961853027,
+          "expectedSnow": 0,
+          "maximumSnow": 0,
+          "minimumSnow": 0,
+          "precipitationType": "RAIN"
+        }
+      ],
+      "precipitationChance": 38,
+      "precipitationType": "RAIN",
+      "snowfallAmount": 0,
+      "temperatureMax": 29.524532318115234,
+      "temperatureMin": 24.84000015258789,
+      "visibilityMax": 19475,
+      "visibilityMin": 11668,
+      "windDirection": 73,
+      "windGustSpeedMax": 33.56999969482422,
+      "windSpeed": 15.01710033416748,
+      "windSpeedMax": 19.004398345947266,
+      "precipitationIntensityMax": 0.15000000596046448,
+      "perceivedPrecipitationIntensityMax": 0.4449999928474426,
+      "uvIndexMin": 0,
+      "uvIndexMax": 8,
+      "temperatureApparentMin": 26.1879825592041,
+      "temperatureApparentMax": 29.852020263671875,
+      "daylight": true
+    },
+    "overnightForecast": {
+      "cloudCover": 48,
+      "cloudCoverHighAltPct": 10,
+      "cloudCoverLowAltPct": 31,
+      "cloudCoverMidAltPct": 14,
+      "conditionCode": "DRIZZLE",
+      "forecastEnd": 1789081200,
+      "forecastStart": 1789038000,
+      "humidity": 87,
+      "humidityMax": 90,
+      "humidityMin": 82,
+      "precipitationAmount": 1.2790000438690186,
+      "precipitationAmountByType": [
+        {
+          "expected": 1.2790000438690186,
+          "expectedSnow": 0,
+          "maximumSnow": 0,
+          "minimumSnow": 0,
+          "precipitationType": "RAIN"
+        }
+      ],
+      "precipitationChance": 46,
+      "precipitationType": "RAIN",
+      "snowfallAmount": 0,
+      "temperatureMax": 25.59000015258789,
+      "temperatureMin": 24.21238899230957,
+      "visibilityMax": 15019,
+      "visibilityMin": 11412,
+      "windDirection": 79,
+      "windGustSpeedMax": 23.38559913635254,
+      "windSpeed": 9.277198791503906,
+      "windSpeedMax": 13.824000358581543,
+      "precipitationIntensityMax": 0.15600000321865082,
+      "perceivedPrecipitationIntensityMax": 0.45399999618530273,
+      "uvIndexMin": 0,
+      "uvIndexMax": 1,
+      "temperatureApparentMin": 25.063379287719727,
+      "temperatureApparentMax": 26.453811645507812,
+      "daylight": false
+    }
+  },
+  "dayCount": 11
+}{
+  "current": {
+    "metadata": "metadata(t){const e=this.bb.__offset(this.bb_pos,4);return e?(t||new H).__init(this.bb.__indirect(this.bb_pos+e),this.bb):null}",
+    "asOf": "asOf(){const t=this.bb.__offset(this.bb_pos,6);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "cloudCover": "cloudCover(){const t=this.bb.__offset(this.bb_pos,8);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "cloudCoverLowAltPct": "cloudCoverLowAltPct(){const t=this.bb.__offset(this.bb_pos,10);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "cloudCoverMidAltPct": "cloudCoverMidAltPct(){const t=this.bb.__offset(this.bb_pos,12);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "cloudCoverHighAltPct": "cloudCoverHighAltPct(){const t=this.bb.__offset(this.bb_pos,14);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "conditionCode": "conditionCode(){const t=this.bb.__offset(this.bb_pos,16);return t?this.bb.readInt8(this.bb_pos+t):M.CLEAR}",
+    "daylight": "daylight(){const t=this.bb.__offset(this.bb_pos,18);return!!t&&!!this.bb.readInt8(this.bb_pos+t)}",
+    "humidity": "humidity(){const t=this.bb.__offset(this.bb_pos,20);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "perceivedPrecipitationIntensity": "perceivedPrecipitationIntensity(){const t=this.bb.__offset(this.bb_pos,22);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmount1h": "precipitationAmount1h(){const t=this.bb.__offset(this.bb_pos,24);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmount6h": "precipitationAmount6h(){const t=this.bb.__offset(this.bb_pos,26);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmount24h": "precipitationAmount24h(){const t=this.bb.__offset(this.bb_pos,28);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmountNext1h": "precipitationAmountNext1h(){const t=this.bb.__offset(this.bb_pos,30);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmountNext6h": "precipitationAmountNext6h(){const t=this.bb.__offset(this.bb_pos,32);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmountNext24h": "precipitationAmountNext24h(){const t=this.bb.__offset(this.bb_pos,34);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmountNext1hByType": "precipitationAmountNext1hByType(t,e){const i=this.bb.__offset(this.bb_pos,36);return i?(e||new J).__init(this.bb.__indirect(this.bb.__vector(this.bb_pos+i)+4*t),this.bb):null}",
+    "precipitationAmountNext1hByTypeLength": "precipitationAmountNext1hByTypeLength(){const t=this.bb.__offset(this.bb_pos,36);return t?this.bb.__vector_len(this.bb_pos+t):0}",
+    "precipitationAmountNext6hByType": "precipitationAmountNext6hByType(t,e){const i=this.bb.__offset(this.bb_pos,38);return i?(e||new J).__init(this.bb.__indirect(this.bb.__vector(this.bb_pos+i)+4*t),this.bb):null}",
+    "precipitationAmountNext6hByTypeLength": "precipitationAmountNext6hByTypeLength(){const t=this.bb.__offset(this.bb_pos,38);return t?this.bb.__vector_len(this.bb_pos+t):0}",
+    "precipitationAmountNext24hByType": "precipitationAmountNext24hByType(t,e){const i=this.bb.__offset(this.bb_pos,40);return i?(e||new J).__init(this.bb.__indirect(this.bb.__vector(this.bb_pos+i)+4*t),this.bb):null}",
+    "precipitationAmountNext24hByTypeLength": "precipitationAmountNext24hByTypeLength(){const t=this.bb.__offset(this.bb_pos,40);return t?this.bb.__vector_len(this.bb_pos+t):0}",
+    "precipitationAmountPrevious1hByType": "precipitationAmountPrevious1hByType(t,e){const i=this.bb.__offset(this.bb_pos,42);return i?(e||new J).__init(this.bb.__indirect(this.bb.__vector(this.bb_pos+i)+4*t),this.bb):null}",
+    "precipitationAmountPrevious1hByTypeLength": "precipitationAmountPrevious1hByTypeLength(){const t=this.bb.__offset(this.bb_pos,42);return t?this.bb.__vector_len(this.bb_pos+t):0}",
+    "precipitationAmountPrevious6hByType": "precipitationAmountPrevious6hByType(t,e){const i=this.bb.__offset(this.bb_pos,44);return i?(e||new J).__init(this.bb.__indirect(this.bb.__vector(this.bb_pos+i)+4*t),this.bb):null}",
+    "precipitationAmountPrevious6hByTypeLength": "precipitationAmountPrevious6hByTypeLength(){const t=this.bb.__offset(this.bb_pos,44);return t?this.bb.__vector_len(this.bb_pos+t):0}",
+    "precipitationAmountPrevious24hByType": "precipitationAmountPrevious24hByType(t,e){const i=this.bb.__offset(this.bb_pos,46);return i?(e||new J).__init(this.bb.__indirect(this.bb.__vector(this.bb_pos+i)+4*t),this.bb):null}",
+    "precipitationAmountPrevious24hByTypeLength": "precipitationAmountPrevious24hByTypeLength(){const t=this.bb.__offset(this.bb_pos,46);return t?this.bb.__vector_len(this.bb_pos+t):0}",
+    "precipitationIntensity": "precipitationIntensity(){const t=this.bb.__offset(this.bb_pos,48);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "pressure": "pressure(){const t=this.bb.__offset(this.bb_pos,50);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "pressureTrend": "pressureTrend(){const t=this.bb.__offset(this.bb_pos,52);return t?this.bb.readInt8(this.bb_pos+t):E.RISING}",
+    "snowfallAmount1h": "snowfallAmount1h(){const t=this.bb.__offset(this.bb_pos,54);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "snowfallAmount6h": "snowfallAmount6h(){const t=this.bb.__offset(this.bb_pos,56);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "snowfallAmount24h": "snowfallAmount24h(){const t=this.bb.__offset(this.bb_pos,58);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "snowfallAmountNext1h": "snowfallAmountNext1h(){const t=this.bb.__offset(this.bb_pos,60);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "snowfallAmountNext6h": "snowfallAmountNext6h(){const t=this.bb.__offset(this.bb_pos,62);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "snowfallAmountNext24h": "snowfallAmountNext24h(){const t=this.bb.__offset(this.bb_pos,64);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "temperature": "temperature(){const t=this.bb.__offset(this.bb_pos,66);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "temperatureApparent": "temperatureApparent(){const t=this.bb.__offset(this.bb_pos,68);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "unknown34": "unknown34(){const t=this.bb.__offset(this.bb_pos,70);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "temperatureDewPoint": "temperatureDewPoint(){const t=this.bb.__offset(this.bb_pos,72);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "uvIndex": "uvIndex(){const t=this.bb.__offset(this.bb_pos,74);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "visibility": "visibility(){const t=this.bb.__offset(this.bb_pos,76);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "windDirection": "windDirection(){const t=this.bb.__offset(this.bb_pos,78);return t?this.bb.readInt16(this.bb_pos+t):0}",
+    "windGust": "windGust(){const t=this.bb.__offset(this.bb_pos,80);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "windSpeed": "windSpeed(){const t=this.bb.__offset(this.bb_pos,82);return t?this.bb.readFloat32(this.bb_pos+t):0}"
+  },
+  "hour": {
+    "forecastStart": "forecastStart(){const t=this.bb.__offset(this.bb_pos,4);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "cloudCover": "cloudCover(){const t=this.bb.__offset(this.bb_pos,6);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "cloudCoverLowAltPct": "cloudCoverLowAltPct(){const t=this.bb.__offset(this.bb_pos,8);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "cloudCoverMidAltPct": "cloudCoverMidAltPct(){const t=this.bb.__offset(this.bb_pos,10);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "cloudCoverHighAltPct": "cloudCoverHighAltPct(){const t=this.bb.__offset(this.bb_pos,12);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "conditionCode": "conditionCode(){const t=this.bb.__offset(this.bb_pos,14);return t?this.bb.readInt8(this.bb_pos+t):M.CLEAR}",
+    "daylight": "daylight(){const t=this.bb.__offset(this.bb_pos,16);return!!t&&!!this.bb.readInt8(this.bb_pos+t)}",
+    "humidity": "humidity(){const t=this.bb.__offset(this.bb_pos,18);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "perceivedPrecipitationIntensity": "perceivedPrecipitationIntensity(){const t=this.bb.__offset(this.bb_pos,20);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmount": "precipitationAmount(){const t=this.bb.__offset(this.bb_pos,22);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationIntensity": "precipitationIntensity(){const t=this.bb.__offset(this.bb_pos,24);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationChance": "precipitationChance(){const t=this.bb.__offset(this.bb_pos,26);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "precipitationType": "precipitationType(){const t=this.bb.__offset(this.bb_pos,28);return t?this.bb.readInt8(this.bb_pos+t):P.CLEAR}",
+    "pressure": "pressure(){const t=this.bb.__offset(this.bb_pos,30);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "pressureTrend": "pressureTrend(){const t=this.bb.__offset(this.bb_pos,32);return t?this.bb.readInt8(this.bb_pos+t):E.RISING}",
+    "snowfallAmount": "snowfallAmount(){const t=this.bb.__offset(this.bb_pos,34);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "snowfallIntensity": "snowfallIntensity(){const t=this.bb.__offset(this.bb_pos,36);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "temperature": "temperature(){const t=this.bb.__offset(this.bb_pos,38);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "temperatureApparent": "temperatureApparent(){const t=this.bb.__offset(this.bb_pos,40);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "unknown20": "unknown20(){const t=this.bb.__offset(this.bb_pos,42);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "temperatureDewPoint": "temperatureDewPoint(){const t=this.bb.__offset(this.bb_pos,44);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "uvIndex": "uvIndex(){const t=this.bb.__offset(this.bb_pos,46);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "visibility": "visibility(){const t=this.bb.__offset(this.bb_pos,48);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "windDirection": "windDirection(){const t=this.bb.__offset(this.bb_pos,50);return t?this.bb.readInt16(this.bb_pos+t):0}",
+    "windGust": "windGust(){const t=this.bb.__offset(this.bb_pos,52);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "windSpeed": "windSpeed(){const t=this.bb.__offset(this.bb_pos,54);return t?this.bb.readFloat32(this.bb_pos+t):0}"
+  },
+  "day": {
+    "forecastStart": "forecastStart(){const t=this.bb.__offset(this.bb_pos,4);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "forecastEnd": "forecastEnd(){const t=this.bb.__offset(this.bb_pos,6);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "conditionCode": "conditionCode(){const t=this.bb.__offset(this.bb_pos,8);return t?this.bb.readInt8(this.bb_pos+t):M.CLEAR}",
+    "humidityMax": "humidityMax(){const t=this.bb.__offset(this.bb_pos,10);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "humidityMin": "humidityMin(){const t=this.bb.__offset(this.bb_pos,12);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "maxUvIndex": "maxUvIndex(){const t=this.bb.__offset(this.bb_pos,14);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "moonPhase": "moonPhase(){const t=this.bb.__offset(this.bb_pos,16);return t?this.bb.readInt8(this.bb_pos+t):R.NEW}",
+    "moonrise": "moonrise(){const t=this.bb.__offset(this.bb_pos,18);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "moonset": "moonset(){const t=this.bb.__offset(this.bb_pos,20);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "precipitationAmount": "precipitationAmount(){const t=this.bb.__offset(this.bb_pos,22);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "precipitationAmountByType": "precipitationAmountByType(t,e){const i=this.bb.__offset(this.bb_pos,24);return i?(e||new J).__init(this.bb.__indirect(this.bb.__vector(this.bb_pos+i)+4*t),this.bb):null}",
+    "precipitationAmountByTypeLength": "precipitationAmountByTypeLength(){const t=this.bb.__offset(this.bb_pos,24);return t?this.bb.__vector_len(this.bb_pos+t):0}",
+    "precipitationChance": "precipitationChance(){const t=this.bb.__offset(this.bb_pos,26);return t?this.bb.readInt8(this.bb_pos+t):0}",
+    "precipitationType": "precipitationType(){const t=this.bb.__offset(this.bb_pos,28);return t?this.bb.readInt8(this.bb_pos+t):P.CLEAR}",
+    "snowfallAmount": "snowfallAmount(){const t=this.bb.__offset(this.bb_pos,30);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "solarMidnight": "solarMidnight(){const t=this.bb.__offset(this.bb_pos,32);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "solarNoon": "solarNoon(){const t=this.bb.__offset(this.bb_pos,34);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "sunrise": "sunrise(){const t=this.bb.__offset(this.bb_pos,36);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "sunriseCivil": "sunriseCivil(){const t=this.bb.__offset(this.bb_pos,38);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "sunriseNautical": "sunriseNautical(){const t=this.bb.__offset(this.bb_pos,40);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "sunriseAstronomical": "sunriseAstronomical(){const t=this.bb.__offset(this.bb_pos,42);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "sunset": "sunset(){const t=this.bb.__offset(this.bb_pos,44);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "sunsetCivil": "sunsetCivil(){const t=this.bb.__offset(this.bb_pos,46);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "sunsetNautical": "sunsetNautical(){const t=this.bb.__offset(this.bb_pos,48);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "sunsetAstronomical": "sunsetAstronomical(){const t=this.bb.__offset(this.bb_pos,50);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "temperatureMax": "temperatureMax(){const t=this.bb.__offset(this.bb_pos,52);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "temperatureMaxTime": "temperatureMaxTime(){const t=this.bb.__offset(this.bb_pos,54);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "temperatureMin": "temperatureMin(){const t=this.bb.__offset(this.bb_pos,56);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "temperatureMinTime": "temperatureMinTime(){const t=this.bb.__offset(this.bb_pos,58);return t?this.bb.readUint32(this.bb_pos+t):0}",
+    "windGustSpeedMax": "windGustSpeedMax(){const t=this.bb.__offset(this.bb_pos,60);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "windSpeedAvg": "windSpeedAvg(){const t=this.bb.__offset(this.bb_pos,62);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "windSpeedMax": "windSpeedMax(){const t=this.bb.__offset(this.bb_pos,64);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "visibilityMax": "visibilityMax(){const t=this.bb.__offset(this.bb_pos,66);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "visibilityMin": "visibilityMin(){const t=this.bb.__offset(this.bb_pos,68);return t?this.bb.readFloat32(this.bb_pos+t):0}",
+    "daytimeForecast": "daytimeForecast(t){const e=this.bb.__offset(this.bb_pos,70);return e?(t||new q).__init(this.bb.__indirect(this.bb_pos+e),this.bb):null}",
+    "overnightForecast": "overnightForecast(t){const e=this.bb.__offset(this.bb_pos,72);return e?(t||new q).__init(this.bb.__indirect(this.bb_pos+e),this.bb):null}",
+    "restOfDayForecast": "restOfDayForecast(t){const e=this.bb.__offset(this.bb_pos,74);return e?(t||new q).__init(this.bb.__indirect(this.bb_pos+e),this.bb):null}"
+  }
+}import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {transform} from '../mapper.mjs';
+import {WeatherKit2,ByteBuffer} from '../vendor/weatherkit-codec.full.mjs';
+const base='/home/jamie/cwa-weather-proxy/research';
+const source=JSON.parse(fs.readFileSync(base+'/actual-brief.json')).source;
+const original=new Uint8Array(fs.readFileSync(base+'/apple-'+source.id+'.bin'));
+const r=await fetch('http://100.78.140.101:18880/v1/cwa/weather?latitude=25.090&longitude=121.560');
+if(!r.ok)throw Error('CWA API '+r.status);
+const snapshot=await r.json();
+const {bytes,report}=transform(original,snapshot);
+const roots=['currentWeather','forecastHourly','forecastDaily','locationInfo','airQuality'];
+const before=WeatherKit2.decode(new ByteBuffer(original),roots),after=WeatherKit2.decode(new ByteBuffer(bytes),roots);
+assert.equal(bytes.length,original.length);
+assert.ok(report.modifiedFields>100);
+assert.ok(Math.abs(after.currentWeather.temperature-snapshot.current.temperature)<0.0001);
+assert.equal(after.currentWeather.humidity,Math.round(snapshot.current.humidity*100));
+assert.deepEqual(before.airQuality,after.airQuality);
+assert.deepEqual(before.locationInfo,after.locationInfo);
+assert.equal(after.currentWeather.precipitationIntensity,before.currentWeather.precipitationIntensity);
+assert.equal(after.currentWeather.pressure,before.currentWeather.pressure);
+assert.throws(()=>transform(original,{...snapshot,current:{...snapshot.current,observationTime:1}}),/Stale/);
+assert.throws(()=>transform(new Uint8Array([1,2,3]),snapshot),/Invalid/);
+fs.writeFileSync(base+'/mapped-test.bin',bytes);
+fs.writeFileSync(base+'/mapping-proof.json',JSON.stringify({passed:true,bytes:bytes.length,temperature:{apple:before.currentWeather.temperature,cwa:snapshot.current.temperature,mapped:after.currentWeather.temperature},humidity:{apple:before.currentWeather.humidity,cwa:snapshot.current.humidity,mapped:after.currentWeather.humidity},currentAfter:after.currentWeather,report},null,2));
+console.log(JSON.stringify({passed:true,modified:report.modifiedFields,skipped:report.skippedFields,station:snapshot.location,temperature:after.currentWeather.temperature}));
+{
+  "methods": {
+    "currentWeather": "currentWeather(t){const e=this.bb.__offset(this.bb_pos,6);return e?(t||new Z).__init(this.bb.__indirect(this.bb_pos+e),this.bb):null}",
+    "forecastHourly": "forecastHourly(t){const e=this.bb.__offset(this.bb_pos,10);return e?(t||new nt).__init(this.bb.__indirect(this.bb_pos+e),this.bb):null}",
+    "forecastDaily": "forecastDaily(t){const e=this.bb.__offset(this.bb_pos,8);return e?(t||new tt).__init(this.bb.__indirect(this.bb_pos+e),this.bb):null}"
+  },
+  "empty": {
+    "currentWeather": {},
+    "forecastHourly": {},
+    "forecastDaily": {}
+  }
+}--- tests/test_addon.py ---
+import asyncio,logging
+from types import SimpleNamespace
+import httpx,pytest
+from mitmproxy import http
+import addon
+
+def flow(country='TW',status=200,content=b'original bytes'):
+ return SimpleNamespace(request=http.Request.make('GET','https://weatherkit.apple.com/api/v2/weather/zh-Hant-TW/25.09/121.56?country='+country),response=http.Response.make(status,content,{'Content-Type':'application/vnd.apple.flatbuffer;messageType=WK2.Weather','ETag':'original'}))
+@pytest.fixture
+def bridge(tmp_path,monkeypatch):
+ (tmp_path/'logs').mkdir();(tmp_path/'data').mkdir();monkeypatch.setattr(addon,'ROOT',tmp_path)
+ logger=logging.getLogger('cwa-weather-bridge')
+ for h in logger.handlers[:]:h.close();logger.removeHandler(h)
+ yield addon.Bridge()
+ for h in logger.handlers[:]:h.close();logger.removeHandler(h)
+@pytest.mark.parametrize('country',['JP','AT','US',''])
+def test_foreign_passthrough(bridge,country):
+ f=flow(country);body=f.response.content;headers=f.response.headers.copy()
+ asyncio.run(bridge.response(f));assert f.response.content==body;assert f.response.headers==headers;assert bridge.stats['passthrough']==1
+@pytest.mark.parametrize('status',[304,401,403,429,500,503])
+def test_upstream_status_passthrough(bridge,status):
+ f=flow(status=status);asyncio.run(bridge.response(f));assert f.response.content==b'original bytes'
+def test_api_failure_preserves_response(bridge):
+ class Failed:
+  async def get(self,*a,**kw):raise httpx.ConnectError('Simulated failure')
+ bridge.client=Failed();f=flow();headers=f.response.headers.copy()
+ asyncio.run(bridge.response(f));assert f.response.content==b'original bytes';assert f.response.headers==headers;assert bridge.stats['errors']==1
+
+def test_cache_validators_only_removed_for_target(bridge):
+ f=flow();f.request.headers['If-None-Match']='abc';bridge.request(f);assert 'If-None-Match' not in f.request.headers
+ f=flow('JP');f.request.headers['If-None-Match']='abc';bridge.request(f);assert f.request.headers['If-None-Match']=='abc'
+--- tests/test_client.py ---
+import asyncio,json,time
+import httpx,pytest
+import cwa_client
+from cwa_client import Store,Unavailable
+
+def test_cache_failure_and_key_redaction(tmp_path,monkeypatch):
+ monkeypatch.setattr(cwa_client,'ROOT',tmp_path);(tmp_path/'data').mkdir();(tmp_path/'.env').write_text('CWA_API_KEY=test-secret-key')
+ async def go():
+  s=Store();await s.client.aclose();calls=[]
+  def handler(req):calls.append(req);return httpx.Response(200,json={'success':'true','records':{'Station':[]}})
+  s.client=httpx.AsyncClient(transport=httpx.MockTransport(handler))
+  results=await asyncio.gather(*(s.get('O-A0003-001') for _ in range(20)))
+  assert len(calls)==1 and len(results)==20
+  stamp,data=s.cache['O-A0003-001'];s.cache['O-A0003-001']=(time.time()-500,data)
+  await s.client.aclose();s.client=httpx.AsyncClient(transport=httpx.MockTransport(lambda req:httpx.Response(503)))
+  assert await s.get('O-A0003-001')==data
+  assert 'test-secret-key' not in json.dumps(s.health())
+  s.cache['O-A0003-001']=(time.time()-4000,data)
+  with pytest.raises(Unavailable):await s.get('O-A0003-001')
+  with pytest.raises(ValueError):await s.get('../../private')
+  await s.close()
+ asyncio.run(go())
+
+def test_geographic_guard_precedes_download():
+ from cwa_snapshot import snapshot
+ class NoDownloads:
+  async def get(self,_):raise AssertionError('Unexpected download')
+ async def go():
+  for lat,lon,country in [(35,139,'JP'),(48,12,'AT'),(0,0,'TW')]:
+   with pytest.raises(Unavailable):await snapshot(NoDownloads(),lat,lon,country)
+  with pytest.raises(ValueError):await snapshot(NoDownloads(),float('nan'),121,'TW')
+ asyncio.run(go())
+--- tests/test_model.py ---
+import math,time
+import pytest
+from cwa_model import number,epoch,distance,choose_station,normalize_observation,normalize_forecast
+@pytest.mark.parametrize('value',['-99',-999,'NaN','inf','X','',None])
+def test_missing(value):assert number(value,0,100) is None
+@pytest.mark.parametrize('value',[0,'0',10.2,'99.5',100])
+def test_valid(value):assert number(value,0,100)==float(value)
+def test_timezone():assert epoch('2026-09-11T03:00:00+08:00')==epoch('2026-09-10T19:00:00Z')
+def test_distance():assert distance(25,121,25,121)==0;assert 110<distance(24,121,25,121)<112
+def station(ts,temp='25',lat=25,lon=121):
+ from datetime import datetime,timezone
+ return {'ObsTime':{'DateTime':datetime.fromtimestamp(ts,timezone.utc).isoformat()},'GeoInfo':{'Coordinates':[{'CoordinateName':'WGS84','StationLatitude':lat,'StationLongitude':lon}]},'WeatherElement':{'AirTemperature':temp,'RelativeHumidity':'85','WindSpeed':'2.5','WindDirection':'90','UVIndex':'-99','Weather':'-99'}}
+def test_station_validation():
+ now=time.time();good=station(now-600)
+ assert choose_station([station(now-6000),station(now,'-99'),good],25,121)[1] is good
+ assert choose_station([good],23,120) is None
+ assert choose_station([station(now+1000)],25,121) is None
+ d=normalize_observation(good,int(now-600));assert d['humidity']==.85;assert d['windSpeed']==9;assert 'uvIndex' not in d;assert 'weatherText' not in d
+@pytest.mark.parametrize('start,end',[('2026-09-11T03:00:00+08:00','2026-09-11T06:00:00+08:00'),('2026-09-11T06:00:00+08:00','2026-09-11T18:00:00+08:00')])
+def test_precipitation_interval_preserved(start,end):
+ loc={'WeatherElement':[{'ElementName':'降雨機率','Time':[{'StartTime':start,'EndTime':end,'ElementValue':[{'ProbabilityOfPrecipitation':'70'}]}]}]}
+ d=normalize_forecast(loc);assert not d['points'];assert len(d['intervals'])==1
+ assert math.isclose(d['intervals'][0]['precipitationChance'],.7)
+ assert d['intervals'][0]['end']-d['intervals'][0]['start']==epoch(end)-epoch(start)
+--- tests/test_sni.py ---
+import asyncio,ssl,pytest
+from sni_router import client_hello,parse_sni
+@pytest.mark.parametrize('host',['weatherkit.apple.com','pi5.tail19030f.ts.net','example.org'])
+def test_clienthello(host):
+ ctx=ssl.create_default_context();incoming,outgoing=ssl.MemoryBIO(),ssl.MemoryBIO()
+ client=ctx.wrap_bio(incoming,outgoing,server_side=False,server_hostname=host)
+ with pytest.raises(ssl.SSLWantReadError):client.do_handshake()
+ wire=outgoing.read()
+ async def parse(data):
+  reader=asyncio.StreamReader();reader.feed_data(data);reader.feed_eof();return await client_hello(reader)
+ saved,sni=asyncio.run(parse(wire));assert sni==host;assert saved==wire
+ handshake=wire[5:]
+ split=len(handshake)//2
+ fragments=b'\x16\x03\x01'+split.to_bytes(2,'big')+handshake[:split]+b'\x16\x03\x01'+(len(handshake)-split).to_bytes(2,'big')+handshake[split:]
+ saved,sni=asyncio.run(parse(fragments));assert sni==host;assert saved==fragments

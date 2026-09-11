@@ -1,0 +1,53 @@
+{
+  "verifiedAt": "2026-09-11T18:13:29.184189+08:00",
+  "repository": "/Users/jamie/cwa-apple-proxy",
+  "dataVersion": "0.3.1",
+  "transportVersion": "1.0.2",
+  "macPython": "Python 3.13.5",
+  "node": "v23.11.0",
+  "tests": {
+    "python": 76,
+    "javascript": 23,
+    "total": 99,
+    "failed": 0
+  },
+  "macEccodesSelfcheck": "passed",
+  "macGRIBWorkerImport": "passed",
+  "structureCheck": {
+    "status": "passed",
+    "scannedFiles": 236,
+    "productionFilesMatchingSnapshot": 179,
+    "documentationLinksChecked": 15,
+    "errors": [],
+    "warnings": []
+  },
+  "privateArchives": {
+    "history.tar.gz": {
+      "sha256": "e4ef58cb086334ad61ca2f80c669330020f72de1ddfaa5bc5f5e917f73fd98cd",
+      "bytes": 4665020,
+      "files": 647,
+      "gitTracked": false
+    },
+    "native-evidence.tar.gz": {
+      "sha256": "2924f8cd40b254bf809ec22b99d531be84f1ba2e34a7af6e970c5b1f83754631",
+      "bytes": 2481545,
+      "files": 185,
+      "gitTracked": false
+    }
+  },
+  "protectedIgnorePathsVerified": [
+    ".env",
+    "certs/ca-key.pem",
+    ".private/history.tar.gz",
+    "clients.json",
+    "config/split-route-state.json",
+    "logs/handoff-tests.log",
+    ".venv/bin/python"
+  ],
+  "piFunctionalSourceUnchanged": true,
+  "liveServicesModified": false,
+  "gitRemoteCreated": false,
+  "jarvis": "ignored by explicit user instruction",
+  "knownIssues": "docs/KNOWN_ISSUES.md",
+  "handoffEntry": "AGENTS.md"
+}

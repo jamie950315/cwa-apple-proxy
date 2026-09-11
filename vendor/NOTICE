@@ -1,0 +1,5 @@
+WeatherKit codec derived from NSRingo/WeatherKit v3.3.2 response.bundle.js.
+Copyright its respective contributors. Licensed under Apache-2.0.
+Modifications: remove application runner and external-provider usage; export local FlatBuffers codec.
+Source: https://github.com/NSRingo/WeatherKit/releases/tag/v3.3.2
+Bundle SHA256: ce1db90d77c44fce972db0c2e319845fc1d6a276d41d772c0294882e59d7f999

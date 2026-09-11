@@ -1,0 +1,95 @@
+{
+  "before": {
+    "length": 40844,
+    "rp": 36,
+    "vt": 6,
+    "len": 30,
+    "out": [
+      {
+        "slot": 6,
+        "off": 28,
+        "value": 40460,
+        "target": 40524,
+        "candidate": {
+          "vtable": 40440,
+          "len": 84,
+          "size": 100
+        }
+      },
+      {
+        "slot": 8,
+        "off": 24,
+        "value": 35464,
+        "target": 35524,
+        "candidate": {
+          "vtable": 35516,
+          "len": 8,
+          "size": 12
+        }
+      },
+      {
+        "slot": 10,
+        "off": 20,
+        "value": 14252,
+        "target": 14308,
+        "candidate": {
+          "vtable": 35516,
+          "len": 8,
+          "size": 12
+        }
+      },
+      {
+        "slot": 14,
+        "off": 16,
+        "value": 404,
+        "target": 456,
+        "candidate": {
+          "vtable": 35516,
+          "len": 8,
+          "size": 12
+        }
+      },
+      {
+        "slot": 18,
+        "off": 12,
+        "value": 220,
+        "target": 268,
+        "candidate": {
+          "vtable": 256,
+          "len": 12,
+          "size": 20
+        }
+      },
+      {
+        "slot": 20,
+        "off": 8,
+        "value": 24,
+        "target": 68,
+        "candidate": {
+          "vtable": 35516,
+          "len": 8,
+          "size": 12
+        }
+      },
+      {
+        "slot": 28,
+        "off": 4,
+        "value": 564,
+        "target": 604,
+        "candidate": {
+          "vtable": 35516,
+          "len": 8,
+          "size": 12
+        }
+      }
+    ]
+  },
+  "after": {
+    "length": 41024,
+    "rp": 0,
+    "vt": 0,
+    "len": 0,
+    "out": []
+  },
+  "encodeSource": "encode(t=void 0,i={}){if(!i||\"object\"!=typeof i||Array.isArray(i)){const t=new TypeError(`${this.#Nt}.encode patch must be an object`);throw e.error(`${this.#Nt}.encode`,t),t}const a=Object.keys(i),s=new Map,n=[],r=[];let o=0;for(const t of a){const e=this.#Ct.get(t);if(e&&e.codec){o++;try{const a=i[t];if(!a||\"object\"!=typeof a||Array.isArray(a))throw new TypeError(`${t} must be an object`);const n=new h,r=e.codec.encode(n,a);if(!Number.isSafeInteger(r)||r<=0)throw new Error(`${t} codec did not produce a table`);n.finish(r);const o=n.asUint8Array(),d=new p(o),c=d.position()+d.readUint32(d.position());s.set(e.id,{bytes:o,tablePosition:c})}catch(t){const i=t instanceof Error?t.message:String(t);n.push(`${this.#wt(e.id)}(${i})`)}}else r.push(t)}const d=`${this.#Nt}.encode.compile：已知 ${o}/${a.length}，编译 ${s.size}/${a.length}，失败 ${n.length}/${a.length}，未知 ${r.length}/${a.length}；失败=[${n.join(\", \")}]；未知=[${r.join(\", \")}]`;let c;if(n.length||r.length?e.warn(d):e.debug(d),void 0!==t)try{c=this.#vt(t)}catch(t){throw e.error(`${this.#Nt}.encode`,t),t}else c={failures:[],presentSlotCount:0,slotCount:0,slots:new Map};if(this.#Ot(\"encode\",c),void 0!==t&&0===s.size)return t.bytes().subarray(t.position(),t.capacity());const u=new Map(c.slots);for(const[t,e]of s)u.set(t,e);try{const t=this.#Ft({failures:[],presentSlotCount:u.size,slotCount:c.slotCount,slots:u},this.#At.length);return e.debug(`${this.#Nt}.encode.assemble：输出 ${u.size} 个 slot，替换 ${s.size} 个 slot`),t}catch(t){throw e.error(`${this.#Nt}.encode`,t),t}}"
+}

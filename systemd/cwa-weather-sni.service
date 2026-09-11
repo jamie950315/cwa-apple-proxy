@@ -1,0 +1,17 @@
+[Unit]
+Description=CWA Weather TLS SNI router
+After=network-online.target tailscaled.service
+Wants=network-online.target
+[Service]
+User=jamie
+Group=jamie
+WorkingDirectory=/home/jamie/cwa-weather-proxy
+ExecStart=/home/jamie/cwa-weather-proxy/.venv/bin/python /home/jamie/cwa-weather-proxy/sni_router.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+UMask=0077
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "time": "2026-09-11T12:06:12.121239+08:00",
+  "report": "/home/jamie/cwa-weather-proxy/reports/CWA_Weather_Bridge_0.3.1_研究部署紀錄.md",
+  "archive": "/home/jamie/cwa-weather-proxy/dist/cwa-weather-bridge-source.zip",
+  "sha256": "0092a0a68f9cce8b3c47cb8b251512dffc70cc9fa9790ca72e17d211aafda012",
+  "fileCount": 51,
+  "nativeUI": "AQI card and new card visual verification pending; Mac Executor later returned HTTP 502 and Mac peer was offline. iOS trust/onboarding and native UI remain separate.",
+  "towns": {
+    "count": 368,
+    "passed": 368,
+    "failures": [],
+    "optionalCoverage": {
+      "rain": 368,
+      "aqi": 367,
+      "nwp": 368,
+      "astronomy": 368
+    }
+  },
+  "replay": {
+    "requests": 1000,
+    "passed": 1000,
+    "failures": [],
+    "medianMs": 89.27,
+    "p95Ms": 183.34,
+    "meaning": "Local replay of a captured macOS FlatBuffer; separate from actual native app requests."
+  },
+  "finalAudit": "reports/executor-closeout-031.json",
+  "nativePacketAudit": {
+    "checked": 16,
+    "passed": 16,
+    "failures": []
+  }
+}

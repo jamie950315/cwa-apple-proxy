@@ -1,0 +1,60 @@
+{
+  "TailscaleDNS": false,
+  "CurrentTailnet": {
+    "MagicDNSEnabled": true,
+    "MagicDNSSuffix": "tail19030f.ts.net",
+    "SelfDNSName": "pi5.tail19030f.ts.net."
+  },
+  "Resolvers": [
+    {
+      "Addr": "100.78.140.101"
+    },
+    {
+      "Addr": "100.91.87.20"
+    },
+    {
+      "Addr": "100.116.187.43"
+    }
+  ],
+  "SplitDNSRoutes": {
+    "tether.edge.apple": [
+      {
+        "Addr": "100.78.140.101"
+      }
+    ],
+    "tether.v.aaplimg.com": [
+      {
+        "Addr": "100.78.140.101"
+      }
+    ],
+    "ts.net.": [
+      {
+        "Addr": "199.247.155.53"
+      },
+      {
+        "Addr": "2620:111:8007::53"
+      }
+    ],
+    "tthr.apple.com": [
+      {
+        "Addr": "100.78.140.101"
+      }
+    ],
+    "weatherkit.apple.com": [
+      {
+        "Addr": "100.78.140.101"
+      }
+    ]
+  },
+  "SearchDomains": [
+    "tail19030f.ts.net"
+  ],
+  "CertDomains": [
+    "pi5.tail19030f.ts.net"
+  ],
+  "ExitNodeFilteredSet": [
+    ".ts.net",
+    ".tailscale.net"
+  ],
+  "SystemDNSError": "Access denied: dns-osconfig dump access denied"
+}

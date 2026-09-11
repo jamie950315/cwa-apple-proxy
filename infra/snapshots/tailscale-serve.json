@@ -1,0 +1,22 @@
+{
+  "TCP": {
+    "18444": {
+      "HTTPS": true
+    },
+    "443": {
+      "TCPForward": "127.0.0.1:19443"
+    }
+  },
+  "Web": {
+    "pi5.tail19030f.ts.net:18444": {
+      "Handlers": {
+        "/": {
+          "Proxy": "http://127.0.0.1:8017"
+        },
+        "/runpod-image-editor": {
+          "Proxy": "http://127.0.0.1:8789"
+        }
+      }
+    }
+  }
+}

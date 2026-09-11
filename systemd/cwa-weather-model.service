@@ -1,0 +1,18 @@
+[Unit]
+Description=CWA WRF precipitation and sea-level pressure cache refresh
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=oneshot
+User=jamie
+Group=jamie
+WorkingDirectory=/home/jamie/cwa-weather-proxy
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/jamie/cwa-weather-proxy/.venv/bin/python /home/jamie/cwa-weather-proxy/model_worker.py
+TimeoutStartSec=600
+Nice=10
+MemoryMax=768M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+UMask=0077

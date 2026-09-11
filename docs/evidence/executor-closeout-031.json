@@ -1,0 +1,124 @@
+{
+  "verifiedAt": "2026-09-11T12:48:23.817091+08:00",
+  "status": "verified",
+  "versions": {
+    "api": "0.3.1",
+    "codec": "0.3.1"
+  },
+  "services": {
+    "cwa-weather-api": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-codec": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-proxy": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-forward": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-sni": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-routing": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-model.timer": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "tests": {
+    "python": 52,
+    "javascript": 23,
+    "passed": 75
+  },
+  "nativePacketAudit": {
+    "checked": 16,
+    "passed": 16,
+    "failures": []
+  },
+  "towns": {
+    "count": 368,
+    "passed": 368,
+    "failures": [],
+    "optionalCoverage": {
+      "rain": 368,
+      "aqi": 367,
+      "nwp": 368,
+      "astronomy": 368
+    }
+  },
+  "replay": {
+    "requests": 1000,
+    "passed": 1000,
+    "failures": [],
+    "medianMs": 89.27,
+    "p95Ms": 183.34,
+    "meaning": "Local replay of a captured macOS FlatBuffer; separate from actual native app requests."
+  },
+  "ntfy": {
+    "deadlineSeconds": 3.5,
+    "fallbackElapsedSeconds": 3.5045,
+    "originalBodyPreserved": true,
+    "originalHeadersPreserved": true,
+    "receiptHttp": 200,
+    "receiptId": "HjQlUd89Xw7f",
+    "topic": "cwa-apple-proxy"
+  },
+  "bridge": {
+    "version": "0.3.1",
+    "startedAt": 1789099204,
+    "deadlineSeconds": 3.5,
+    "ntfyTopic": "cwa-apple-proxy",
+    "stats": {
+      "seen": 84,
+      "modified": 16,
+      "unchanged": 0,
+      "passthrough": 68,
+      "errors": 0,
+      "notifications": 0,
+      "notificationErrors": 0
+    },
+    "last": {
+      "mode": "reverse",
+      "version": "0.3.1",
+      "time": 1789101658,
+      "latitude": 25.014,
+      "longitude": 121.543,
+      "status": "modified",
+      "app": "WeatherKit_WeatherWidget_macOS_Version 27.0 (Build 26A5425a)",
+      "fields": 358,
+      "skipped": 0,
+      "coverage": {
+        "currentFields": 14,
+        "hoursMapped": 24,
+        "daysMapped": 7,
+        "interpolatedFields": 41,
+        "precipitationFields": 82
+      },
+      "station": "A0A010",
+      "stationName": "臺灣大學",
+      "temperature": 26.0,
+      "observationTime": 1789100400,
+      "proof": "data/proofs/4bafc1e3-b1b5-4eb8-b449-436db6dbe8a3",
+      "elapsedMs": 279
+    }
+  },
+  "model": {
+    "timerEnabled": true
+  },
+  "visualVerification": {
+    "temperatureSeen": true,
+    "screenshotTime": "2026-09-11T12:37:03+08:00",
+    "screenshotTemperatureC": 26,
+    "remaining": "AQI card and new card visual verification pending; Mac Executor later returned HTTP 502 and Mac peer was offline. iOS trust/onboarding and native UI remain separate."
+  }
+}

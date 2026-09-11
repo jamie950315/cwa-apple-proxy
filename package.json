@@ -1,0 +1,11 @@
+{
+  "name": "cwa-apple-proxy",
+  "version": "0.3.1",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
+  "description": "Private CWA to native Apple Weather bridge; data 0.3.1, transport 1.0.2"
+}

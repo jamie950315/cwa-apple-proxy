@@ -1,0 +1,108 @@
+{
+  "capturedAt": "2026-09-11T18:12:56.884073+08:00",
+  "functionalSourceFiles": [
+    {
+      "path": "addon.py",
+      "sha256": "35ea800e6453556bc842d4f6283dd8ff09781e40ae21b7ce4a327ddccb16a87e",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "api.py",
+      "sha256": "d4ffc01d383c6163ea3d728dce4b412616e88e73907a3f26459745af983500a5",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "bridgectl.py",
+      "sha256": "8dec94feb9e7f632324f737428734775b458d74a6d9106d9d6ccdbcfd22b2c7a",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "codec_server.mjs",
+      "sha256": "c18603c8b9d5571430609afc9b4452797f19807d4193cfe0a7b0fe5efee2d82f",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "cwa_alerts.py",
+      "sha256": "794d9890c3b7349b664b766cfdeb319ab1ab81cc7af4d07fcdefbba8e028c8ac",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "cwa_aqi.py",
+      "sha256": "e562f9e3312042422e94c3f9a857bd021d07c8a10e6faac0b91857d6193d6d98",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "cwa_astronomy.py",
+      "sha256": "b5fae3239fb4ee85e1fbc52f570648bb93e580b820789b5db892965f11e7d50b",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "cwa_client.py",
+      "sha256": "55fca8d6fd196989df3d30710f0e2379fc02c1d3c66b03b776c5940503e440b3",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "cwa_model.py",
+      "sha256": "a7b7d16057392000faed0840c48ae1d0c85b532204a741d09b44b44f9081fc3a",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "cwa_nwp.py",
+      "sha256": "27e03e73ab70ac7901ea31b59c2d4f6a03ba76b13dc4106980503d6014612c91",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "cwa_products.py",
+      "sha256": "65849973e9c3efd88c7532a69a572e22b0b4ca55214eb631266d02aadc84f1a8",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "cwa_snapshot.py",
+      "sha256": "a919e4489fb3277cc79eaeee9e20327e57051ed9c83c6a323bad379d93e77b62",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "flatbuffer_expand.mjs",
+      "sha256": "e402286c3619a9598867f3025618aa0c23cc874585f98ad2d0a1905d1c2a8b9d",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "mapper.mjs",
+      "sha256": "9ca2485cf6937a16e6052634ed2372cb322c34005359b4e8bf55f67706da0d22",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "model_worker.py",
+      "sha256": "5e939266f660a9df781e5f08b9376da907a7420640e133011f649b6bd1ef41b7",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "network_rules.py",
+      "sha256": "fa19b6f056e311da05ef2c14d767e712bf286d8574f9243444d83a62752afeaf",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "sni_router.py",
+      "sha256": "b891d931787e8e4b9de6c31a7b4fa95f5e288d4a8ba695baf5fd293cff214283",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "split_routes.py",
+      "sha256": "2a1883a64c60d164c1bbb8dffafcb9406338a390ca973e94609bb1f244a79bf9",
+      "unchangedDuringHandoff": true
+    },
+    {
+      "path": "weather_math.mjs",
+      "sha256": "78e29b4f871697b6e1ba0c67391bc948cde49e46fcd058686585a375d7d04f0d",
+      "unchangedDuringHandoff": true
+    }
+  ],
+  "allUnchanged": true,
+  "tests": {
+    "python": 76,
+    "javascript": 23,
+    "failed": 0
+  },
+  "changesToLiveServices": false,
+  "jarvis": "explicitly excluded by user"
+}

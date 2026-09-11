@@ -1,0 +1,27 @@
+# Private runtime and credentials
+.private/
+.env
+.env.*
+!.env.example
+certs/
+clients.json
+config/managed-dns-rules.json
+config/split-route-state.json
+data/
+logs/
+backups/
+reports/
+dist/
+# Developer environment
+.venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+# Historical raw captures only belong to .private, except the explicit test fixture.
+research/*
+!research/actual-brief.json
+!research/apple-1789067343103901835.bin

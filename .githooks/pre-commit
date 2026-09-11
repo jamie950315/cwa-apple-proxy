@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+PYTHON=python3
+[ ! -x "$ROOT/.venv/bin/python" ] || PYTHON="$ROOT/.venv/bin/python"
+exec "$PYTHON" scripts/verify_repo.py --staged

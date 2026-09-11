@@ -1,0 +1,7 @@
+{
+  "dataVersion": "0.3.1",
+  "transportVersion": "1.0.2",
+  "repositoryPurpose": "Mac development and AI handoff; production Pi5 remains unchanged",
+  "capturedOn": "2026-09-11",
+  "jarvis": "excluded by explicit user instruction"
+}

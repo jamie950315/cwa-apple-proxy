@@ -1,0 +1,17 @@
+{
+  "localPrivateArchives": {
+    "history.tar.gz": {
+      "sha256": "e4ef58cb086334ad61ca2f80c669330020f72de1ddfaa5bc5f5e917f73fd98cd",
+      "bytes": 4665020,
+      "files": 647,
+      "gitTracked": false
+    },
+    "native-evidence.tar.gz": {
+      "sha256": "2924f8cd40b254bf809ec22b99d531be84f1ba2e34a7af6e970c5b1f83754631",
+      "bytes": 2481545,
+      "files": 185,
+      "gitTracked": false
+    }
+  },
+  "privateDirectoryMode": "0o700"
+}

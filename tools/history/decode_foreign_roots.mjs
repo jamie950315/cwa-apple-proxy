@@ -1,0 +1,2 @@
+import fs from 'node:fs';import {WeatherKit2,ByteBuffer} from '../vendor/weatherkit-codec.full.mjs';
+for(const f of ['apple-1789067343639212198.bin','apple-1789067343709400797.bin']){const b=new Uint8Array(fs.readFileSync(f));let out={file:f};for(const r of ['airQuality','weatherAlerts','forecastNextHour']){try{out[r]=WeatherKit2.decode(new ByteBuffer(b),[r])[r]}catch(e){out[r]={error:e.message}}}fs.writeFileSync(f.replace('.bin','-roots.json'),JSON.stringify(out,null,2));console.log(f,'done')}

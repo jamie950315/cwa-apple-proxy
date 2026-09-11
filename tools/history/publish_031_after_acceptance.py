@@ -1,0 +1,50 @@
+"""Publish documentation only after machine-checkable release gates pass."""
+from pathlib import Path
+import datetime,hashlib,json,os,subprocess,sys,time,zipfile
+ROOT=Path('/home/jamie/cwa-weather-proxy');os.chdir(ROOT)
+status=ROOT/'reports/release-publish-latest.json'
+def emit(d):status.write_text(json.dumps(d,ensure_ascii=False,indent=2))
+try:
+ for _ in range(90):
+  try:g=json.loads((ROOT/'reports/release-gate-latest.json').read_text())
+  except (OSError,ValueError):g={}
+  if g.get('status') in ['passed','failed']:break
+  time.sleep(2)
+ if g.get('status')!='passed':raise RuntimeError('Release gate not passed; existing dashboard/docs preserved')
+ with (ROOT/'logs/acceptance-031.log').open('w') as f:
+  p=subprocess.run([str(ROOT/'.venv/bin/python'),'research/accept_release_031.py'],stdout=f,stderr=subprocess.STDOUT,timeout=480,env={**os.environ,'PYTHONPATH':str(ROOT)})
+ if p.returncode:raise RuntimeError('Acceptance did not pass; see logs/acceptance-031.log')
+ a=json.loads((ROOT/'reports/acceptance-031.json').read_text())
+ if not a.get('passed'):raise RuntimeError('Acceptance report is not passing')
+ now=datetime.datetime.now().astimezone().isoformat()
+ note=f'''# CWA Weather Bridge 0.3.1 研究與部署紀錄\n\n產生時間：{now}\n\n## 本輪機器驗收\n\n正式 API 與編碼器版本：0.3.1。服務狀態與完整測試命令記錄於 `reports/release-gate-latest.json`。\n\n鄉鎮查詢：{a['towns']['passed']} / {a['towns']['count']} 通過。\n\nFlatBuffers 本機重播：{a['replay']['passed']} / {a['replay']['requests']} 通過；中位數 {a['replay']['medianMs']} ms，p95 {a['replay']['p95Ms']} ms。這是封包重播測試；原生 App 的實際請求及 UI 驗證分開記錄。\n\n## 資料來源與轉換語意\n\n| 資料 | CWA 來源 | 轉換與限制 |\n|---|---|---|\n| 即時溫度、濕度、風 | O-A0001-001、O-A0003-001 | 優先新鮮鄰近測站，距離及時間留於來源紀錄 |\n| 溫度分析格點 | O-A0038-003 | 官方每小時空間內插產品；依時間與測站距離選用，具有估計性質 |\n| 過去雨量 | O-A0002-001 | 原有 10 分鐘、1/3/6/12/24 小時等累積時段；雨強由 10 分鐘量換算平均速率 |\n| 未來 1 小時雨量 | F-B0046-001 | 雷達外延定量降水；保留起報與有效時間，格點座標轉換含本地近似 |\n| 未來較長時段雨量 | M-A0064 系列 WRF 3km | 同起報累積雨量差分為 6 小時間隔；時間拆分假定區間內均勻雨強 |\n| 逐時與逐日溫度 | F-D0047 鄉鎮預報 | 逐時原始點優先，短間隔數值內插；每日原始白天/夜間定義另留來源紀錄 |\n| 降雨機率 | F-D0047 | 官方 3/12 小時機率轉為每小時/每日時，使用等事件率與獨立增量假設；屬尚未校準的推估 |\n| 氣壓 | 測站資料、WRF 海平面氣壓 | 區分測站氣壓與海平面氣壓；換算值、模式值及原始測值各別標示 |\n| 能見度 | O-A0003-001 | 部分值為距離級距；數字轉換屬級距代表值，來源測站可能較遠 |\n| 氣象警特報 | W-C0033-002 | 保留有效期、發布時間與適用區域；併入原有警報，CWA 暫時失敗時保留原警報 |\n| 日出、日落、民用曙暮光、月出月落 | A-B0062-001、A-B0063-001 | API 加日期篩選取得當期資料；使用縣市代表點，依日期匹配 |\n| AQI 與污染物 | CWA LinkedAPI，原始監測來自環境部 | 保留臺灣 AQI 數值與標準；CO ppm 換算 ppb，缺值維持缺值 |\n\n降雨機率解析度轉換例：在等事件率假設下，3 小時 30% 對應每小時 `1-(1-0.30)^(1/3)`，約 11.21%。每小時估計本身帶有額外假設，原始 3 小時數值與時間仍留在診斷資料。所有目標雨量區間均要求完整資料覆蓋，避免把半小時雨量填成完整一小時。\n\n## Apple 保留範圍\n\n逐分鐘降雨起停、地圖雷達圖磚、目前尚未整合的雲量百分比/高度分層、未來能見度與陣風、月相/照明率、航海及天文曙暮光、Apple 特有新聞/歷史比較/變化產品、尚未解析的新協定欄位及超出 CWA 可用時間/空間範圍的資料，保留 Apple 原始內容。各欄位的真實改寫紀錄以 `/status` 及 `data/proofs` 為準。\n\n## 逾時與通知\n\nCWA 取數及封包轉換共用 3.5 秒截止時間。逾時或轉換失敗時保留 Apple 原始位元組與標頭，另以非同步方式發送 `https://ntfy.sh/cwa-apple-proxy` 通知。同類錯誤 300 秒內抑制重複通知。通知內容省略座標、憑證及 API key。\n\n已完成的隔離實測：3.5045 秒回退，原始內容與標頭完整保留；真實 ntfy POST 回覆 HTTP 200，收據 `HjQlUd89Xw7f`，標題為 TEST。HTTP 收據代表 ntfy 已接受訊息，手機端推播呈現另由訂閱裝置確認。\n\nPi5 整機、TLS 代理或網路連線失效，屬傳輸層故障；此處 3.5 秒回退處理的是已取得 Apple 回應後的翻譯失敗。停用導流仍可用 `bridgectl.py disable <Tailscale-IP>`。\n\n## 裝置驗證範圍\n\nmacOS 原生天氣先前已驗證能呈現 CWA 溫度。0.3.1 的每一項新卡片呈現、臺灣 AQI 自訂標準相容性與 iOS 原生天氣仍須獨立視覺驗證；API/編碼器重播成功本身僅證明伺服器與封包驗收。iPhone 加入導流前需要安裝並完整信任本機 CA。\n\n## 官方介面與格式\n\n- CWA OpenAPI：<https://opendata.cwa.gov.tw/apidoc/v1>，回應為 YAML。\n- CWA REST：`https://opendata.cwa.gov.tw/api/v1/rest/datastore/<dataset>`。\n- CWA File API：`https://opendata.cwa.gov.tw/fileapi/v1/opendataapi/<dataset>`。\n- CWA LinkedAPI：`https://opendata.cwa.gov.tw/linked/graphql`，Authorization 標頭使用 CWA key。\n- ntfy：<https://docs.ntfy.sh/publish/>。\n- Apple 天氣實際封包：`application/vnd.apple.flatbuffer;messageType=WK2.Weather`。\n\n原生協定省略零值 scalar 的情況已透過保留原始資料區的擴充方式補寫；未知 root slot 維持原內容。相關回歸測試保存於 `tests`。\n'''
+ (ROOT/'reports/CWA_Weather_Bridge_0.3.1_研究部署紀錄.md').write_text(note)
+ (ROOT/'RELEASE-0.3.1.md').write_text(note)
+ page=ROOT/'dashboard.html';s=page.read_text()
+ # Keep the working dashboard and onboarding controls, adding a clearly scoped current release notice.
+ s=s.replace('<small>0.2.0</small>','<small>0.3.1</small>').replace('<small>0.3.0</small>','<small>0.3.1</small>')
+ start=s.find('<section><h2>資料對應範圍</h2>');end=s.find('</section>',start)
+ if start>=0 and end>=0:
+  block='''<section><h2>0.3.1 資料對應與推估</h2><p>CWA 測站觀測、雨量站、每小時溫度分析、雷達一小時定量降雨、WRF 3 公里模式降雨與海平面氣壓、鄉鎮預報、警特報、天文時刻及 LinkedAPI 空氣品質已納入資料流程。實際可用性依位置、時間與來源健康狀態而定。</p><p><strong>降雨機率拆分屬額外模型推估：</strong>每小時/每日估計使用等事件率與獨立增量假設，尚未進行預報校準。雨量拆分採區間內均勻雨強假設，完整有效期及原始數值保留於診斷 JSON。溫度格點、能見度級距代表值及氣壓換算亦各自標示估計來源。</p><p>逐分鐘降雨起停、雷達地圖圖磚、尚未整合的雲量、未來能見度與陣風、月相、部分曙暮光、Apple 特有產品與未知協定欄位保留原資料。每日高低溫仍保留 CWA 原始白天/夜間時段定義。</p><p>翻譯流程共用 3.5 秒截止時間。失敗後保留 Apple 原始回應，非同步通知 ntfy topic <code>cwa-apple-proxy</code>；相同原因 300 秒內抑制重複通知。整機或代理傳輸故障需另行處理。</p><p>API 與封包測試、macOS 新卡片視覺驗收、iOS 裝置驗收各別記錄。<a href="/source.zip">原始碼壓縮檔</a>包含本輪研究與驗收文件。</p></section>'''
+  s=s[:start]+block+s[end+len('</section>'):]
+ page.write_text(s)
+ archive=ROOT/'dist/cwa-weather-bridge-source.zip';archive.parent.mkdir(exist_ok=True)
+ files=set()
+ for pattern in ['*.py','*.mjs','*.html','*.md','requirements.lock','package.json','pytest.ini','cwa_regions.json','town_index.json','tests/*.py','tests/*.mjs','vendor/*','systemd/*']:
+  files.update(p for p in ROOT.glob(pattern) if p.is_file())
+ fixture=json.loads((ROOT/'research/actual-brief.json').read_text())
+ for rel in ['research/actual-brief.json','research/apple-'+fixture['source']['id']+'.bin']:
+  files.add(ROOT/rel)
+ key=''
+ for l in (ROOT/'.env').read_text().splitlines():
+  if l.startswith('CWA_API_KEY='):key=l.split('=',1)[1].strip()
+ with zipfile.ZipFile(archive.with_suffix('.tmp'), 'w',zipfile.ZIP_DEFLATED) as z:
+  for p in sorted(files):
+   raw=p.read_bytes()
+   if key and key.encode() in raw:raise RuntimeError('Secret scan rejected '+str(p.relative_to(ROOT)))
+   if b'PRIVATE KEY-----' in raw:raise RuntimeError('Private key scan rejected '+str(p.relative_to(ROOT)))
+   z.writestr(str(p.relative_to(ROOT)),raw)
+ archive.with_suffix('.tmp').replace(archive)
+ emit({'status':'passed','time':now,'report':str(ROOT/'reports/CWA_Weather_Bridge_0.3.1_研究部署紀錄.md'),'archive':str(archive),'sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'fileCount':len(files),'nativeUI':'pending separate visual confirmation','towns':a['towns'],'replay':a['replay']})
+except Exception as e:
+ emit({'status':'failed','error':str(e),'time':datetime.datetime.now().astimezone().isoformat()});raise

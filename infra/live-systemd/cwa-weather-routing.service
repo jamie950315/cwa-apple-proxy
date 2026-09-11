@@ -1,0 +1,13 @@
+# /etc/systemd/system/cwa-weather-routing.service
+[Unit]
+Description=Opt-in CWA Weather split-routing transport policy
+After=network-online.target tailscaled.service
+Wants=network-online.target
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/jamie/cwa-weather-proxy/.venv/bin/python /home/jamie/cwa-weather-proxy/network_rules.py
+ExecReload=/home/jamie/cwa-weather-proxy/.venv/bin/python /home/jamie/cwa-weather-proxy/network_rules.py
+ExecStop=/home/jamie/cwa-weather-proxy/.venv/bin/python /home/jamie/cwa-weather-proxy/network_rules.py remove
+[Install]
+WantedBy=multi-user.target

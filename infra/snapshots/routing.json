@@ -1,0 +1,66 @@
+{
+  "transportVersion": "1.0.2",
+  "mode": "split-dns-relay-routes",
+  "time": 1789120582,
+  "requiredClientExitNode": null,
+  "exitNodeSelection": "optional",
+  "requestedRoutes": [
+    "17.253.0.0/16",
+    "2403:300:a00::/40",
+    "2620:149:a00::/40",
+    "2a01:b740:a00::/40"
+  ],
+  "advertisedRoutes": [
+    "0.0.0.0/0",
+    "::/0",
+    "17.253.0.0/16",
+    "192.168.31.0/24",
+    "2403:300:a00::/40",
+    "2620:149:a00::/40",
+    "2a01:b740:a00::/40"
+  ],
+  "restrictedDNS": {
+    "domains": {
+      "tether.edge.apple": [
+        "100.78.140.101"
+      ],
+      "tether.v.aaplimg.com": [
+        "100.78.140.101"
+      ],
+      "tthr.apple.com": [
+        "100.78.140.101"
+      ],
+      "weatherkit.apple.com": [
+        "100.78.140.101"
+      ]
+    },
+    "requiredDomains": [
+      "weatherkit.apple.com",
+      "tthr.apple.com",
+      "tether.edge.apple",
+      "tether.v.aaplimg.com"
+    ],
+    "ready": true
+  },
+  "exitCompatibleDNS": {
+    "lastVerifiedAt": 1789117280,
+    "allFourEnabledAtVerification": true,
+    "liveFlagMonitoring": false,
+    "evidence": "Tailscale Admin Console saved configuration; client exit-switch testing recorded separately"
+  },
+  "ipv6UplinkAvailable": false,
+  "ipv6MissingUplinkBehavior": "Enrolled relay UDP rejected early; relay TCP reset only when the destination FIB route is missing. IPv4 TCP remains usable.",
+  "configurationReady": true,
+  "missingAdvertisements": [],
+  "approved": [
+    "17.253.0.0/16",
+    "2403:300:a00::/40",
+    "2620:149:a00::/40",
+    "2a01:b740:a00::/40"
+  ],
+  "pending": [],
+  "relayRoutingReady": true,
+  "approvalMeaning": "exact approved subnet routes; default /0 exit-node advertisements are excluded",
+  "scope": "Weather and selected relay subnets use Pi5; ordinary traffic uses the client-selected exit node, or its original default route when no exit is selected.",
+  "approvalInstructions": "Tailscale Admin Console > Machines > Pi5 > Edit route settings > approve the four relay subnet routes."
+}

@@ -1,0 +1,226 @@
+{
+  "verifiedAt": "2026-09-11T15:50:03.567306+08:00",
+  "transportVersion": "1.0.1",
+  "dataVersion": "0.3.1",
+  "result": "verified-on-tested-Mac-network",
+  "routeConfig": {
+    "transportVersion": "1.0.1",
+    "mode": "split-dns-relay-routes",
+    "time": 1789113003,
+    "requiredClientExitNode": "None",
+    "requestedRoutes": [
+      "17.253.0.0/16",
+      "2403:300:a00::/40",
+      "2620:149:a00::/40",
+      "2a01:b740:a00::/40"
+    ],
+    "advertisedRoutes": [
+      "0.0.0.0/0",
+      "::/0",
+      "17.253.0.0/16",
+      "192.168.31.0/24",
+      "2403:300:a00::/40",
+      "2620:149:a00::/40",
+      "2a01:b740:a00::/40"
+    ],
+    "restrictedDNS": {
+      "domains": {
+        "tether.edge.apple": [
+          "100.78.140.101"
+        ],
+        "tether.v.aaplimg.com": [
+          "100.78.140.101"
+        ],
+        "tthr.apple.com": [
+          "100.78.140.101"
+        ],
+        "weatherkit.apple.com": [
+          "100.78.140.101"
+        ]
+      },
+      "requiredDomains": [
+        "weatherkit.apple.com",
+        "tthr.apple.com",
+        "tether.edge.apple",
+        "tether.v.aaplimg.com"
+      ],
+      "ready": true
+    },
+    "ipv6UplinkAvailable": false,
+    "ipv6MissingUplinkBehavior": "Enrolled relay UDP rejected early; relay TCP reset only when the destination FIB route is missing. IPv4 TCP remains usable.",
+    "configurationReady": true,
+    "missingAdvertisements": [],
+    "approved": [
+      "17.253.0.0/16",
+      "2403:300:a00::/40",
+      "2620:149:a00::/40",
+      "2a01:b740:a00::/40"
+    ],
+    "pending": [],
+    "relayRoutingReady": true,
+    "approvalMeaning": "exact approved subnet routes; default /0 exit-node advertisements are excluded",
+    "scope": "Weather DNS maps directly to Pi5; additional relay destination subnets use Pi5. General default route stays unchanged.",
+    "approvalInstructions": "Tailscale Admin Console > Machines > Pi5 > Edit route settings > approve the four relay subnet routes."
+  },
+  "tests": {
+    "python": 72,
+    "javascript": 23,
+    "total": 95
+  },
+  "macLiveChecks": {
+    "noExitStart": true,
+    "systemProxyDisabled": true,
+    "allRestrictedDNSPresent": true,
+    "weatherDNSIsPi": true,
+    "relayDNSBlocked": true,
+    "ordinaryTrafficDirect": true,
+    "allRelayRoutesInstalled": true,
+    "allUDP443FastRefused": true,
+    "relayIPv4TCPPasses": true,
+    "ipv6MissingUplinkFastRefused": true,
+    "existingHTTPHealthy": true,
+    "nativeAppTCPConnectedToPi": true,
+    "noExitEnd": true
+  },
+  "nativeResponses": {
+    "app": 2,
+    "widget": 0,
+    "audited": 2,
+    "examples": [
+      {
+        "status": "passed",
+        "time": 1789112719,
+        "app": "WeatherKit_Weather_macOS_Version 27.0 (Build 26A5425a)",
+        "folder": "reports/approved-split-native/938ed108-0289-42ff-88a4-4f632b756072",
+        "checkedFields": 925,
+        "skipped": 0,
+        "temperature": 26.700000762939453,
+        "sourceTemperature": 26.7,
+        "station": "臺灣大學",
+        "coverage": {
+          "currentFields": 15,
+          "hoursMapped": 93,
+          "daysMapped": 7,
+          "interpolatedFields": 276,
+          "precipitationFields": 186
+        },
+        "inputBytes": 40876,
+        "outputBytes": 45736
+      },
+      {
+        "status": "passed",
+        "time": 1789112724,
+        "app": "WeatherKit_Weather_macOS_Version 27.0 (Build 26A5425a)",
+        "folder": "reports/approved-split-native/29771e2c-58d6-49d3-b786-e734cf8e77a2",
+        "checkedFields": 950,
+        "skipped": 0,
+        "temperature": 26.899999618530273,
+        "sourceTemperature": 26.9,
+        "station": "內湖",
+        "coverage": {
+          "currentFields": 15,
+          "hoursMapped": 93,
+          "daysMapped": 7,
+          "interpolatedFields": 277,
+          "precipitationFields": 210
+        },
+        "inputBytes": 41252,
+        "outputBytes": 45016
+      }
+    ]
+  },
+  "udpProbeMs": {
+    "17.253.87.61": 97,
+    "2403:300:a04:2000::61": 96,
+    "2620:149:af6::10": 101,
+    "2a01:b740:a10:3000::21": 99,
+    "100.78.140.101": 97,
+    "fd7a:115c:a1e0::5901:8c9c": 101
+  },
+  "tcpIPv4Ms": {
+    "17.253.87.61": 127,
+    "17.253.145.10": 102
+  },
+  "ipv6TcpFallbackMs": 105,
+  "services": {
+    "AdGuardHome": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-api": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-codec": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-proxy": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-forward": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-sni": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-routing": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-route-status.timer": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-model.timer": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "bridgeStats": {
+    "seen": 253,
+    "modified": 45,
+    "unchanged": 0,
+    "passthrough": 208,
+    "errors": 0,
+    "notifications": 0,
+    "notificationErrors": 0
+  },
+  "enrollment": {
+    "enabled": [
+      {
+        "name": "Jamie's MacBook Pro",
+        "ipv4": "100.122.163.78"
+      }
+    ],
+    "pending": [
+      {
+        "name": "iPhone 14 Pro",
+        "ipv4": "100.123.14.68",
+        "reason": "Install and fully trust the CWA certificate before enabling DNS"
+      }
+    ]
+  },
+  "limitations": [
+    "Pi5 has no public IPv6 egress: enrolled relay IPv6 TCP fast-resets only when FIB destination route is missing; IPv4 is used for working connections.",
+    "Public relay subnet routing is destination-IP based, so shared Apple IPs and other accepting tailnet clients can be affected.",
+    "iOS CA trust/enrollment and roaming/mobile-network validation remain separate.",
+    "Existing TAIWAN_AQI scale-endpoint/card issue remains outside this transport change.",
+    "Initial burst test recorded one IPv6 UDP diagnostic timeout; subsequent paced final probe passed all six destinations. No loss-free guarantee is claimed."
+  ],
+  "changes": [
+    "Confirmed four previously pending routes approved and injected on Mac.",
+    "Added four restricted DNS entries via Tailscale admin UI, preserving global resolvers and ts.net configuration.",
+    "Deployed guarded IPv6 early QUIC reject and missing-egress TCP reset; source-client and destination-subnet scoping preserved.",
+    "Route status, UI and README updated; translation and ntfy code unchanged."
+  ],
+  "archive": {
+    "files": 57,
+    "updatedEntries": 57,
+    "sha256": "7a802d8e64f76726724b45c3aaeb6fc5819f8362b4dc4108d793ff1ab0478159",
+    "secretScan": "passed"
+  }
+}

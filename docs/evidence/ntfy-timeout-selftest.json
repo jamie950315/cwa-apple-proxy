@@ -1,0 +1,35 @@
+{
+  "time": 1789095856,
+  "isolatedTest": true,
+  "handlerVersion": "0.3.1",
+  "deadlineSeconds": 3.5,
+  "fallbackElapsedSeconds": 3.5045,
+  "originalBodyPreserved": true,
+  "originalHeadersPreserved": true,
+  "notificationAfterFallback": true,
+  "receipt": {
+    "http": 200,
+    "response": {
+      "id": "HjQlUd89Xw7f",
+      "time": 1789095856,
+      "expires": 1789139056,
+      "event": "message",
+      "topic": "cwa-apple-proxy",
+      "title": "TEST: CWA 3.5s fallback notification",
+      "message": "CWA→Apple Weather 已回退 Apple 原始資料\n原因: timeout-3.5s\n模式: isolated-timeout-selftest\n耗時: 3504 ms\n版本: 0.3.1",
+      "priority": 4,
+      "tags": [
+        "warning"
+      ]
+    }
+  },
+  "stats": {
+    "seen": 1,
+    "modified": 0,
+    "unchanged": 0,
+    "passthrough": 0,
+    "errors": 1,
+    "notifications": 1,
+    "notificationErrors": 0
+  }
+}

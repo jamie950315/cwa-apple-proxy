@@ -1,0 +1,9 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {WeatherKit2,ByteBuffer} from '../vendor/weatherkit-codec.full.mjs';
+const j=new Uint8Array(fs.readFileSync('apple-1789067343639212198.bin'));
+const jObj=WeatherKit2.decode(new ByteBuffer(j),['forecastNextHour']).forecastNextHour;
+const j2=WeatherKit2.encode(new ByteBuffer(j),{forecastNextHour:jObj});
+const jObj2=WeatherKit2.decode(new ByteBuffer(j2),['forecastNextHour']).forecastNextHour;
+console.log('roundtrip',j.length,j2.length,JSON.stringify(jObj).length,JSON.stringify(jObj2).length,'equal',JSON.stringify(jObj)===JSON.stringify(jObj2));
+const t=new Uint8Array(fs.readFileSync('apple-1789067343103901835.bin'));
+const now=Math.floor(Date.now()/60000)*60;const obj=structuredClone(jObj);obj.metadata={...obj.metadata,latitude:25.09,longitude:121.56,providerName:'CWA',attributionUrl:'https://opendata.cwa.gov.tw/',readTime:now,reportedTime:now,expireTime:now+300,sourceType:'MODELED'};obj.forecastStart=now;obj.forecastEnd=now+3600;obj.condition=[{beginCondition:'RAIN',endCondition:'RAIN',endTime:now+3600,forecastToken:'CONSTANT',parameters:[],startTime:now}];obj.minutes=[];for(let i=0;i<60;i++)obj.minutes.push({perceivedPrecipitationIntensity:.1,precipitationChance:100,precipitationIntensity:.1,startTime:now+i*60});obj.summary=[{condition:'RAIN',endTime:now+3600,precipitationChance:100,precipitationIntensity:.1,startTime:now}];
+const t2=WeatherKit2.encode(new ByteBuffer(t),{forecastNextHour:obj});fs.writeFileSync('taiwan-with-next-hour.bin',t2);const got=WeatherKit2.decode(new ByteBuffer(t2),['forecastNextHour','currentWeather','forecastHourly']);console.log('insert',t.length,t2.length,got.forecastNextHour?.minutes?.length,got.forecastNextHour?.minutes?.[0],got.currentWeather?.temperature,got.forecastHourly?.hours?.length);

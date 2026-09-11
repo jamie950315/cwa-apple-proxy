@@ -1,0 +1,1599 @@
+{
+  "time": 1789094675,
+  "paths": {
+    "/v1/rest/datastore/F-D0047-061": {
+      "get": {
+        "summary": "鄉鎮天氣預報-臺北市未來3天天氣預報",
+        "description": "臺灣各鄉鎮市區預報資料-臺灣各鄉鎮市區未來3天(逐3小時)及未來1週天氣預報\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料，預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳，預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式，預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "LocationName",
+            "in": "query",
+            "description": "各縣市所對應鄉鎮名稱，請參考https://opendata.cwa.gov.tw/opendatadoc/Opendata_City.pdf ，附錄 A『全臺縣市鄉鎮對照表』，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ElementName",
+            "in": "query",
+            "description": "天氣預報因子，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "露點溫度",
+                "天氣預報綜合描述",
+                "舒適度指數",
+                "風向",
+                "3小時降雨機率",
+                "溫度",
+                "風速",
+                "天氣現象",
+                "相對濕度",
+                "體感溫度"
+              ]
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "同時對 「StartTime」，「EndTime」，「DataTime」 做升冪排序，預設不排序",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "time"
+            ]
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "description": "時間因子，格式為「yyyy-MM-ddThh:mm:ss」，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+            }
+          },
+          {
+            "name": "DataTime",
+            "in": "query",
+            "description": "時間因子，格式為「yyyy-MM-ddThh:mm:ss」，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "description": "時間區段，時間從「timeFrom」 開始篩選，直到內容之最後時間，並可與參數 「timeTo」 合併使用，格式為「yyyy-MM-ddThh:mm:ss」，若使用參數「StartTime」或「DataTime」，則參數「timeFrom」的篩選資料則會失效，預設為全部回傳",
+            "required": false,
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "description": "時間區段，篩選需要之時間區段，時間從內容之最初時間開始篩選，直到 「timeTo」，並可與參數 「timeFrom」 合併使用，格式為「yyyy-MM-ddThh:mm:ss」，若使用參數「StartTime」或「DataTime」，則參數「timeTo」的篩選資料則會失效，預設為全部回傳",
+            "required": false,
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          }
+        ],
+        "tags": [
+          "預報"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/O-A0002-001": {
+      "get": {
+        "summary": "雨量觀測站-雨量資料",
+        "description": "雨量觀測站-雨量資料\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料，預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳，預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式，預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "StationId",
+            "in": "query",
+            "description": "測站站號，請參考https://hdps.cwa.gov.tw/static/state.html ，可輸入多個站號，大小寫必須完全符合，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StationName",
+            "in": "query",
+            "description": "測站站名，請參考https://hdps.cwa.gov.tw/static/state.html ，可輸入多個站名，預設為全部回傳，若使用「StationId」，則參數「StationName」的篩選資料則會失效，只會回傳StationId符合的資料",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RainfallElement",
+            "in": "query",
+            "description": "氣象因子，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Now",
+                "Past10Min",
+                "Past1hr",
+                "Past3hr",
+                "Past6hr",
+                "Past12hr",
+                "Past24hr",
+                "Past2days",
+                "Past3days"
+              ]
+            }
+          },
+          {
+            "name": "GeoInfo",
+            "in": "query",
+            "description": "參數，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Coordinates",
+                "StationAltitude",
+                "CountyName",
+                "TownName",
+                "CountyCode",
+                "TownCode"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "觀測"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/C-B0024-001": {
+      "get": {
+        "summary": "30天觀測資料-地面測站觀測資料",
+        "description": "地面測站最近30天觀測資料-30天觀測資料\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料，預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳，預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式，預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "StationID",
+            "in": "query",
+            "description": "測站站號，請參考https://hdps.cwa.gov.tw/static/state.html ，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StationName",
+            "in": "query",
+            "description": "測站名稱，請參考https://hdps.cwa.gov.tw/static/state.html ，若使用參數「StationID」，則參數「StationName」的篩選資料會失效。預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "WeatherElement",
+            "in": "query",
+            "description": "氣象因子，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "AirPressure",
+                "AirTemperature",
+                "RelativeHumidity",
+                "WindSpeed",
+                "WindDirection",
+                "Precipitation",
+                "SunshineDuration"
+              ]
+            }
+          },
+          {
+            "name": "StatisticsElement",
+            "in": "query",
+            "description": "統計因子，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Maximum",
+                "Minimum",
+                "Mean"
+              ]
+            }
+          },
+          {
+            "name": "DateTime",
+            "in": "query",
+            "description": "時間因子，格式為 「yyyy-MM-ddThh:mm:ss」，只作用在觀測資料",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+            }
+          },
+          {
+            "name": "Date",
+            "in": "query",
+            "description": "時間因子，格式為 「yyyy-MM-dd」，只作用在統計資料",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          },
+          {
+            "name": "DataType",
+            "in": "query",
+            "description": "篩選需要的回傳資料種類。若只選 stationObsTimes 代表只給觀測資料，只選 stationObsStatistics 代表只給統計資料；選擇 stationObsTimes,stationObsStatistics 代表都回傳。 預設都回傳。",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "stationObsTimes",
+              "stationObsStatistics"
+            ]
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "description": "時間區段，篩選需要之時間區段，時間從「timeFrom」開始篩選，直到內容之最後時間，並可與參數 「timeTo」 合併使用，格式為「yyyy-MM-ddThh:mm:ss」。\n若使用「Date」或「DateTime」，則參數「timeFrom」的篩選資料則會失效；若是參數「Date」、參數「DateTime」、參數「timeFrom」和參數「timeTo」都沒有設定,預設會回傳內容中最新24小時的資料",
+            "required": false,
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "description": "時間區段，篩選需要之時間區段，時間從內容之最初時間開始篩選，直到「timeTo」，並可與參數「 timeFrom」 合併使用，格式為「yyyy-MM-ddThh:mm:ss」。\n若使用「Date」或「DateTime」，則參數「timeTo」的篩選資料則會失效；若是參數「Date」、參數「DateTime」、參數「timeFrom」和參數「timeTo」都沒有設定,預設會回傳內容中最新24小時的資料。",
+            "required": false,
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "針對時間因子「DateTime」做升冪排序，預設不排序",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DateTime"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "氣候"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/W-C0033-001": {
+      "get": {
+        "summary": "天氣特報-各別縣市地區目前之天氣警特報情形",
+        "description": "天氣特報-各別縣市地區目前之天氣警特報情形\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料，預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳，預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式，預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "locationName",
+            "in": "query",
+            "description": "縣市名稱，預設為所有縣市",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "宜蘭縣",
+                "花蓮縣",
+                "臺東縣",
+                "澎湖縣",
+                "金門縣",
+                "連江縣",
+                "臺北市",
+                "新北市",
+                "桃園市",
+                "臺中市",
+                "臺南市",
+                "高雄市",
+                "基隆市",
+                "新竹縣",
+                "新竹市",
+                "苗栗縣",
+                "彰化縣",
+                "南投縣",
+                "雲林縣",
+                "嘉義縣",
+                "嘉義市",
+                "屏東縣"
+              ]
+            }
+          },
+          {
+            "name": "phenomena",
+            "in": "query",
+            "description": "當時發佈之警特報類型",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "濃霧",
+                "大雨",
+                "豪雨",
+                "大豪雨",
+                "超大豪雨",
+                "陸上強風",
+                "海上陸上颱風"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "天氣警特報"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/W-C0033-002": {
+      "get": {
+        "summary": "天氣特報-各別天氣警特報之內容及所影響之區域",
+        "description": "天氣特報-各別天氣警特報之內容及所影響之區域\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料，預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳，預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式，預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "locationName",
+            "in": "query",
+            "description": "依照當時發佈特報之涵蓋區域市，區域名稱請詳見 https://opendata.cwa.gov.tw/opendatadoc/Opendata_Warnings.pdf 附錄 B『特報之影響區域名稱對照表』",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phenomena",
+            "in": "query",
+            "description": "當時發佈之警特報類型",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "濃霧",
+                "大雨",
+                "豪雨",
+                "大豪雨",
+                "超大豪雨",
+                "陸上強風",
+                "颱風"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "天氣警特報"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/W-C0033-003": {
+      "get": {
+        "summary": "天氣特報-豪大雨特報",
+        "description": "災害性天氣特報資料-災害性天氣資訊-豪大雨特報\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料，預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳，預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式，預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "info",
+            "in": "query",
+            "description": "篩選info顯示參數，預設顯示全部，若有指定參數則只回傳指定參數",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "language",
+                "category",
+                "event",
+                "responseType",
+                "urgency",
+                "severity",
+                "certainty",
+                "eventCode",
+                "effective",
+                "onset",
+                "expires",
+                "senderName",
+                "headline",
+                "description",
+                "instruction",
+                "web",
+                "parameter",
+                "area"
+              ]
+            }
+          },
+          {
+            "name": "parameter",
+            "in": "query",
+            "description": "篩選parameter顯示參數",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "alert_title",
+                "severity_level",
+                "alert_color",
+                "website_color"
+              ]
+            }
+          },
+          {
+            "name": "geocode",
+            "in": "query",
+            "description": "依行政區代碼篩選。若使用參數「geocode」，則參數「CountyName」和「TownName」的篩選資料會失效，預設為不篩選",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CountyName",
+            "in": "query",
+            "description": "警報中的縣市名稱，預設為不篩選。若使用參數「geocode」，則參數「CountyName」的篩選資料會失效",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "宜蘭縣",
+                "花蓮縣",
+                "臺東縣",
+                "澎湖縣",
+                "金門縣",
+                "連江縣",
+                "臺北市",
+                "新北市",
+                "桃園市",
+                "臺中市",
+                "臺南市",
+                "高雄市",
+                "基隆市",
+                "新竹縣",
+                "新竹市",
+                "苗栗縣",
+                "彰化縣",
+                "南投縣",
+                "雲林縣",
+                "嘉義縣",
+                "嘉義市",
+                "屏東縣"
+              ]
+            }
+          },
+          {
+            "name": "TownName",
+            "in": "query",
+            "description": "警報中的各縣市所對應鄉鎮名稱，請參考https://opendata.cwa.gov.tw/opendatadoc/Opendata_City.pdf ，附錄 A『全臺縣市鄉鎮對照表』，預設為不篩選。若使用參數「geocode」或當資料是解除豪大雨特報時，則參數「TownName」的篩選資料會失效",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "severity_level",
+            "in": "query",
+            "description": "依警戒分級篩選，在當資料是解除豪大雨特報時失效",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "超大豪雨",
+                "大豪雨",
+                "豪雨",
+                "大雨"
+              ]
+            }
+          },
+          {
+            "name": "expires",
+            "in": "query",
+            "description": "是否排除已過期的警報。若選擇true只會回傳沒有過期的警報，選擇false則不排除已過期的警報；預設不排除",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "string",
+              "enum": [
+                true,
+                false
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "天氣警特報"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/W-C0033-004": {
+      "get": {
+        "summary": "天氣特報-低溫特報",
+        "description": "災害性天氣特報資料-災害性天氣資訊-低溫特報\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料，預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳，預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式，預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "info",
+            "in": "query",
+            "description": "篩選info顯示參數，預測顯示全部，若有指定參數則只回傳指定參數",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "language",
+                "category",
+                "event",
+                "responseType",
+                "urgency",
+                "severity",
+                "certainty",
+                "eventCode",
+                "effective",
+                "onset",
+                "expires",
+                "senderName",
+                "headline",
+                "description",
+                "instruction",
+                "web",
+                "parameter",
+                "area"
+              ]
+            }
+          },
+          {
+            "name": "parameter",
+            "in": "query",
+            "description": "篩選parameter顯示參數",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "alert_title",
+                "severity_level",
+                "alert_criteria",
+                "alert_color",
+                "website_color"
+              ]
+            }
+          },
+          {
+            "name": "geocode",
+            "in": "query",
+            "description": "依行政區代碼篩選。若使用參數「geocode」，則參數「CountyName」和「TownName」的篩選資料會失效，預設為不篩選",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CountyName",
+            "in": "query",
+            "description": "警報中的縣市名稱，預設為不篩選。若使用參數「geocode」，則參數「CountyName」的篩選資料會失效",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "宜蘭縣",
+                "花蓮縣",
+                "臺東縣",
+                "澎湖縣",
+                "金門縣",
+                "連江縣",
+                "臺北市",
+                "新北市",
+                "桃園市",
+                "臺中市",
+                "臺南市",
+                "高雄市",
+                "基隆市",
+                "新竹縣",
+                "新竹市",
+                "苗栗縣",
+                "彰化縣",
+                "南投縣",
+                "雲林縣",
+                "嘉義縣",
+                "嘉義市",
+                "屏東縣"
+              ]
+            }
+          },
+          {
+            "name": "TownName",
+            "in": "query",
+            "description": "警報中的各縣市所對應鄉鎮名稱，請參考https://opendata.cwa.gov.tw/opendatadoc/Opendata_City.pdf ，附錄 A『全臺縣市鄉鎮對照表』，預設為不篩選。若使用參數「geocode」，則參數「TownName」的篩選資料會失效",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "severity_level",
+            "in": "query",
+            "description": "依警戒分級篩選",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "低溫紅色燈號",
+                "低溫橙色燈號1",
+                "低溫橙色燈號2",
+                "低溫黃色燈號"
+              ]
+            }
+          },
+          {
+            "name": "expires",
+            "in": "query",
+            "description": "是否排除已過期的警報。若選擇true只會回傳沒有過期的警報，選擇false則不排除已過期的警報；預設不排除",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "string",
+              "enum": [
+                true,
+                false
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "天氣警特報"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/W-C0033-005": {
+      "get": {
+        "summary": "天氣特報-高溫資訊",
+        "description": "災害性天氣特報資料-災害性天氣資訊-高溫資訊\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料，預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳，預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式，預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "info",
+            "in": "query",
+            "description": "篩選info顯示參數，預測顯示全部，若有指定參數則只回傳指定參數",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "language",
+                "category",
+                "event",
+                "responseType",
+                "urgency",
+                "severity",
+                "certainty",
+                "eventCode",
+                "effective",
+                "onset",
+                "expires",
+                "senderName",
+                "headline",
+                "description",
+                "instruction",
+                "web",
+                "parameter",
+                "area"
+              ]
+            }
+          },
+          {
+            "name": "parameter",
+            "in": "query",
+            "description": "篩選parameter顯示參數",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "alert_title",
+                "severity_level",
+                "alert_criteria",
+                "alert_color",
+                "website_color"
+              ]
+            }
+          },
+          {
+            "name": "geocode",
+            "in": "query",
+            "description": "依行政區代碼篩選。若使用參數「geocode」，則參數「CountyName」和「TownName」的篩選資料會失效，預設為不篩選",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CountyName",
+            "in": "query",
+            "description": "警報中的縣市名稱，預設為不篩選。若使用參數「geocode」，則參數「CountyName」的篩選資料會失效",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "宜蘭縣",
+                "花蓮縣",
+                "臺東縣",
+                "澎湖縣",
+                "金門縣",
+                "連江縣",
+                "臺北市",
+                "新北市",
+                "桃園市",
+                "臺中市",
+                "臺南市",
+                "高雄市",
+                "基隆市",
+                "新竹縣",
+                "新竹市",
+                "苗栗縣",
+                "彰化縣",
+                "南投縣",
+                "雲林縣",
+                "嘉義縣",
+                "嘉義市",
+                "屏東縣"
+              ]
+            }
+          },
+          {
+            "name": "TownName",
+            "in": "query",
+            "description": "警報中的各縣市所對應鄉鎮名稱，請參考https://opendata.cwa.gov.tw/opendatadoc/Opendata_City.pdf ，附錄 A『全臺縣市鄉鎮對照表』，預設為不篩選。若使用參數「geocode」，則參數「TownName」的篩選資料會失效",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "severity_level",
+            "in": "query",
+            "description": "依警戒分級篩選",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "高溫紅色燈號",
+                "高溫橙色36燈號",
+                "高溫橙色38燈號",
+                "高溫黃色燈號"
+              ]
+            }
+          },
+          {
+            "name": "expires",
+            "in": "query",
+            "description": "是否排除已過期的警報。若選擇true只會回傳沒有過期的警報，選擇false則不排除已過期的警報；預設不排除",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "string",
+              "enum": [
+                true,
+                false
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "天氣警特報"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/A-B0062-001": {
+      "get": {
+        "summary": "日出日沒時刻-全臺各縣市年度逐日日出日沒時刻資料",
+        "description": "全臺各縣市每天的日出、日沒及太陽過中天等時刻資料\n含有日出日沒時之方位及過中天時之仰角資料\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料, 預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳, 預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式, 預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "CountyName",
+            "in": "query",
+            "description": "臺灣各縣市, 預設為回傳全部縣市",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "宜蘭縣",
+                "花蓮縣",
+                "臺東縣",
+                "澎湖縣",
+                "金門縣",
+                "連江縣",
+                "臺北市",
+                "新北市",
+                "桃園市",
+                "臺中市",
+                "臺南市",
+                "高雄市",
+                "基隆市",
+                "新竹縣",
+                "新竹市",
+                "苗栗縣",
+                "彰化縣",
+                "南投縣",
+                "雲林縣",
+                "嘉義縣",
+                "嘉義市",
+                "屏東縣"
+              ]
+            }
+          },
+          {
+            "name": "Date",
+            "in": "query",
+            "description": "時間因子, 格式為「yyyy-MM-dd」, 最多回傳180筆資料\n預設回傳內容之最初180筆的資料\n",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "maxItems": 180
+          },
+          {
+            "name": "parameter",
+            "in": "query",
+            "description": "預報因子，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "BeginCivilTwilightTime",
+                "SunRiseTime",
+                "SunRiseAZ",
+                "SunTransitTime",
+                "SunTransitAlt",
+                "SunSetTime",
+                "SunSetAZ",
+                "EndCivilTwilightTime"
+              ]
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "description": "時間區段,篩選需要之時間區段,格式為「yyyy-MM-dd」\n\n時間從「timeFrom」開始篩選,直到「timeFrom」之後180天的資料\n可與參數 「timeTo」 合併使用,時間從「timeFrom」開始篩選,直到「timeTo」,可回傳最多180天長度的資料\n在合併使用參數「timeTo」和參數「timeFrom」的時候，若是 「timeTo」的時間超過「timeFrom」之後180天，則僅會回傳「timeFrom」開始直到「timeFrom」之後180天之間的資料\n\n若使用參數「Date」,則參數「timeFrom」的篩選資料則會失效\n\n若是參數「timeFrom」和參數「timeTo」都沒有設定，預設會回傳內容中最初180筆的資料\n",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "description": "時間區段, 篩選需要之時間區段,格式為「yyyy-MM-dd」\n\n時間從「timeTo」之前180天開始篩選,直到「timeTo」\n可與參數「 timeFrom」 合併使用,時間從「timeFrom」開始篩選,直到「timeTo」,可回傳最多180天長度的資料\n在合併使用參數「timeTo」和參數「timeFrom」的時,若是 「timeTo」的時間超過「timeFrom」之後180天,則僅會回傳「timeFrom」開始直到「timeFrom」之後180天之間的資料\n\n若使用參數「Date」,則參數「timeTo」的篩選資料則會失效\n\n若是參數「timeFrom」和參數「timeTo」都沒有設定,預設會回傳內容中最初180筆的資料\n",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "對「CountyName」或「Date」進行升冪排序, 預設不排序",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CountyName",
+                "Date"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "天文"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/rest/datastore/A-B0063-001": {
+      "get": {
+        "summary": "月出月沒時刻-全臺各縣市年度逐日月出月沒時刻資料",
+        "description": "全臺各縣市每天的月出、月沒及月球過中天等時刻資料\n含有月出月沒時之方位及過中天時之仰角資料\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "description": "氣象開放資料平台會員授權碼",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "限制最多回傳的資料, 預設為回傳全部筆數",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "指定從第幾筆後開始回傳, 預設為第 0 筆開始回傳",
+            "required": false,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "回傳資料格式, 預設為 json 格式",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML"
+            ]
+          },
+          {
+            "name": "CountyName",
+            "in": "query",
+            "description": "臺灣各縣市, 預設為回傳全部縣市",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "宜蘭縣",
+                "花蓮縣",
+                "臺東縣",
+                "澎湖縣",
+                "金門縣",
+                "連江縣",
+                "臺北市",
+                "新北市",
+                "桃園市",
+                "臺中市",
+                "臺南市",
+                "高雄市",
+                "基隆市",
+                "新竹縣",
+                "新竹市",
+                "苗栗縣",
+                "彰化縣",
+                "南投縣",
+                "雲林縣",
+                "嘉義縣",
+                "嘉義市",
+                "屏東縣"
+              ]
+            }
+          },
+          {
+            "name": "Date",
+            "in": "query",
+            "description": "時間因子, 格式為「yyyy-MM-dd」, 最多回傳180筆資料\n預設回傳內容之最初180筆的資料\n",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "maxItems": 180
+          },
+          {
+            "name": "parameter",
+            "in": "query",
+            "description": "預報因子，預設為全部回傳",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "MoonRiseTime",
+                "MoonRiseAZ",
+                "MoonTransitTime",
+                "MoonTransitAlt",
+                "MoonSetTime",
+                "MoonSetAZ"
+              ]
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "description": "時間區段,篩選需要之時間區段,格式為「yyyy-MM-dd」\n\n時間從「timeFrom」開始篩選,直到「timeFrom」之後180天的資料\n並可與參數 「timeTo」 合併使用,時間從「timeFrom」開始篩選,直到「timeTo」,可回傳最多180天長度的資料\n在合併使用參數「timeTo」和參數「timeFrom」的時候,若是 「timeTo」的時間超過「timeFrom」之後180天,則僅會回傳「timeFrom」開始直到「timeFrom」之後180天之間的資料\n\n若使用參數「Date」,則參數「timeFrom」的篩選資料則會失效\n\n若是參數「timeFrom」和參數「timeTo」都沒有設,預設會回傳內容中最初180筆的資料\n",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "description": "時間區段, 篩選需要之時間區段,格式為「yyyy-MM-dd」\n\n時間從「timeTo」之前180天開始篩選,直到「timeTo」\n並可與參數 「timeFrom」 合併使用,時間從「timeFrom」開始篩選,直到「timeTo」,可回傳最多180天長度的資料\n在合併使用參數「timeTo」和參數「timeFrom」的時候,若是 「timeTo」的時間超過「timeFrom」之後180天,則僅會回傳「timeFrom」開始直到「timeFrom」之後180天之間的資料\n\n若使用參數「Date」,則參數「timeTo」的篩選資料則會失效\n\n若是參數「timeFrom」和參數「timeTo」都沒有設定,預設會回傳內容中最初180筆的資料\n",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "對「CountyName」或「Date」進行升冪排序, 預設不排序",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CountyName",
+                "Date"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "天文"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "files": {
+    "A-B0062-001": {
+      "http": 200,
+      "bytes": 7358245,
+      "sent": "2025-09-02T14:36:42+08:00",
+      "keys": [
+        "@xmlns",
+        "identifier",
+        "sender",
+        "sent",
+        "status",
+        "msgType",
+        "dataid",
+        "scope",
+        "dataset"
+      ],
+      "dates": [
+        "2025-01-01",
+        "2025-01-02",
+        "2025-01-03"
+      ],
+      "lastDates": [
+        "2027-12-30",
+        "2027-12-31",
+        "2028-01-01"
+      ]
+    },
+    "A-B0062-002": {
+      "http": 404,
+      "bytes": 32
+    },
+    "A-B0063-001": {
+      "http": 200,
+      "bytes": 5518838,
+      "sent": "2025-02-11T11:43:15+08:00",
+      "keys": [
+        "@xmlns",
+        "identifier",
+        "sender",
+        "sent",
+        "status",
+        "msgType",
+        "dataid",
+        "scope",
+        "dataset"
+      ],
+      "dates": [
+        "2025-01-01",
+        "2025-01-02",
+        "2025-01-03"
+      ],
+      "lastDates": [
+        "2027-12-29",
+        "2027-12-30",
+        "2027-12-31"
+      ]
+    },
+    "A-B0063-002": {
+      "http": 404,
+      "bytes": 32
+    },
+    "F-C0041-001": {
+      "http": 200,
+      "bytes": 238235,
+      "sent": null,
+      "keys": [
+        "@xmlns",
+        "Identifier",
+        "Sender",
+        "Sent",
+        "Status",
+        "MsgType",
+        "Source",
+        "Dataid",
+        "Dataset"
+      ],
+      "dates": [
+        "2026-07-12"
+      ],
+      "lastDates": [
+        "2026-07-12"
+      ]
+    },
+    "F-C0041-002": {
+      "http": 200,
+      "bytes": 238235,
+      "sent": null,
+      "keys": [
+        "@xmlns",
+        "Identifier",
+        "Sender",
+        "Sent",
+        "Status",
+        "MsgType",
+        "Source",
+        "Dataid",
+        "Dataset"
+      ],
+      "dates": [
+        "2026-07-12"
+      ],
+      "lastDates": [
+        "2026-07-12"
+      ]
+    },
+    "F-C0041-003": {
+      "http": 200,
+      "bytes": 238235,
+      "sent": null,
+      "keys": [
+        "@xmlns",
+        "Identifier",
+        "Sender",
+        "Sent",
+        "Status",
+        "MsgType",
+        "Source",
+        "Dataid",
+        "Dataset"
+      ],
+      "dates": [
+        "2026-07-12"
+      ],
+      "lastDates": [
+        "2026-07-12"
+      ]
+    },
+    "F-C0041-004": {
+      "http": 200,
+      "bytes": 238235,
+      "sent": null,
+      "keys": [
+        "@xmlns",
+        "Identifier",
+        "Sender",
+        "Sent",
+        "Status",
+        "MsgType",
+        "Source",
+        "Dataid",
+        "Dataset"
+      ],
+      "dates": [
+        "2026-07-12",
+        "2026-07-13"
+      ],
+      "lastDates": [
+        "2026-07-12",
+        "2026-07-13"
+      ]
+    }
+  },
+  "links": {
+    "https://opendata.cwa.gov.tw/devManual/insrtuction": [],
+    "https://opendata.cwa.gov.tw/devManual/datalist": [],
+    "https://opendata.cwa.gov.tw/dist/js/content.3354d735.js": [],
+    "https://opendata.cwa.gov.tw/dist/content.js": []
+  }
+}

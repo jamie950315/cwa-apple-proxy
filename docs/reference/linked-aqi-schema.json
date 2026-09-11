@@ -1,0 +1,437 @@
+{
+  "AQI": {
+    "data": {
+      "__type": {
+        "name": "AQI",
+        "fields": [
+          {
+            "name": "sitename",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "county",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "aqi",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "pollutant",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "status",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "so2",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "co",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "o3",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "o3_8hr",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "pm10",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "pm2_5",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "no2",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "nox",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "no",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "wind_speed",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "wind_direc",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "publishtime",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "co_8hr",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "pm2_5_avg",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "pm10_avg",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "so2_avg",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "longitude",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "latitude",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "siteid",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "String",
+              "kind": "SCALAR",
+              "ofType": null
+            }
+          },
+          {
+            "name": "station",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "ObsStation",
+              "kind": "OBJECT",
+              "ofType": null
+            }
+          },
+          {
+            "name": "report",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "NowObsReport",
+              "kind": "OBJECT",
+              "ofType": null
+            }
+          },
+          {
+            "name": "town",
+            "description": null,
+            "args": [],
+            "type": {
+              "name": "TownVillageItem",
+              "kind": "OBJECT",
+              "ofType": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Query": {
+    "data": {
+      "__type": {
+        "name": "Query",
+        "fields": [
+          {
+            "name": "forecast",
+            "description": null,
+            "args": [
+              {
+                "name": "LocationName",
+                "type": {
+                  "name": "String",
+                  "kind": "SCALAR",
+                  "ofType": null
+                }
+              }
+            ],
+            "type": {
+              "name": "Opendata",
+              "kind": "OBJECT",
+              "ofType": null
+            }
+          },
+          {
+            "name": "link",
+            "description": null,
+            "args": [
+              {
+                "name": "LinkID",
+                "type": {
+                  "name": "String",
+                  "kind": "SCALAR",
+                  "ofType": null
+                }
+              }
+            ],
+            "type": {
+              "name": "Link",
+              "kind": "OBJECT",
+              "ofType": null
+            }
+          },
+          {
+            "name": "town",
+            "description": null,
+            "args": [
+              {
+                "name": "Longitude",
+                "type": {
+                  "name": "Float",
+                  "kind": "SCALAR",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "Latitude",
+                "type": {
+                  "name": "Float",
+                  "kind": "SCALAR",
+                  "ofType": null
+                }
+              }
+            ],
+            "type": {
+              "name": "TownVillageItem",
+              "kind": "OBJECT",
+              "ofType": null
+            }
+          },
+          {
+            "name": "aqi",
+            "description": null,
+            "args": [
+              {
+                "name": "longitude",
+                "type": {
+                  "name": "Float",
+                  "kind": "SCALAR",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "latitude",
+                "type": {
+                  "name": "Float",
+                  "kind": "SCALAR",
+                  "ofType": null
+                }
+              }
+            ],
+            "type": {
+              "name": null,
+              "kind": "LIST",
+              "ofType": {
+                "name": "AQI",
+                "kind": "OBJECT"
+              }
+            }
+          },
+          {
+            "name": "traStation",
+            "description": null,
+            "args": [
+              {
+                "name": "LocationCity",
+                "type": {
+                  "name": "String",
+                  "kind": "SCALAR",
+                  "ofType": null
+                }
+              }
+            ],
+            "type": {
+              "name": null,
+              "kind": "LIST",
+              "ofType": {
+                "name": "TraStation",
+                "kind": "OBJECT"
+              }
+            }
+          },
+          {
+            "name": "alert",
+            "description": null,
+            "args": [
+              {
+                "name": "areaDesc",
+                "type": {
+                  "name": null,
+                  "kind": "LIST",
+                  "ofType": {
+                    "name": "String",
+                    "kind": "SCALAR"
+                  }
+                }
+              },
+              {
+                "name": "expires",
+                "type": {
+                  "name": "String",
+                  "kind": "SCALAR",
+                  "ofType": null
+                }
+              }
+            ],
+            "type": {
+              "name": "Alert",
+              "kind": "OBJECT",
+              "ofType": null
+            }
+          }
+        ]
+      }
+    }
+  }
+}

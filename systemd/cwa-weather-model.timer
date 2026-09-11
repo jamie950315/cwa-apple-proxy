@@ -1,0 +1,9 @@
+[Unit]
+Description=Hourly CWA WRF cache update
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=120
+Persistent=true
+Unit=cwa-weather-model.service
+[Install]
+WantedBy=timers.target

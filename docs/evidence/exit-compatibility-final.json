@@ -1,0 +1,185 @@
+{
+  "verifiedAt": "2026-09-11T17:21:37.649673+08:00",
+  "transportVersion": "1.0.2",
+  "configurationReady": true,
+  "configuredUseWithExitNode": 4,
+  "macOriginalRestored": true,
+  "tests": {
+    "python": 76,
+    "javascript": 23,
+    "total": 99
+  },
+  "nativeAudit": {
+    "packets": 12,
+    "passed": 12,
+    "scalarComparisons": 10846
+  },
+  "results": [
+    {
+      "exit": "None",
+      "networkAndDNSVerified": true,
+      "ordinaryInternet": true,
+      "normalHTTPHealthy": true,
+      "egressCountry": "TW",
+      "nativeResponseCount": 2,
+      "nativeFields": [
+        911,
+        939
+      ],
+      "nativeTranslationMs": [
+        133,
+        94
+      ],
+      "status": "passed"
+    },
+    {
+      "exit": "Pi5",
+      "networkAndDNSVerified": true,
+      "ordinaryInternet": true,
+      "normalHTTPHealthy": true,
+      "egressCountry": "TW",
+      "nativeResponseCount": 1,
+      "nativeFields": [
+        916
+      ],
+      "nativeTranslationMs": [
+        314
+      ],
+      "status": "passed"
+    },
+    {
+      "exit": "A1-JP",
+      "networkAndDNSVerified": true,
+      "ordinaryInternet": true,
+      "normalHTTPHealthy": true,
+      "egressCountry": "JP",
+      "nativeResponseCount": 1,
+      "nativeFields": [
+        854
+      ],
+      "nativeTranslationMs": [
+        436
+      ],
+      "status": "passed"
+    },
+    {
+      "exit": "A1-US",
+      "networkAndDNSVerified": true,
+      "ordinaryInternet": true,
+      "normalHTTPHealthy": true,
+      "egressCountry": "US",
+      "nativeResponseCount": 3,
+      "nativeFields": [
+        901,
+        929,
+        854
+      ],
+      "nativeTranslationMs": [
+        126,
+        81,
+        262
+      ],
+      "status": "passed"
+    },
+    {
+      "exit": "jarvis",
+      "networkAndDNSVerified": true,
+      "ordinaryInternet": false,
+      "normalHTTPHealthy": false,
+      "egressCountry": null,
+      "nativeResponseCount": 0,
+      "nativeFields": [],
+      "nativeTranslationMs": [],
+      "status": "internet-unavailable"
+    },
+    {
+      "exit": "jp-tyo-wg-001",
+      "networkAndDNSVerified": true,
+      "ordinaryInternet": true,
+      "normalHTTPHealthy": true,
+      "egressCountry": "JP",
+      "nativeResponseCount": 3,
+      "nativeFields": [
+        901,
+        930,
+        861
+      ],
+      "nativeTranslationMs": [
+        1174,
+        91,
+        354
+      ],
+      "status": "passed"
+    },
+    {
+      "exit": "us-lax-wg-402",
+      "networkAndDNSVerified": true,
+      "ordinaryInternet": true,
+      "normalHTTPHealthy": true,
+      "egressCountry": "US",
+      "nativeResponseCount": 2,
+      "nativeFields": [
+        911,
+        939
+      ],
+      "nativeTranslationMs": [
+        1311,
+        81
+      ],
+      "status": "passed"
+    }
+  ],
+  "services": {
+    "AdGuardHome": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-api": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-codec": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-proxy": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-forward": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-sni": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-routing": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-route-status.timer": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "cwa-weather-model.timer": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "proxyStats": {
+    "seen": 525,
+    "modified": 90,
+    "unchanged": 0,
+    "passthrough": 435,
+    "errors": 0,
+    "notifications": 0,
+    "notificationErrors": 0
+  },
+  "report": "/home/jamie/cwa-weather-proxy/reports/CWA_Weather_Exit_Node_1.0.2_共存驗收.md",
+  "archive": {
+    "files": 53,
+    "sha256": "d8a033f1028bb443674d36f4aecae122e0652315fa905ce04793eb591ac6c39a",
+    "secretsCheck": "passed"
+  }
+}

@@ -1,0 +1,3 @@
+import fs from 'node:fs';import {WeatherKit2,ByteBuffer} from '../vendor/weatherkit-codec.full.mjs';
+const roots=['currentWeather','forecastDaily','forecastHourly','forecastNextHour','airQuality','weatherAlerts','locationInfo','dataNotice','forecastPeriodic','news','historicalComparisons','weatherChanges'];
+for(const f of fs.readdirSync('.').filter(x=>x.startsWith('apple-')&&x.endsWith('.bin'))){const b=new Uint8Array(fs.readFileSync(f));let present=[];for(const r of roots){try{const d=WeatherKit2.decode(new ByteBuffer(b),[r]);if(d[r]!=null)present.push(r+':'+(Array.isArray(d[r])?'array':typeof d[r]));}catch{}};console.log(f,b.length,present.join(','));}

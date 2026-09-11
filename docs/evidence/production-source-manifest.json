@@ -1,0 +1,1462 @@
+{
+  "capturedAt": "2026-09-11T17:56:22.501443+08:00",
+  "productionRoot": "/home/jamie/cwa-weather-proxy",
+  "files": [
+    {
+      "source": ".env.example",
+      "repo": ".env.example",
+      "sha256Source": "8de93f7bf8d317cfca0673025162bfbd8baa38776878bb1bb18b03c23801f148",
+      "sha256Copied": "8de93f7bf8d317cfca0673025162bfbd8baa38776878bb1bb18b03c23801f148",
+      "redacted": false,
+      "bytes": 13
+    },
+    {
+      "source": "README.md",
+      "repo": "README.md",
+      "sha256Source": "c42523f5e05a6f2631fb98f1d2be70be6ea7c5400db96964bf479cd097b68471",
+      "sha256Copied": "c42523f5e05a6f2631fb98f1d2be70be6ea7c5400db96964bf479cd097b68471",
+      "redacted": false,
+      "bytes": 4926
+    },
+    {
+      "source": "RELEASE-0.3.1.md",
+      "repo": "RELEASE-0.3.1.md",
+      "sha256Source": "882f39608b76fcbc18c428de2e3baee413df0199ca59359b0149279aca07b3f4",
+      "sha256Copied": "882f39608b76fcbc18c428de2e3baee413df0199ca59359b0149279aca07b3f4",
+      "redacted": false,
+      "bytes": 4687
+    },
+    {
+      "source": "addon.py",
+      "repo": "addon.py",
+      "sha256Source": "35ea800e6453556bc842d4f6283dd8ff09781e40ae21b7ce4a327ddccb16a87e",
+      "sha256Copied": "35ea800e6453556bc842d4f6283dd8ff09781e40ae21b7ce4a327ddccb16a87e",
+      "redacted": false,
+      "bytes": 7799
+    },
+    {
+      "source": "api.py",
+      "repo": "api.py",
+      "sha256Source": "d4ffc01d383c6163ea3d728dce4b412616e88e73907a3f26459745af983500a5",
+      "sha256Copied": "d4ffc01d383c6163ea3d728dce4b412616e88e73907a3f26459745af983500a5",
+      "redacted": false,
+      "bytes": 4376
+    },
+    {
+      "source": "bridgectl.py",
+      "repo": "bridgectl.py",
+      "sha256Source": "8dec94feb9e7f632324f737428734775b458d74a6d9106d9d6ccdbcfd22b2c7a",
+      "sha256Copied": "8dec94feb9e7f632324f737428734775b458d74a6d9106d9d6ccdbcfd22b2c7a",
+      "redacted": false,
+      "bytes": 5098
+    },
+    {
+      "source": "codec_server.mjs",
+      "repo": "codec_server.mjs",
+      "sha256Source": "c18603c8b9d5571430609afc9b4452797f19807d4193cfe0a7b0fe5efee2d82f",
+      "sha256Copied": "c18603c8b9d5571430609afc9b4452797f19807d4193cfe0a7b0fe5efee2d82f",
+      "redacted": false,
+      "bytes": 1260
+    },
+    {
+      "source": "cwa_alerts.py",
+      "repo": "cwa_alerts.py",
+      "sha256Source": "794d9890c3b7349b664b766cfdeb319ab1ab81cc7af4d07fcdefbba8e028c8ac",
+      "sha256Copied": "794d9890c3b7349b664b766cfdeb319ab1ab81cc7af4d07fcdefbba8e028c8ac",
+      "redacted": false,
+      "bytes": 3520
+    },
+    {
+      "source": "cwa_aqi.py",
+      "repo": "cwa_aqi.py",
+      "sha256Source": "e562f9e3312042422e94c3f9a857bd021d07c8a10e6faac0b91857d6193d6d98",
+      "sha256Copied": "e562f9e3312042422e94c3f9a857bd021d07c8a10e6faac0b91857d6193d6d98",
+      "redacted": false,
+      "bytes": 2876
+    },
+    {
+      "source": "cwa_astronomy.py",
+      "repo": "cwa_astronomy.py",
+      "sha256Source": "b5fae3239fb4ee85e1fbc52f570648bb93e580b820789b5db892965f11e7d50b",
+      "sha256Copied": "b5fae3239fb4ee85e1fbc52f570648bb93e580b820789b5db892965f11e7d50b",
+      "redacted": false,
+      "bytes": 1419
+    },
+    {
+      "source": "cwa_client.py",
+      "repo": "cwa_client.py",
+      "sha256Source": "55fca8d6fd196989df3d30710f0e2379fc02c1d3c66b03b776c5940503e440b3",
+      "sha256Copied": "55fca8d6fd196989df3d30710f0e2379fc02c1d3c66b03b776c5940503e440b3",
+      "redacted": false,
+      "bytes": 6384
+    },
+    {
+      "source": "cwa_model.py",
+      "repo": "cwa_model.py",
+      "sha256Source": "a7b7d16057392000faed0840c48ae1d0c85b532204a741d09b44b44f9081fc3a",
+      "sha256Copied": "a7b7d16057392000faed0840c48ae1d0c85b532204a741d09b44b44f9081fc3a",
+      "redacted": false,
+      "bytes": 7023
+    },
+    {
+      "source": "cwa_nwp.py",
+      "repo": "cwa_nwp.py",
+      "sha256Source": "27e03e73ab70ac7901ea31b59c2d4f6a03ba76b13dc4106980503d6014612c91",
+      "sha256Copied": "27e03e73ab70ac7901ea31b59c2d4f6a03ba76b13dc4106980503d6014612c91",
+      "redacted": false,
+      "bytes": 2921
+    },
+    {
+      "source": "cwa_products.py",
+      "repo": "cwa_products.py",
+      "sha256Source": "65849973e9c3efd88c7532a69a572e22b0b4ca55214eb631266d02aadc84f1a8",
+      "sha256Copied": "65849973e9c3efd88c7532a69a572e22b0b4ca55214eb631266d02aadc84f1a8",
+      "redacted": false,
+      "bytes": 4446
+    },
+    {
+      "source": "cwa_regions.json",
+      "repo": "cwa_regions.json",
+      "sha256Source": "c00227bc584ec6b4c93d13ccbddd6c6ff3293b5a6a6cdcc61f1f085e0d51abba",
+      "sha256Copied": "c00227bc584ec6b4c93d13ccbddd6c6ff3293b5a6a6cdcc61f1f085e0d51abba",
+      "redacted": false,
+      "bytes": 329
+    },
+    {
+      "source": "cwa_snapshot.py",
+      "repo": "cwa_snapshot.py",
+      "sha256Source": "a919e4489fb3277cc79eaeee9e20327e57051ed9c83c6a323bad379d93e77b62",
+      "sha256Copied": "a919e4489fb3277cc79eaeee9e20327e57051ed9c83c6a323bad379d93e77b62",
+      "redacted": false,
+      "bytes": 7431
+    },
+    {
+      "source": "dashboard.html",
+      "repo": "dashboard.html",
+      "sha256Source": "a010348c41ef237af87d69348828e69d8b261103b06454d63f2da4811f357072",
+      "sha256Copied": "a010348c41ef237af87d69348828e69d8b261103b06454d63f2da4811f357072",
+      "redacted": false,
+      "bytes": 13455
+    },
+    {
+      "source": "flatbuffer_expand.mjs",
+      "repo": "flatbuffer_expand.mjs",
+      "sha256Source": "e402286c3619a9598867f3025618aa0c23cc874585f98ad2d0a1905d1c2a8b9d",
+      "sha256Copied": "e402286c3619a9598867f3025618aa0c23cc874585f98ad2d0a1905d1c2a8b9d",
+      "redacted": false,
+      "bytes": 6441
+    },
+    {
+      "source": "mapper.mjs",
+      "repo": "mapper.mjs",
+      "sha256Source": "9ca2485cf6937a16e6052634ed2372cb322c34005359b4e8bf55f67706da0d22",
+      "sha256Copied": "9ca2485cf6937a16e6052634ed2372cb322c34005359b4e8bf55f67706da0d22",
+      "redacted": false,
+      "bytes": 18039
+    },
+    {
+      "source": "model_worker.py",
+      "repo": "model_worker.py",
+      "sha256Source": "5e939266f660a9df781e5f08b9376da907a7420640e133011f649b6bd1ef41b7",
+      "sha256Copied": "5e939266f660a9df781e5f08b9376da907a7420640e133011f649b6bd1ef41b7",
+      "redacted": false,
+      "bytes": 5380
+    },
+    {
+      "source": "network_rules.py",
+      "repo": "network_rules.py",
+      "sha256Source": "fa19b6f056e311da05ef2c14d767e712bf286d8574f9243444d83a62752afeaf",
+      "sha256Copied": "fa19b6f056e311da05ef2c14d767e712bf286d8574f9243444d83a62752afeaf",
+      "redacted": false,
+      "bytes": 5296
+    },
+    {
+      "source": "package.json",
+      "repo": "package.json",
+      "sha256Source": "995ef517071436cb4ffac1e1699fdc3a0555c321fa04858f5c5d0e833d4e43c4",
+      "sha256Copied": "995ef517071436cb4ffac1e1699fdc3a0555c321fa04858f5c5d0e833d4e43c4",
+      "redacted": false,
+      "bytes": 338
+    },
+    {
+      "source": "pytest.ini",
+      "repo": "pytest.ini",
+      "sha256Source": "c809c969ec7e11b9ff37784e9c6fcc0b7c5148d168e18b05aed797e03fbd6ead",
+      "sha256Copied": "c809c969ec7e11b9ff37784e9c6fcc0b7c5148d168e18b05aed797e03fbd6ead",
+      "redacted": false,
+      "bytes": 27
+    },
+    {
+      "source": "requirements.lock",
+      "repo": "requirements.lock",
+      "sha256Source": "6cd26ed1f267913fd0133d9ef41f580bcca5c7279761ddfbb32f05e24596e77c",
+      "sha256Copied": "6cd26ed1f267913fd0133d9ef41f580bcca5c7279761ddfbb32f05e24596e77c",
+      "redacted": false,
+      "bytes": 1050
+    },
+    {
+      "source": "sni_router.py",
+      "repo": "sni_router.py",
+      "sha256Source": "b891d931787e8e4b9de6c31a7b4fa95f5e288d4a8ba695baf5fd293cff214283",
+      "sha256Copied": "b891d931787e8e4b9de6c31a7b4fa95f5e288d4a8ba695baf5fd293cff214283",
+      "redacted": false,
+      "bytes": 2799
+    },
+    {
+      "source": "split_routes.py",
+      "repo": "split_routes.py",
+      "sha256Source": "2a1883a64c60d164c1bbb8dffafcb9406338a390ca973e94609bb1f244a79bf9",
+      "sha256Copied": "2a1883a64c60d164c1bbb8dffafcb9406338a390ca973e94609bb1f244a79bf9",
+      "redacted": false,
+      "bytes": 7092
+    },
+    {
+      "source": "town_index.json",
+      "repo": "town_index.json",
+      "sha256Source": "5c3ca78dd59b8884ae45bd078766f32a7eb47aad0b1ebf2d9ec698b2a3e44fa0",
+      "sha256Copied": "5c3ca78dd59b8884ae45bd078766f32a7eb47aad0b1ebf2d9ec698b2a3e44fa0",
+      "redacted": false,
+      "bytes": 59466
+    },
+    {
+      "source": "weather_math.mjs",
+      "repo": "weather_math.mjs",
+      "sha256Source": "78e29b4f871697b6e1ba0c67391bc948cde49e46fcd058686585a375d7d04f0d",
+      "sha256Copied": "78e29b4f871697b6e1ba0c67391bc948cde49e46fcd058686585a375d7d04f0d",
+      "redacted": false,
+      "bytes": 1667
+    },
+    {
+      "source": "tests/mapper.test.mjs",
+      "repo": "tests/mapper.test.mjs",
+      "sha256Source": "dc6b94b6a561428954425a617b7c637953ea96452cab921759d266a49362c9a5",
+      "sha256Copied": "dc6b94b6a561428954425a617b7c637953ea96452cab921759d266a49362c9a5",
+      "redacted": false,
+      "bytes": 11129
+    },
+    {
+      "source": "tests/test_additional_sources.py",
+      "repo": "tests/test_additional_sources.py",
+      "sha256Source": "5bb3437921a12c2ee3dfe2a77f589ef9bedaa38870fb49aab62b174b50b9aa1d",
+      "sha256Copied": "5bb3437921a12c2ee3dfe2a77f589ef9bedaa38870fb49aab62b174b50b9aa1d",
+      "redacted": false,
+      "bytes": 4314
+    },
+    {
+      "source": "tests/test_addon.py",
+      "repo": "tests/test_addon.py",
+      "sha256Source": "471a770b6c0b64a848590142e5c72368732aebf21174fae37a78e4b1de509c4e",
+      "sha256Copied": "471a770b6c0b64a848590142e5c72368732aebf21174fae37a78e4b1de509c4e",
+      "redacted": false,
+      "bytes": 5032
+    },
+    {
+      "source": "tests/test_alerts.py",
+      "repo": "tests/test_alerts.py",
+      "sha256Source": "f79b9d4defe63bdbe97dfa3c0ad97fa988832ed23139f58f0d145a4973db1250",
+      "sha256Copied": "f79b9d4defe63bdbe97dfa3c0ad97fa988832ed23139f58f0d145a4973db1250",
+      "redacted": false,
+      "bytes": 1054
+    },
+    {
+      "source": "tests/test_client.py",
+      "repo": "tests/test_client.py",
+      "sha256Source": "393db7bfdfbf1279292f9a47041b68826ec6cb93a6f2993f5d1c0425013209e0",
+      "sha256Copied": "393db7bfdfbf1279292f9a47041b68826ec6cb93a6f2993f5d1c0425013209e0",
+      "redacted": false,
+      "bytes": 1612
+    },
+    {
+      "source": "tests/test_exit_compatibility.py",
+      "repo": "tests/test_exit_compatibility.py",
+      "sha256Source": "63a0c2b98836666bd0247e3ba0b9eee905239b0770a27bad7e493c26f373ffbf",
+      "sha256Copied": "63a0c2b98836666bd0247e3ba0b9eee905239b0770a27bad7e493c26f373ffbf",
+      "redacted": false,
+      "bytes": 1712
+    },
+    {
+      "source": "tests/test_model.py",
+      "repo": "tests/test_model.py",
+      "sha256Source": "0adbf34f624699031a6bb34fb1c9b7f470233b7b315275e711cad4c9374accf5",
+      "sha256Copied": "0adbf34f624699031a6bb34fb1c9b7f470233b7b315275e711cad4c9374accf5",
+      "redacted": false,
+      "bytes": 1977
+    },
+    {
+      "source": "tests/test_products.py",
+      "repo": "tests/test_products.py",
+      "sha256Source": "bbf02381f4786ed76b845289879b1dc569f77c739b311ca092aed2762f9df785",
+      "sha256Copied": "bbf02381f4786ed76b845289879b1dc569f77c739b311ca092aed2762f9df785",
+      "redacted": false,
+      "bytes": 1715
+    },
+    {
+      "source": "tests/test_sni.py",
+      "repo": "tests/test_sni.py",
+      "sha256Source": "7b2615ddd637f671f735a72f8accd5c972d61df0516928ec020d7e62c013e97b",
+      "sha256Copied": "7b2615ddd637f671f735a72f8accd5c972d61df0516928ec020d7e62c013e97b",
+      "redacted": false,
+      "bytes": 919
+    },
+    {
+      "source": "tests/test_split_routes.py",
+      "repo": "tests/test_split_routes.py",
+      "sha256Source": "f6874d10f75035e9a37d2b774323f2444cfef2358dd04c4024d78d7e8099a345",
+      "sha256Copied": "f6874d10f75035e9a37d2b774323f2444cfef2358dd04c4024d78d7e8099a345",
+      "redacted": false,
+      "bytes": 4825
+    },
+    {
+      "source": "tests/weather_math.test.mjs",
+      "repo": "tests/weather_math.test.mjs",
+      "sha256Source": "8c0d82b52b184dc993776be6b9cec334a38a6f1ea22258fbb896eb18438b6968",
+      "sha256Copied": "8c0d82b52b184dc993776be6b9cec334a38a6f1ea22258fbb896eb18438b6968",
+      "redacted": false,
+      "bytes": 1238
+    },
+    {
+      "source": "vendor/LICENSE-WeatherKit",
+      "repo": "vendor/LICENSE-WeatherKit",
+      "sha256Source": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "sha256Copied": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "redacted": false,
+      "bytes": 11357
+    },
+    {
+      "source": "vendor/NOTICE",
+      "repo": "vendor/NOTICE",
+      "sha256Source": "e98476ef69de67fc70a4f9f8a65dbae51ef6f66f617244f7cc54a1ecd85d14d5",
+      "sha256Copied": "e98476ef69de67fc70a4f9f8a65dbae51ef6f66f617244f7cc54a1ecd85d14d5",
+      "redacted": false,
+      "bytes": 390
+    },
+    {
+      "source": "vendor/weatherkit-codec.full.mjs",
+      "repo": "vendor/weatherkit-codec.full.mjs",
+      "sha256Source": "9145bbfd09e12a10f018991c9d4c6e1d52133a86528475f299a299708f7930a5",
+      "sha256Copied": "9145bbfd09e12a10f018991c9d4c6e1d52133a86528475f299a299708f7930a5",
+      "redacted": false,
+      "bytes": 285050
+    },
+    {
+      "source": "systemd/cwa-weather-api.service",
+      "repo": "systemd/cwa-weather-api.service",
+      "sha256Source": "e8508dd7d76c3c1811e843aceb6661690705b21a5ee29b4fce716765c03f4c3e",
+      "sha256Copied": "e8508dd7d76c3c1811e843aceb6661690705b21a5ee29b4fce716765c03f4c3e",
+      "redacted": false,
+      "bytes": 486
+    },
+    {
+      "source": "systemd/cwa-weather-codec.service",
+      "repo": "systemd/cwa-weather-codec.service",
+      "sha256Source": "e634395a94bb1c2e6b90b9b364d7227d37713536307c59b110d2312ec6c388a8",
+      "sha256Copied": "e634395a94bb1c2e6b90b9b364d7227d37713536307c59b110d2312ec6c388a8",
+      "redacted": false,
+      "bytes": 396
+    },
+    {
+      "source": "systemd/cwa-weather-forward.service",
+      "repo": "systemd/cwa-weather-forward.service",
+      "sha256Source": "07de44ccd85fc72fe0cc736c3b25fdfa4f5e6974d9dd4b3e0273eee836e51075",
+      "sha256Copied": "07de44ccd85fc72fe0cc736c3b25fdfa4f5e6974d9dd4b3e0273eee836e51075",
+      "redacted": false,
+      "bytes": 840
+    },
+    {
+      "source": "systemd/cwa-weather-model.service",
+      "repo": "systemd/cwa-weather-model.service",
+      "sha256Source": "33f85da40237d747f3d66c5ea34fdd7d84eb87f94aa1fdd7bda5f9c72b705e82",
+      "sha256Copied": "33f85da40237d747f3d66c5ea34fdd7d84eb87f94aa1fdd7bda5f9c72b705e82",
+      "redacted": false,
+      "bytes": 471
+    },
+    {
+      "source": "systemd/cwa-weather-model.timer",
+      "repo": "systemd/cwa-weather-model.timer",
+      "sha256Source": "c646aec328fb2e060cce2c95d749f8c91b1a95a31b893f18b325ed01c6318b2a",
+      "sha256Copied": "c646aec328fb2e060cce2c95d749f8c91b1a95a31b893f18b325ed01c6318b2a",
+      "redacted": false,
+      "bytes": 176
+    },
+    {
+      "source": "systemd/cwa-weather-proxy.service",
+      "repo": "systemd/cwa-weather-proxy.service",
+      "sha256Source": "6a9473c926b00180746f0b812933e77f9c7d5686e019ce779261d2328e8b94c0",
+      "sha256Copied": "6a9473c926b00180746f0b812933e77f9c7d5686e019ce779261d2328e8b94c0",
+      "redacted": false,
+      "bytes": 801
+    },
+    {
+      "source": "systemd/cwa-weather-route-status.service",
+      "repo": "systemd/cwa-weather-route-status.service",
+      "sha256Source": "5ec10774b2c67cd046c309c39bf7fa748cc14f04cb9cc34335c71be30618e913",
+      "sha256Copied": "5ec10774b2c67cd046c309c39bf7fa748cc14f04cb9cc34335c71be30618e913",
+      "redacted": false,
+      "bytes": 419
+    },
+    {
+      "source": "systemd/cwa-weather-route-status.timer",
+      "repo": "systemd/cwa-weather-route-status.timer",
+      "sha256Source": "5ab3b820fe02e978721201e3b4d364a50fc9b37e2c9a64256ea58cf2ca3878e6",
+      "sha256Copied": "5ab3b820fe02e978721201e3b4d364a50fc9b37e2c9a64256ea58cf2ca3878e6",
+      "redacted": false,
+      "bytes": 204
+    },
+    {
+      "source": "systemd/cwa-weather-routing.service",
+      "repo": "systemd/cwa-weather-routing.service",
+      "sha256Source": "b6c6108726c1c9cddba8547c60f7b387f55a8bcfbca14f5a75db5dcfbeb4d461",
+      "sha256Copied": "b6c6108726c1c9cddba8547c60f7b387f55a8bcfbca14f5a75db5dcfbeb4d461",
+      "redacted": false,
+      "bytes": 543
+    },
+    {
+      "source": "systemd/cwa-weather-sni.service",
+      "repo": "systemd/cwa-weather-sni.service",
+      "sha256Source": "f1890818683451f43f4e237aca82d27ffbed822dc4ee5b8ce719b2c77acde497",
+      "sha256Copied": "f1890818683451f43f4e237aca82d27ffbed822dc4ee5b8ce719b2c77acde497",
+      "redacted": false,
+      "bytes": 434
+    },
+    {
+      "source": "config/apple-prefixes.json",
+      "repo": "config/apple-prefixes.json",
+      "sha256Source": "98057f67abfb85684d4b464fb0fdcb285b5831e12e95e192908e1adfd737fb93",
+      "sha256Copied": "98057f67abfb85684d4b464fb0fdcb285b5831e12e95e192908e1adfd737fb93",
+      "redacted": false,
+      "bytes": 48171
+    },
+    {
+      "source": "config/split-routing.json",
+      "repo": "config/split-routing.json",
+      "sha256Source": "22a47245c7189bb3e393250f069be6e7f959c6224d29217ebd026b0b1c4b09e8",
+      "sha256Copied": "22a47245c7189bb3e393250f069be6e7f959c6224d29217ebd026b0b1c4b09e8",
+      "redacted": false,
+      "bytes": 779
+    },
+    {
+      "source": "config/exit-dns-compatibility.json",
+      "repo": "config/exit-dns-compatibility.json",
+      "sha256Source": "9fa251907f1ae2d6d6c26dd68c72ab7df3867f41ecfcc572d2b5307d124c4e60",
+      "sha256Copied": "9fa251907f1ae2d6d6c26dd68c72ab7df3867f41ecfcc572d2b5307d124c4e60",
+      "redacted": false,
+      "bytes": 615
+    },
+    {
+      "source": "research/actual-brief.json",
+      "repo": "research/actual-brief.json",
+      "sha256Source": "80c4077723290581e365f83a967741f974ff465593d5f8f1665982cb7a9026db",
+      "sha256Copied": "80c4077723290581e365f83a967741f974ff465593d5f8f1665982cb7a9026db",
+      "redacted": false,
+      "bytes": 7968
+    },
+    {
+      "source": "research/apple-1789067343103901835.bin",
+      "repo": "research/apple-1789067343103901835.bin",
+      "sha256Source": "26394b1feec72272310705fd2a710aead3fa75df6068595c7ec449687f21e64e",
+      "sha256Copied": "26394b1feec72272310705fd2a710aead3fa75df6068595c7ec449687f21e64e",
+      "redacted": false,
+      "bytes": 40844
+    },
+    {
+      "source": "reports/CWA_Weather_Bridge_0.3.1_研究部署紀錄.md",
+      "repo": "docs/history/CWA_Weather_Bridge_0.3.1_研究部署紀錄.md",
+      "sha256Source": "a4213b769c7f55ccbd50076c937e2f4bdec9ed8bae03914e7fbb5bedcfb6bec5",
+      "sha256Copied": "a4213b769c7f55ccbd50076c937e2f4bdec9ed8bae03914e7fbb5bedcfb6bec5",
+      "redacted": false,
+      "bytes": 5851
+    },
+    {
+      "source": "reports/CWA_Weather_Bridge_No_Exit_Node_1.0.0.md",
+      "repo": "docs/history/CWA_Weather_Bridge_No_Exit_Node_1.0.0.md",
+      "sha256Source": "72cce05907256d067db5e27e11998e503a803963d4d64a228f0f3a44924877f5",
+      "sha256Copied": "72cce05907256d067db5e27e11998e503a803963d4d64a228f0f3a44924877f5",
+      "redacted": false,
+      "bytes": 5508
+    },
+    {
+      "source": "reports/CWA_Weather_Exit_Node_1.0.2_共存驗收.md",
+      "repo": "docs/history/CWA_Weather_Exit_Node_1.0.2_共存驗收.md",
+      "sha256Source": "44359ee96d542b31b903c78e41c217b0a1ccf33b3e5610e5dfafc7438cf1df73",
+      "sha256Copied": "44359ee96d542b31b903c78e41c217b0a1ccf33b3e5610e5dfafc7438cf1df73",
+      "redacted": false,
+      "bytes": 4681
+    },
+    {
+      "source": "reports/CWA_Weather_No_Exit_Node_1.0.1_核准後驗收.md",
+      "repo": "docs/history/CWA_Weather_No_Exit_Node_1.0.1_核准後驗收.md",
+      "sha256Source": "ca52f1f190939ae04b0bf03d1639afa58434a6f9110de9557ecc4704a00c1047",
+      "sha256Copied": "ca52f1f190939ae04b0bf03d1639afa58434a6f9110de9557ecc4704a00c1047",
+      "redacted": false,
+      "bytes": 4085
+    },
+    {
+      "source": "reports/CWA_Weather_iPhone_啟用驗證.md",
+      "repo": "docs/history/CWA_Weather_iPhone_啟用驗證.md",
+      "sha256Source": "e67d3aa78474e294268c9e778a5cd941be47a852812f2f5a775019d35cd8c416",
+      "sha256Copied": "e67d3aa78474e294268c9e778a5cd941be47a852812f2f5a775019d35cd8c416",
+      "redacted": false,
+      "bytes": 3066
+    },
+    {
+      "source": "reports/ntfy-timeout-selftest.json",
+      "repo": "docs/evidence/ntfy-timeout-selftest.json",
+      "sha256Source": "14ee343520b21711485e73ce1c8960e5969b3b6ff9b218ff5c34cf3c944daf01",
+      "sha256Copied": "14ee343520b21711485e73ce1c8960e5969b3b6ff9b218ff5c34cf3c944daf01",
+      "redacted": false,
+      "bytes": 888
+    },
+    {
+      "source": "reports/release-publish-latest.json",
+      "repo": "docs/evidence/release-publish-latest.json",
+      "sha256Source": "8095d698632fd3321d109afddfc17ddd951441b9e226da2450daff007e41a862",
+      "sha256Copied": "8095d698632fd3321d109afddfc17ddd951441b9e226da2450daff007e41a862",
+      "redacted": false,
+      "bytes": 1087
+    },
+    {
+      "source": "reports/executor-closeout-031.json",
+      "repo": "docs/evidence/executor-closeout-031.json",
+      "sha256Source": "0ad62159fda558d7cae0787ce0cb911699c647e0aa7042cfe14fde6080b56886",
+      "sha256Copied": "0ad62159fda558d7cae0787ce0cb911699c647e0aa7042cfe14fde6080b56886",
+      "redacted": false,
+      "bytes": 2980
+    },
+    {
+      "source": "reports/approved-split-final.json",
+      "repo": "docs/evidence/approved-split-final.json",
+      "sha256Source": "7717f40005289383799bd3b9a2088456d1caf9f424e0068d679fc0a3a28c69e6",
+      "sha256Copied": "7717f40005289383799bd3b9a2088456d1caf9f424e0068d679fc0a3a28c69e6",
+      "redacted": false,
+      "bytes": 6761
+    },
+    {
+      "source": "reports/exit-compatibility-final.json",
+      "repo": "docs/evidence/exit-compatibility-final.json",
+      "sha256Source": "29bd51b4816faf1441f6502458dd8b36672ee59538e59b0fafd6835f7fa6907c",
+      "sha256Copied": "29bd51b4816faf1441f6502458dd8b36672ee59538e59b0fafd6835f7fa6907c",
+      "redacted": false,
+      "bytes": 3992
+    },
+    {
+      "source": "research/openapi-current.yaml",
+      "repo": "docs/reference/openapi-current.yaml",
+      "sha256Source": "39e0036f0f10f1cee63e538c8f43a18f6ade99ce3d0f47a1abcc8c8eda59037b",
+      "sha256Copied": "39e0036f0f10f1cee63e538c8f43a18f6ade99ce3d0f47a1abcc8c8eda59037b",
+      "redacted": false,
+      "bytes": 298510
+    },
+    {
+      "source": "research/catalogue-summary.txt",
+      "repo": "docs/reference/catalogue-summary.txt",
+      "sha256Source": "e852bcb16bf7132a6dce81700584844d45809a2346ec3640e7aeca8df70c88eb",
+      "sha256Copied": "e852bcb16bf7132a6dce81700584844d45809a2346ec3640e7aeca8df70c88eb",
+      "redacted": false,
+      "bytes": 14275
+    },
+    {
+      "source": "research/catalogue-audit.json",
+      "repo": "docs/reference/catalogue-audit.json",
+      "sha256Source": "ce6831a575ea1311a91173f9d51ea9d35572027944f53f425f15e1b961def735",
+      "sha256Copied": "ce6831a575ea1311a91173f9d51ea9d35572027944f53f425f15e1b961def735",
+      "redacted": false,
+      "bytes": 51485
+    },
+    {
+      "source": "research/linked-aqi-schema.json",
+      "repo": "docs/reference/linked-aqi-schema.json",
+      "sha256Source": "71675c45e5e7ee2085e6f70346607a3ba608022fc164e83f7c84d19f15666c9d",
+      "sha256Copied": "71675c45e5e7ee2085e6f70346607a3ba608022fc164e83f7c84d19f15666c9d",
+      "redacted": false,
+      "bytes": 10485
+    },
+    {
+      "source": "research/grib-parameters.json",
+      "repo": "docs/reference/grib-parameters.json",
+      "sha256Source": "91af0f7c1db4b645032157cbe367c82c3bed441bd9ea25362bee8ea59bb86ee3",
+      "sha256Copied": "91af0f7c1db4b645032157cbe367c82c3bed441bd9ea25362bee8ea59bb86ee3",
+      "redacted": false,
+      "bytes": 11682
+    },
+    {
+      "source": "research/model-surface-summary.json",
+      "repo": "docs/reference/model-surface-summary.json",
+      "sha256Source": "c0f389347e60cba0b90cc159954f52e21af45235c8f7b9629c5dc5660f48eea2",
+      "sha256Copied": "c0f389347e60cba0b90cc159954f52e21af45235c8f7b9629c5dc5660f48eea2",
+      "redacted": false,
+      "bytes": 6105
+    },
+    {
+      "source": "research/condition-enums.json",
+      "repo": "docs/reference/condition-enums.json",
+      "sha256Source": "5fbdf0e6606531ed8905f923390bdfca1b4921f058fc974fa720ee0b9d44dbb4",
+      "sha256Copied": "5fbdf0e6606531ed8905f923390bdfca1b4921f058fc974fa720ee0b9d44dbb4",
+      "redacted": false,
+      "bytes": 1434
+    },
+    {
+      "source": "research/actual-accessors.json",
+      "repo": "docs/reference/actual-accessors.json",
+      "sha256Source": "e8d983c062f64d857513c0c07a4a4ddd06f7cb87f419ec9c50a371297bf09c10",
+      "sha256Copied": "e8d983c062f64d857513c0c07a4a4ddd06f7cb87f419ec9c50a371297bf09c10",
+      "redacted": false,
+      "bytes": 15355
+    },
+    {
+      "source": "research/root-layout.json",
+      "repo": "docs/reference/root-layout.json",
+      "sha256Source": "1fcd05c88f605d09cc44484d3fce2170e452b3ffed78d53801f691e87a74e6f9",
+      "sha256Copied": "1fcd05c88f605d09cc44484d3fce2170e452b3ffed78d53801f691e87a74e6f9",
+      "redacted": false,
+      "bytes": 3222
+    },
+    {
+      "source": "research/codec-methods.txt",
+      "repo": "docs/reference/codec-methods.txt",
+      "sha256Source": "5b5e8a1e3964500136dc5b0e24944b14e90915e040976373b0a4e4347d58f539",
+      "sha256Copied": "5b5e8a1e3964500136dc5b0e24944b14e90915e040976373b0a4e4347d58f539",
+      "redacted": false,
+      "bytes": 2866
+    },
+    {
+      "source": "research/schema-tests.txt",
+      "repo": "docs/reference/schema-tests.txt",
+      "sha256Source": "2d258f3432ea9ddd8619e8604927ebcb0ae8d9924a109e04a5b2a88c5b6ba9b6",
+      "sha256Copied": "2d258f3432ea9ddd8619e8604927ebcb0ae8d9924a109e04a5b2a88c5b6ba9b6",
+      "redacted": false,
+      "bytes": 32697
+    },
+    {
+      "source": "research/accept_release_031.py",
+      "repo": "tools/history/accept_release_031.py",
+      "sha256Source": "914e1f7c76d12d015c6041b04a41a4cfec1887efa873a475077557f221b4cea8",
+      "sha256Copied": "914e1f7c76d12d015c6041b04a41a4cfec1887efa873a475077557f221b4cea8",
+      "redacted": false,
+      "bytes": 3993
+    },
+    {
+      "source": "research/activate_mapper.py",
+      "repo": "tools/history/activate_mapper.py",
+      "sha256Source": "9b8e76f1a64b114d3c102da0863fbfe7176623f632355ae39e97a3b9c7983e09",
+      "sha256Copied": "9b8e76f1a64b114d3c102da0863fbfe7176623f632355ae39e97a3b9c7983e09",
+      "redacted": false,
+      "bytes": 1122
+    },
+    {
+      "source": "research/activate_serve_router.py",
+      "repo": "tools/history/activate_serve_router.py",
+      "sha256Source": "d760461e1d526ba01651e86b0c5d07e13dd3886651029f905218854d16a7e395",
+      "sha256Copied": "d760461e1d526ba01651e86b0c5d07e13dd3886651029f905218854d16a7e395",
+      "redacted": false,
+      "bytes": 1405
+    },
+    {
+      "source": "research/approved-split/audit_native.mjs",
+      "repo": "tools/history/approved-split/audit_native.mjs",
+      "sha256Source": "ab485ad461f4e521d60dc5b4163960e3c7908193fbda96ab36c60f7502ccca37",
+      "sha256Copied": "ab485ad461f4e521d60dc5b4163960e3c7908193fbda96ab36c60f7502ccca37",
+      "redacted": false,
+      "bytes": 2380
+    },
+    {
+      "source": "research/approved-split/collect_native.py",
+      "repo": "tools/history/approved-split/collect_native.py",
+      "sha256Source": "bcf9a8926b1b4e0b50030e50a9babbb58afe58c723f0791f51149fd99740d8fa",
+      "sha256Copied": "bcf9a8926b1b4e0b50030e50a9babbb58afe58c723f0791f51149fd99740d8fa",
+      "redacted": false,
+      "bytes": 1301
+    },
+    {
+      "source": "research/approved-split/finalize.py",
+      "repo": "tools/history/approved-split/finalize.py",
+      "sha256Source": "c4b413b36260d60b294e1fd3501ce42fd25ff7dcefddc56534f6a63b63fb8196",
+      "sha256Copied": "c4b413b36260d60b294e1fd3501ce42fd25ff7dcefddc56534f6a63b63fb8196",
+      "redacted": false,
+      "bytes": 9483
+    },
+    {
+      "source": "research/approved-split/patch_status_docs.py",
+      "repo": "tools/history/approved-split/patch_status_docs.py",
+      "sha256Source": "01f672cf4c2af5098f30ce0d02e89c564de5fe611e3a388f5618072f2889f925",
+      "sha256Copied": "01f672cf4c2af5098f30ce0d02e89c564de5fe611e3a388f5618072f2889f925",
+      "redacted": false,
+      "bytes": 6196
+    },
+    {
+      "source": "research/approved-split/patch_transport.py",
+      "repo": "tools/history/approved-split/patch_transport.py",
+      "sha256Source": "8ed50fe342bd1699f1af07263c65b0952a470d913b7a2c921d54f53d71ca1ec1",
+      "sha256Copied": "8ed50fe342bd1699f1af07263c65b0952a470d913b7a2c921d54f53d71ca1ec1",
+      "redacted": false,
+      "bytes": 4103
+    },
+    {
+      "source": "research/audit_inputs.py",
+      "repo": "tools/history/audit_inputs.py",
+      "sha256Source": "62fbeea859348bd5f64bfb21eacec0dcf5a98693ef71c28288ec323befa7ece9",
+      "sha256Copied": "62fbeea859348bd5f64bfb21eacec0dcf5a98693ef71c28288ec323befa7ece9",
+      "redacted": false,
+      "bytes": 908
+    },
+    {
+      "source": "research/audit_native_031.mjs",
+      "repo": "tools/history/audit_native_031.mjs",
+      "sha256Source": "1c1aec3a2dfcecfdfd34a612ea36da484e68e53bd7c5723476d7432e4923228f",
+      "sha256Copied": "1c1aec3a2dfcecfdfd34a612ea36da484e68e53bd7c5723476d7432e4923228f",
+      "redacted": false,
+      "bytes": 3474
+    },
+    {
+      "source": "research/bootstrap_probe.py",
+      "repo": "tools/history/bootstrap_probe.py",
+      "sha256Source": "81ab13e3942f7c5819118fdeb64c8c15ad1ba85583c26478e26ae3259bffa3de",
+      "sha256Copied": "81ab13e3942f7c5819118fdeb64c8c15ad1ba85583c26478e26ae3259bffa3de",
+      "redacted": false,
+      "bytes": 3616
+    },
+    {
+      "source": "research/catalogue_audit.py",
+      "repo": "tools/history/catalogue_audit.py",
+      "sha256Source": "75b590c9d77cc4ec030d05cd9b8840d6bacd56bbbc90c950d03aa3cd62332375",
+      "sha256Copied": "75b590c9d77cc4ec030d05cd9b8840d6bacd56bbbc90c950d03aa3cd62332375",
+      "redacted": false,
+      "bytes": 2288
+    },
+    {
+      "source": "research/closeout_031.py",
+      "repo": "tools/history/closeout_031.py",
+      "sha256Source": "074d21bd2d86d27cced53668469412f2a13470678fdbe3ee1f82d6734c79e2b1",
+      "sha256Copied": "074d21bd2d86d27cced53668469412f2a13470678fdbe3ee1f82d6734c79e2b1",
+      "redacted": false,
+      "bytes": 6039
+    },
+    {
+      "source": "research/codec_shapes.mjs",
+      "repo": "tools/history/codec_shapes.mjs",
+      "sha256Source": "c62c1336d30bc918e932a06a5817acca35f47554fff9d2944695e6fdcffe2568",
+      "sha256Copied": "c62c1336d30bc918e932a06a5817acca35f47554fff9d2944695e6fdcffe2568",
+      "redacted": false,
+      "bytes": 541
+    },
+    {
+      "source": "research/debug_expansion.py",
+      "repo": "tools/history/debug_expansion.py",
+      "sha256Source": "e17dfa3e580e8a67f22b8985d71716d0a95007f2388422b9538372726a000561",
+      "sha256Copied": "e17dfa3e580e8a67f22b8985d71716d0a95007f2388422b9538372726a000561",
+      "redacted": false,
+      "bytes": 593
+    },
+    {
+      "source": "research/decode_actual.mjs",
+      "repo": "tools/history/decode_actual.mjs",
+      "sha256Source": "1a2f41f674b5fe3c7c1980869ba89bea62d3f3065031be95b24f06b15477b950",
+      "sha256Copied": "1a2f41f674b5fe3c7c1980869ba89bea62d3f3065031be95b24f06b15477b950",
+      "redacted": false,
+      "bytes": 1457
+    },
+    {
+      "source": "research/decode_foreign_roots.mjs",
+      "repo": "tools/history/decode_foreign_roots.mjs",
+      "sha256Source": "eddc35105267377e31cac140122a2d5c79639eee9fc33f81a2e2dd432a0769f0",
+      "sha256Copied": "eddc35105267377e31cac140122a2d5c79639eee9fc33f81a2e2dd432a0769f0",
+      "redacted": false,
+      "bytes": 500
+    },
+    {
+      "source": "research/deep_cwa_probe.py",
+      "repo": "tools/history/deep_cwa_probe.py",
+      "sha256Source": "f68437bd6a287a6d8d5fc6ad61b43d5753e139e4969b7e4b0c5efcc31030f7ab",
+      "sha256Copied": "f68437bd6a287a6d8d5fc6ad61b43d5753e139e4969b7e4b0c5efcc31030f7ab",
+      "redacted": false,
+      "bytes": 2415
+    },
+    {
+      "source": "research/deploy_v2.py",
+      "repo": "tools/history/deploy_v2.py",
+      "sha256Source": "3bbbf0632770190001733dbdf625e0a11d03fc3d7d6c181bb87ad8cab3589f5e",
+      "sha256Copied": "3bbbf0632770190001733dbdf625e0a11d03fc3d7d6c181bb87ad8cab3589f5e",
+      "redacted": false,
+      "bytes": 3120
+    },
+    {
+      "source": "research/enable_mac_redirect.py",
+      "repo": "tools/history/enable_mac_redirect.py",
+      "sha256Source": "ef2df0b037e9329e625dd28d4101e9d9138e48e2967650b60fea7557ed319112",
+      "sha256Copied": "ef2df0b037e9329e625dd28d4101e9d9138e48e2967650b60fea7557ed319112",
+      "redacted": false,
+      "bytes": 1551
+    },
+    {
+      "source": "research/enable_relay_block.py",
+      "repo": "tools/history/enable_relay_block.py",
+      "sha256Source": "fa0d55a29a1379c364235ddac0b21e198789a256bdfd7983fbb93f0c49b50171",
+      "sha256Copied": "fa0d55a29a1379c364235ddac0b21e198789a256bdfd7983fbb93f0c49b50171",
+      "redacted": false,
+      "bytes": 977
+    },
+    {
+      "source": "research/exit-compatible/api.before.py",
+      "repo": "tools/history/exit-compatible/api.before.py",
+      "sha256Source": "b5709f6e47103d5da11f4fc623aa9229a1c60d5be3b354aae7bcd09f8e6b2a0e",
+      "sha256Copied": "b5709f6e47103d5da11f4fc623aa9229a1c60d5be3b354aae7bcd09f8e6b2a0e",
+      "redacted": false,
+      "bytes": 4287
+    },
+    {
+      "source": "research/exit-compatible/audit_native.mjs",
+      "repo": "tools/history/exit-compatible/audit_native.mjs",
+      "sha256Source": "7ddbcf9373dc6495e2e38b5ba21edaca8f9d11df89367165d120c2e0b5402bee",
+      "sha256Copied": "7ddbcf9373dc6495e2e38b5ba21edaca8f9d11df89367165d120c2e0b5402bee",
+      "redacted": false,
+      "bytes": 2620
+    },
+    {
+      "source": "research/exit-compatible/collect.py",
+      "repo": "tools/history/exit-compatible/collect.py",
+      "sha256Source": "f5500d4d53e09d6792ef7ee998095d45d9cc9baf4e604ad2d3c700ba27b65762",
+      "sha256Copied": "f5500d4d53e09d6792ef7ee998095d45d9cc9baf4e604ad2d3c700ba27b65762",
+      "redacted": false,
+      "bytes": 4161
+    },
+    {
+      "source": "research/exit-compatible/patch_status.py",
+      "repo": "tools/history/exit-compatible/patch_status.py",
+      "sha256Source": "b1957a38b445375191c07609f051f368d1adf6da12502691e4bcc88aeab23298",
+      "sha256Copied": "b1957a38b445375191c07609f051f368d1adf6da12502691e4bcc88aeab23298",
+      "redacted": false,
+      "bytes": 3564
+    },
+    {
+      "source": "research/exit-compatible/publish.py",
+      "repo": "tools/history/exit-compatible/publish.py",
+      "sha256Source": "d6644e6d091a48a042c739aa2901a63714117c76e7723ab6566755ab09644cf2",
+      "sha256Copied": "d6644e6d091a48a042c739aa2901a63714117c76e7723ab6566755ab09644cf2",
+      "redacted": false,
+      "bytes": 9702
+    },
+    {
+      "source": "research/exit-compatible/split_routes.before.py",
+      "repo": "tools/history/exit-compatible/split_routes.before.py",
+      "sha256Source": "abed798d5953cdc4cb01bf0a5a3727d7facc0a6b2a7adb6fbb642ea7703e79a0",
+      "sha256Copied": "abed798d5953cdc4cb01bf0a5a3727d7facc0a6b2a7adb6fbb642ea7703e79a0",
+      "redacted": false,
+      "bytes": 6153
+    },
+    {
+      "source": "research/exit-compatible/update_dashboard.py",
+      "repo": "tools/history/exit-compatible/update_dashboard.py",
+      "sha256Source": "77a415d66931f0276e2a351daeb890a10fd3d3de1946fcdc033ea459d412d15a",
+      "sha256Copied": "77a415d66931f0276e2a351daeb890a10fd3d3de1946fcdc033ea459d412d15a",
+      "redacted": false,
+      "bytes": 3602
+    },
+    {
+      "source": "research/extract_codec.py",
+      "repo": "tools/history/extract_codec.py",
+      "sha256Source": "ba2a9d4d0cd7a7d2500e3d739fd818fa37189cc0a7f393b9750808d07daae9f8",
+      "sha256Copied": "ba2a9d4d0cd7a7d2500e3d739fd818fa37189cc0a7f393b9750808d07daae9f8",
+      "redacted": false,
+      "bytes": 1110
+    },
+    {
+      "source": "research/fetch_openapi.py",
+      "repo": "tools/history/fetch_openapi.py",
+      "sha256Source": "5ae4823d442f07c44fde91a657df02428b9863c4ccb7f49b81d42ca96cfc0d4f",
+      "sha256Copied": "5ae4823d442f07c44fde91a657df02428b9863c4ccb7f49b81d42ca96cfc0d4f",
+      "redacted": false,
+      "bytes": 895
+    },
+    {
+      "source": "research/fetch_samples.py",
+      "repo": "tools/history/fetch_samples.py",
+      "sha256Source": "bdbe02c0bf4ff7a3ed26506fb6a821f5f098b72a13c44ce883a4aa4299b85c9a",
+      "sha256Copied": "bdbe02c0bf4ff7a3ed26506fb6a821f5f098b72a13c44ce883a4aa4299b85c9a",
+      "redacted": false,
+      "bytes": 1832
+    },
+    {
+      "source": "research/finalize_031_checked.py",
+      "repo": "tools/history/finalize_031_checked.py",
+      "sha256Source": "37be3c155b020d5254c38763c83d5576052aedbb32d63d32b48b3118b81f8fe9",
+      "sha256Copied": "37be3c155b020d5254c38763c83d5576052aedbb32d63d32b48b3118b81f8fe9",
+      "redacted": false,
+      "bytes": 7300
+    },
+    {
+      "source": "research/finalize_031_fixes.py",
+      "repo": "tools/history/finalize_031_fixes.py",
+      "sha256Source": "188cc46c067c78eb8dc516a7dc77b7870f4f30a2f40d39046a5a314df814ec93",
+      "sha256Copied": "188cc46c067c78eb8dc516a7dc77b7870f4f30a2f40d39046a5a314df814ec93",
+      "redacted": false,
+      "bytes": 1215
+    },
+    {
+      "source": "research/finalize_runtime.py",
+      "repo": "tools/history/finalize_runtime.py",
+      "sha256Source": "4b6de0b49a762e480967799b971f53b9e9981b01d110ad455513004d84ea8066",
+      "sha256Copied": "4b6de0b49a762e480967799b971f53b9e9981b01d110ad455513004d84ea8066",
+      "redacted": false,
+      "bytes": 2067
+    },
+    {
+      "source": "research/find_graphql_endpoint.py",
+      "repo": "tools/history/find_graphql_endpoint.py",
+      "sha256Source": "fdd668e52ea5fdaef4e77f87a810212d98b0784c9806a94e6b2c5b7f6079aafd",
+      "sha256Copied": "fdd668e52ea5fdaef4e77f87a810212d98b0784c9806a94e6b2c5b7f6079aafd",
+      "redacted": false,
+      "bytes": 913
+    },
+    {
+      "source": "research/find_linkedapi_docs.py",
+      "repo": "tools/history/find_linkedapi_docs.py",
+      "sha256Source": "6971479c55a0d51e7c3c27e1fe101bfe34b430bbb55c54143efd9d9363f5f5e7",
+      "sha256Copied": "6971479c55a0d51e7c3c27e1fe101bfe34b430bbb55c54143efd9d9363f5f5e7",
+      "redacted": false,
+      "bytes": 753
+    },
+    {
+      "source": "research/find_qpf_dataset.py",
+      "repo": "tools/history/find_qpf_dataset.py",
+      "sha256Source": "91bfe26058e2019224bc236bd604b4af71553c6b9d410adcceacd4556d14d51b",
+      "sha256Copied": "91bfe26058e2019224bc236bd604b4af71553c6b9d410adcceacd4556d14d51b",
+      "redacted": false,
+      "bytes": 778
+    },
+    {
+      "source": "research/find_swagger_json.py",
+      "repo": "tools/history/find_swagger_json.py",
+      "sha256Source": "bf56484fd34616f0152a513d68eca9f299af46c7c96b10e48e742ed32608c0f7",
+      "sha256Copied": "bf56484fd34616f0152a513d68eca9f299af46c7c96b10e48e742ed32608c0f7",
+      "redacted": false,
+      "bytes": 392
+    },
+    {
+      "source": "research/fix_mapper_test_v03.py",
+      "repo": "tools/history/fix_mapper_test_v03.py",
+      "sha256Source": "089a1e0bc9b019a19e9ed40da7c12753412f797bda500344f6f926c2fab21a75",
+      "sha256Copied": "089a1e0bc9b019a19e9ed40da7c12753412f797bda500344f6f926c2fab21a75",
+      "redacted": false,
+      "bytes": 2044
+    },
+    {
+      "source": "research/fix_root_expansion.py",
+      "repo": "tools/history/fix_root_expansion.py",
+      "sha256Source": "7c77ebf2e9e19b66a69ebf0bb65c8d783b01be718f973ecb485105cd4258897b",
+      "sha256Copied": "7c77ebf2e9e19b66a69ebf0bb65c8d783b01be718f973ecb485105cd4258897b",
+      "redacted": false,
+      "bytes": 1069
+    },
+    {
+      "source": "research/grib_parameters.py",
+      "repo": "tools/history/grib_parameters.py",
+      "sha256Source": "e12afc7ebe38d0f75e3a03fa6fc7a3a1d60796213a9c551872f7663118224d2b",
+      "sha256Copied": "e12afc7ebe38d0f75e3a03fa6fc7a3a1d60796213a9c551872f7663118224d2b",
+      "redacted": false,
+      "bytes": 852
+    },
+    {
+      "source": "research/harden_import.py",
+      "repo": "tools/history/harden_import.py",
+      "sha256Source": "6bbdf729729489504a4b96c8476ce4d2a81ede6c1b46e960574e8355446b059d",
+      "sha256Copied": "6bbdf729729489504a4b96c8476ce4d2a81ede6c1b46e960574e8355446b059d",
+      "redacted": false,
+      "bytes": 674
+    },
+    {
+      "source": "research/inspect_adguard.py",
+      "repo": "tools/history/inspect_adguard.py",
+      "sha256Source": "f63972f869d5422257a282aae4f62eff3419426846e7bf602172168e123e7ea1",
+      "sha256Copied": "f63972f869d5422257a282aae4f62eff3419426846e7bf602172168e123e7ea1",
+      "redacted": false,
+      "bytes": 414
+    },
+    {
+      "source": "research/inspect_aqi_codec.py",
+      "repo": "tools/history/inspect_aqi_codec.py",
+      "sha256Source": "aea6c56479c14bed59526970096d5bafe2df57d003f92177dfcd7baca5c6348e",
+      "sha256Copied": "aea6c56479c14bed59526970096d5bafe2df57d003f92177dfcd7baca5c6348e",
+      "redacted": false,
+      "bytes": 505
+    },
+    {
+      "source": "research/inspect_bundle.py",
+      "repo": "tools/history/inspect_bundle.py",
+      "sha256Source": "241d5355d6f27cfdef6b3b4baae80d103a19fd56ddd313289a34f7f31dde2070",
+      "sha256Copied": "241d5355d6f27cfdef6b3b4baae80d103a19fd56ddd313289a34f7f31dde2070",
+      "redacted": false,
+      "bytes": 460
+    },
+    {
+      "source": "research/inspect_cwa_fields.py",
+      "repo": "tools/history/inspect_cwa_fields.py",
+      "sha256Source": "7265f9e8a81a031210a778fd145c0a628c7151aeec3498eed7d8d6447029a041",
+      "sha256Copied": "7265f9e8a81a031210a778fd145c0a628c7151aeec3498eed7d8d6447029a041",
+      "redacted": false,
+      "bytes": 1700
+    },
+    {
+      "source": "research/inspect_periodic.mjs",
+      "repo": "tools/history/inspect_periodic.mjs",
+      "sha256Source": "4baba5de26149a56fa623c74781b52cb9912f4ee2a3ef583724af79128a307f5",
+      "sha256Copied": "4baba5de26149a56fa623c74781b52cb9912f4ee2a3ef583724af79128a307f5",
+      "redacted": false,
+      "bytes": 1766
+    },
+    {
+      "source": "research/inspect_periodic_nested.mjs",
+      "repo": "tools/history/inspect_periodic_nested.mjs",
+      "sha256Source": "c08de3f7a7d9548d0d6de1cf5a99bba63c271cd294b5e9478789b3426d2aa75b",
+      "sha256Copied": "c08de3f7a7d9548d0d6de1cf5a99bba63c271cd294b5e9478789b3426d2aa75b",
+      "redacted": false,
+      "bytes": 1445
+    },
+    {
+      "source": "research/install_api_unit.py",
+      "repo": "tools/history/install_api_unit.py",
+      "sha256Source": "1597c5c023c787a262e11b37bb6c28b63f80f71d0386534087d4ae5e70f6d5d3",
+      "sha256Copied": "1597c5c023c787a262e11b37bb6c28b63f80f71d0386534087d4ae5e70f6d5d3",
+      "redacted": false,
+      "bytes": 987
+    },
+    {
+      "source": "research/install_router_units.py",
+      "repo": "tools/history/install_router_units.py",
+      "sha256Source": "70cbeb501f6d92a36ba76b96191082fe8f39a4e016c10a9ac67a041fea45c357",
+      "sha256Copied": "70cbeb501f6d92a36ba76b96191082fe8f39a4e016c10a9ac67a041fea45c357",
+      "redacted": false,
+      "bytes": 1555
+    },
+    {
+      "source": "research/install_routing_unit.py",
+      "repo": "tools/history/install_routing_unit.py",
+      "sha256Source": "debcdfb70d4ae0cba9bccb0bb3199e64d3662fc9fe7f7f57f5816e4d4089b6d5",
+      "sha256Copied": "debcdfb70d4ae0cba9bccb0bb3199e64d3662fc9fe7f7f57f5816e4d4089b6d5",
+      "redacted": false,
+      "bytes": 700
+    },
+    {
+      "source": "research/integration_matrix.py",
+      "repo": "tools/history/integration_matrix.py",
+      "sha256Source": "358c1fb88295f755ca3fd0bd9c85be894e3b37d4fc53f550afff27520f6227ea",
+      "sha256Copied": "358c1fb88295f755ca3fd0bd9c85be894e3b37d4fc53f550afff27520f6227ea",
+      "redacted": false,
+      "bytes": 2723
+    },
+    {
+      "source": "research/iphone-onboarding/audit_native.mjs",
+      "repo": "tools/history/iphone-onboarding/audit_native.mjs",
+      "sha256Source": "a3f9b079dfc29c248b73ea33fe19cba58b6fc48184f319c26e3fa158e2f4534f",
+      "sha256Copied": "a3f9b079dfc29c248b73ea33fe19cba58b6fc48184f319c26e3fa158e2f4534f",
+      "redacted": false,
+      "bytes": 4486
+    },
+    {
+      "source": "research/iphone-onboarding/check.py",
+      "repo": "tools/history/iphone-onboarding/check.py",
+      "sha256Source": "bd403277f4592ee68efb2f7648272a28cad3ba979968f3f59e07665982afbae7",
+      "sha256Copied": "bd403277f4592ee68efb2f7648272a28cad3ba979968f3f59e07665982afbae7",
+      "redacted": false,
+      "bytes": 2858
+    },
+    {
+      "source": "research/linked_aqi_probe.py",
+      "repo": "tools/history/linked_aqi_probe.py",
+      "sha256Source": "44ef3cae824571e5f5baaf43e529caffd2d466120272e5982042b5744ae667c0",
+      "sha256Copied": "44ef3cae824571e5f5baaf43e529caffd2d466120272e5982042b5744ae667c0",
+      "redacted": false,
+      "bytes": 1393
+    },
+    {
+      "source": "research/linked_aqi_schema.py",
+      "repo": "tools/history/linked_aqi_schema.py",
+      "sha256Source": "56d0e7393dcdff98263af37cc1f20883f7bd3850207a71e24e8fddd7fcccd84a",
+      "sha256Copied": "56d0e7393dcdff98263af37cc1f20883f7bd3850207a71e24e8fddd7fcccd84a",
+      "redacted": false,
+      "bytes": 891
+    },
+    {
+      "source": "research/list_roots.mjs",
+      "repo": "tools/history/list_roots.mjs",
+      "sha256Source": "64c59f9adf5012ee583f5a48912c8e27ede6b109556534dc4cc44653d96911c8",
+      "sha256Copied": "64c59f9adf5012ee583f5a48912c8e27ede6b109556534dc4cc44653d96911c8",
+      "redacted": false,
+      "bytes": 663
+    },
+    {
+      "source": "research/live_data_031.py",
+      "repo": "tools/history/live_data_031.py",
+      "sha256Source": "c59c436c7db13a49f9399f8c5836650f401a36d27f1e472003aa78730678f092",
+      "sha256Copied": "c59c436c7db13a49f9399f8c5836650f401a36d27f1e472003aa78730678f092",
+      "redacted": false,
+      "bytes": 1753
+    },
+    {
+      "source": "research/model_inventory.py",
+      "repo": "tools/history/model_inventory.py",
+      "sha256Source": "6d19bcd937a347c999e3099f88c335226d5d8335709809f8c6317b1d24d34adb",
+      "sha256Copied": "6d19bcd937a347c999e3099f88c335226d5d8335709809f8c6317b1d24d34adb",
+      "redacted": false,
+      "bytes": 1028
+    },
+    {
+      "source": "research/no-exit/activate_transport.py",
+      "repo": "tools/history/no-exit/activate_transport.py",
+      "sha256Source": "d98bc37f3bc3f162af2d6526baf99b679bc45e7a73e830987ae88c5b3fe545c0",
+      "sha256Copied": "d98bc37f3bc3f162af2d6526baf99b679bc45e7a73e830987ae88c5b3fe545c0",
+      "redacted": false,
+      "bytes": 2100
+    },
+    {
+      "source": "research/no-exit/check_mac_final.py",
+      "repo": "tools/history/no-exit/check_mac_final.py",
+      "sha256Source": "8e8fbdb13f36a1d49f05b31f3d1eab1e4c78a86f6b0c5c9bd55bcb483c081471",
+      "sha256Copied": "8e8fbdb13f36a1d49f05b31f3d1eab1e4c78a86f6b0c5c9bd55bcb483c081471",
+      "redacted": false,
+      "bytes": 2261
+    },
+    {
+      "source": "research/no-exit/finalize_transport.py",
+      "repo": "tools/history/no-exit/finalize_transport.py",
+      "sha256Source": "7880e2f89c31c454f07541a12cc65de922fd446ff183d12f8ea02288f5bc0e19",
+      "sha256Copied": "7880e2f89c31c454f07541a12cc65de922fd446ff183d12f8ea02288f5bc0e19",
+      "redacted": false,
+      "bytes": 11884
+    },
+    {
+      "source": "research/no-exit/inspect_mac.py",
+      "repo": "tools/history/no-exit/inspect_mac.py",
+      "sha256Source": "c539d2417aeb3f8c6b3007a836c4040e9e2b818463e4a36681309af40ce08ddc",
+      "sha256Copied": "c539d2417aeb3f8c6b3007a836c4040e9e2b818463e4a36681309af40ce08ddc",
+      "redacted": false,
+      "bytes": 1347
+    },
+    {
+      "source": "research/no-exit/install_transport.py",
+      "repo": "tools/history/no-exit/install_transport.py",
+      "sha256Source": "24c11ea4ed6cfe37ba30127b4c413bd45c1c26f6efa20f91712317e4a2c6094d",
+      "sha256Copied": "24c11ea4ed6cfe37ba30127b4c413bd45c1c26f6efa20f91712317e4a2c6094d",
+      "redacted": false,
+      "bytes": 2026
+    },
+    {
+      "source": "research/no-exit/mac_acceptance.py",
+      "repo": "tools/history/no-exit/mac_acceptance.py",
+      "sha256Source": "8b75eeefb52fbc1d67969fa2c8153a4acfceba9a1e8f8e915f3df898cd8b00c9",
+      "sha256Copied": "8b75eeefb52fbc1d67969fa2c8153a4acfceba9a1e8f8e915f3df898cd8b00c9",
+      "redacted": false,
+      "bytes": 4518
+    },
+    {
+      "source": "research/no-exit/mac_probe.py",
+      "repo": "tools/history/no-exit/mac_probe.py",
+      "sha256Source": "89639264b9544b27e69d8c52fb5df0b6202a8426a67b5d45b483b227170e30ba",
+      "sha256Copied": "89639264b9544b27e69d8c52fb5df0b6202a8426a67b5d45b483b227170e30ba",
+      "redacted": false,
+      "bytes": 2018
+    },
+    {
+      "source": "research/no-exit/network_rules.new.py",
+      "repo": "tools/history/no-exit/network_rules.new.py",
+      "sha256Source": "2413bdab6fe0be5427bde45452899c8c782bd7a0fb0dc590ee879d55dac719fe",
+      "sha256Copied": "2413bdab6fe0be5427bde45452899c8c782bd7a0fb0dc590ee879d55dac719fe",
+      "redacted": false,
+      "bytes": 4480
+    },
+    {
+      "source": "research/no-exit/route_probe.py",
+      "repo": "tools/history/no-exit/route_probe.py",
+      "sha256Source": "4365fa2ba695763fd2dd5edf8157c06dd1b1256d294a7a4bfca405d080dc282a",
+      "sha256Copied": "4365fa2ba695763fd2dd5edf8157c06dd1b1256d294a7a4bfca405d080dc282a",
+      "redacted": false,
+      "bytes": 1073
+    },
+    {
+      "source": "research/no-exit/update_dashboard.py",
+      "repo": "tools/history/no-exit/update_dashboard.py",
+      "sha256Source": "b065dd5d40f5f449a31648284bb1eecc109cca091de080a3aa5b6eed3ed62ae5",
+      "sha256Copied": "b065dd5d40f5f449a31648284bb1eecc109cca091de080a3aa5b6eed3ed62ae5",
+      "redacted": false,
+      "bytes": 3492
+    },
+    {
+      "source": "research/ntfy_timeout_selftest.py",
+      "repo": "tools/history/ntfy_timeout_selftest.py",
+      "sha256Source": "ab50656825b6d4e98dae8619ac48d4c7a6ddcc45bc95aabf2957cace832543e1",
+      "sha256Copied": "ab50656825b6d4e98dae8619ac48d4c7a6ddcc45bc95aabf2957cace832543e1",
+      "redacted": false,
+      "bytes": 2379
+    },
+    {
+      "source": "research/obs_field_stats.py",
+      "repo": "tools/history/obs_field_stats.py",
+      "sha256Source": "9e38906a459071709e5bb0accb5888807af2aea837c5cf6b85035f4dce3e70d0",
+      "sha256Copied": "9e38906a459071709e5bb0accb5888807af2aea837c5cf6b85035f4dce3e70d0",
+      "redacted": false,
+      "bytes": 529
+    },
+    {
+      "source": "research/package_release.py",
+      "repo": "tools/history/package_release.py",
+      "sha256Source": "94a46f5ab6adf6c52ba23ffdd8733c859f88ebdaa656a533b46c58d27adaa810",
+      "sha256Copied": "94a46f5ab6adf6c52ba23ffdd8733c859f88ebdaa656a533b46c58d27adaa810",
+      "redacted": false,
+      "bytes": 2715
+    },
+    {
+      "source": "research/patch_addon_root_rebuild.py",
+      "repo": "tools/history/patch_addon_root_rebuild.py",
+      "sha256Source": "1df1f9550a46ac232acf3ea2c233f9ad3571f8b5925f2f54c1bfeebb9e4b8b11",
+      "sha256Copied": "1df1f9550a46ac232acf3ea2c233f9ad3571f8b5925f2f54c1bfeebb9e4b8b11",
+      "redacted": false,
+      "bytes": 505
+    },
+    {
+      "source": "research/patch_alert_snapshot.py",
+      "repo": "tools/history/patch_alert_snapshot.py",
+      "sha256Source": "592bfc62f2ceeac0815cac1b09a8f0388f9f2a51ff6fdd826dceade1487924aa",
+      "sha256Copied": "592bfc62f2ceeac0815cac1b09a8f0388f9f2a51ff6fdd826dceade1487924aa",
+      "redacted": false,
+      "bytes": 1456
+    },
+    {
+      "source": "research/patch_api_alert_warmup.py",
+      "repo": "tools/history/patch_api_alert_warmup.py",
+      "sha256Source": "7adf1c2327923669da871093e0418ef6beb76e843fe5c2190e1693ba52de267a",
+      "sha256Copied": "7adf1c2327923669da871093e0418ef6beb76e843fe5c2190e1693ba52de267a",
+      "redacted": false,
+      "bytes": 311
+    },
+    {
+      "source": "research/patch_api_v03.py",
+      "repo": "tools/history/patch_api_v03.py",
+      "sha256Source": "11f9f4963eec32f2ec75fc70fde430eedb666c99d4d49a92f8cf12798c8af5a8",
+      "sha256Copied": "11f9f4963eec32f2ec75fc70fde430eedb666c99d4d49a92f8cf12798c8af5a8",
+      "redacted": false,
+      "bytes": 698
+    },
+    {
+      "source": "research/patch_dashboard_v03.py",
+      "repo": "tools/history/patch_dashboard_v03.py",
+      "sha256Source": "bc6e1d9c057e7820dea3f01ae309f73a2dc49e43884f86ab8e14422b839053e1",
+      "sha256Copied": "bc6e1d9c057e7820dea3f01ae309f73a2dc49e43884f86ab8e14422b839053e1",
+      "redacted": false,
+      "bytes": 2526
+    },
+    {
+      "source": "research/patch_mapper_alerts.py",
+      "repo": "tools/history/patch_mapper_alerts.py",
+      "sha256Source": "542ec5aa7d01dcab308e9034932a595b97d3f1937696f46a374f0219f53d10da",
+      "sha256Copied": "542ec5aa7d01dcab308e9034932a595b97d3f1937696f46a374f0219f53d10da",
+      "redacted": false,
+      "bytes": 3614
+    },
+    {
+      "source": "research/patch_mapper_nwp_aqi.py",
+      "repo": "tools/history/patch_mapper_nwp_aqi.py",
+      "sha256Source": "0caa925c7d97cc31b7d515374b4909c1f8009a4f69b802161873bdb667be8ba6",
+      "sha256Copied": "0caa925c7d97cc31b7d515374b4909c1f8009a4f69b802161873bdb667be8ba6",
+      "redacted": false,
+      "bytes": 3994
+    },
+    {
+      "source": "research/patch_notify_031.py",
+      "repo": "tools/history/patch_notify_031.py",
+      "sha256Source": "0352e47c443673e5011086b0b4d29208708d6f37e7b31d80cb3eb73374660ce0",
+      "sha256Copied": "0352e47c443673e5011086b0b4d29208708d6f37e7b31d80cb3eb73374660ce0",
+      "redacted": false,
+      "bytes": 1608
+    },
+    {
+      "source": "research/patch_nwp_aqi.py",
+      "repo": "tools/history/patch_nwp_aqi.py",
+      "sha256Source": "a21af09265582abd91b2b544056af2d4fab853fdcecc5319fb3ed53ab3da8eae",
+      "sha256Copied": "a21af09265582abd91b2b544056af2d4fab853fdcecc5319fb3ed53ab3da8eae",
+      "redacted": false,
+      "bytes": 3221
+    },
+    {
+      "source": "research/patch_sources_031.py",
+      "repo": "tools/history/patch_sources_031.py",
+      "sha256Source": "ffac8e5fc83fa98e3284c7e119e829914fd9992cc2c020cf0de0fac914dd5b94",
+      "sha256Copied": "ffac8e5fc83fa98e3284c7e119e829914fd9992cc2c020cf0de0fac914dd5b94",
+      "redacted": false,
+      "bytes": 5860
+    },
+    {
+      "source": "research/probe-weather-only.py",
+      "repo": "tools/history/probe-weather-only.py",
+      "sha256Source": "24b49888045d6634a5728bb7a11b9d601c540e1363116099a4bba31591a12ce2",
+      "sha256Copied": "24b49888045d6634a5728bb7a11b9d601c540e1363116099a4bba31591a12ce2",
+      "redacted": false,
+      "bytes": 1415
+    },
+    {
+      "source": "research/probe.py",
+      "repo": "tools/history/probe.py",
+      "sha256Source": "5f2c9bed59b13e787059e719cf7d07978248efd51619f5ff7a0fd3529e2b7e6e",
+      "sha256Copied": "5f2c9bed59b13e787059e719cf7d07978248efd51619f5ff7a0fd3529e2b7e6e",
+      "redacted": false,
+      "bytes": 1271
+    },
+    {
+      "source": "research/probe_f_b0046.py",
+      "repo": "tools/history/probe_f_b0046.py",
+      "sha256Source": "1f1f9be8b46b89ce00b5395b055816332d71b2001d25d9668cee04de36b7c688",
+      "sha256Copied": "1f1f9be8b46b89ce00b5395b055816332d71b2001d25d9668cee04de36b7c688",
+      "redacted": false,
+      "bytes": 1131
+    },
+    {
+      "source": "research/probe_http.py",
+      "repo": "tools/history/probe_http.py",
+      "sha256Source": "cbe7b497ddcb4ab942491a273ef143580f5b63cd42e082720283998e199c771b",
+      "sha256Copied": "cbe7b497ddcb4ab942491a273ef143580f5b63cd42e082720283998e199c771b",
+      "redacted": false,
+      "bytes": 1220
+    },
+    {
+      "source": "research/probe_pop_elements.py",
+      "repo": "tools/history/probe_pop_elements.py",
+      "sha256Source": "349ff87af501ba10434ec8ce72a1d2eb0ccc0f67497d1ea569949e3bb713ba1d",
+      "sha256Copied": "349ff87af501ba10434ec8ce72a1d2eb0ccc0f67497d1ea569949e3bb713ba1d",
+      "redacted": false,
+      "bytes": 1235
+    },
+    {
+      "source": "research/publish_031_after_acceptance.py",
+      "repo": "tools/history/publish_031_after_acceptance.py",
+      "sha256Source": "0f1f4f93d97547b0f548c545eb4edbb5300cd3dc77c15a66cdfa25ef32428fe9",
+      "sha256Copied": "0f1f4f93d97547b0f548c545eb4edbb5300cd3dc77c15a66cdfa25ef32428fe9",
+      "redacted": false,
+      "bytes": 9450
+    },
+    {
+      "source": "research/refine_location.py",
+      "repo": "tools/history/refine_location.py",
+      "sha256Source": "d47055a576d5a6543a8337b4249fa72de9387d467f6b3adc666f66248eff5328",
+      "sha256Copied": "d47055a576d5a6543a8337b4249fa72de9387d467f6b3adc666f66248eff5328",
+      "redacted": false,
+      "bytes": 1771
+    },
+    {
+      "source": "research/rideflow-main-reference.py",
+      "repo": "tools/history/rideflow-main-reference.py",
+      "sha256Source": "acb08a6a098fc8ed8ab46854e02533622f702e31c4db31752067a161f0aa1d6a",
+      "sha256Copied": "acb08a6a098fc8ed8ab46854e02533622f702e31c4db31752067a161f0aa1d6a",
+      "redacted": false,
+      "bytes": 39463
+    },
+    {
+      "source": "research/root_layout.mjs",
+      "repo": "tools/history/root_layout.mjs",
+      "sha256Source": "267b15ec033fe36f41d682f52be6770b601a5b8c5570c3619152638353389234",
+      "sha256Copied": "267b15ec033fe36f41d682f52be6770b601a5b8c5570c3619152638353389234",
+      "redacted": false,
+      "bytes": 1094
+    },
+    {
+      "source": "research/summarize_new_sources.py",
+      "repo": "tools/history/summarize_new_sources.py",
+      "sha256Source": "41fe5ec6f80c245b73b11c41ef083f0780203de6fb653fe03aa3a372722fc2ac",
+      "sha256Copied": "41fe5ec6f80c245b73b11c41ef083f0780203de6fb653fe03aa3a372722fc2ac",
+      "redacted": false,
+      "bytes": 645
+    },
+    {
+      "source": "research/summarize_samples.py",
+      "repo": "tools/history/summarize_samples.py",
+      "sha256Source": "3d96f5d68dd1d7ee5bc8a9a27107a356ffe80559083b93ba54430df900bbefd4",
+      "sha256Copied": "3d96f5d68dd1d7ee5bc8a9a27107a356ffe80559083b93ba54430df900bbefd4",
+      "redacted": false,
+      "bytes": 900
+    },
+    {
+      "source": "research/test_actual_mapping.mjs",
+      "repo": "tools/history/test_actual_mapping.mjs",
+      "sha256Source": "c5dc246c26f7d1f654ac09b690b730625f712e0f3163acba7b890c0ec131ac7d",
+      "sha256Copied": "c5dc246c26f7d1f654ac09b690b730625f712e0f3163acba7b890c0ec131ac7d",
+      "redacted": false,
+      "bytes": 2177
+    },
+    {
+      "source": "research/test_alert_encode.mjs",
+      "repo": "tools/history/test_alert_encode.mjs",
+      "sha256Source": "13d1186de928a108953c9ed0b1fc919ba1d7be79461d6029dad054764f0c8aac",
+      "sha256Copied": "13d1186de928a108953c9ed0b1fc919ba1d7be79461d6029dad054764f0c8aac",
+      "redacted": false,
+      "bytes": 1542
+    },
+    {
+      "source": "research/test_alert_encode_string.mjs",
+      "repo": "tools/history/test_alert_encode_string.mjs",
+      "sha256Source": "ade17d9a000a50799e0597973224afa0ea908c67e6994dab8ebd39f0a235ac54",
+      "sha256Copied": "ade17d9a000a50799e0597973224afa0ea908c67e6994dab8ebd39f0a235ac54",
+      "redacted": false,
+      "bytes": 1538
+    },
+    {
+      "source": "research/test_root_rebuild.mjs",
+      "repo": "tools/history/test_root_rebuild.mjs",
+      "sha256Source": "20f523f1ee90f431a7c0df394482b86a61f58402f184769da68ec063f93d73c8",
+      "sha256Copied": "20f523f1ee90f431a7c0df394482b86a61f58402f184769da68ec063f93d73c8",
+      "redacted": false,
+      "bytes": 1822
+    },
+    {
+      "source": "research/update_tests_031.py",
+      "repo": "tools/history/update_tests_031.py",
+      "sha256Source": "6ad9dae8833ff86994cf86f6363c416954960f69049dfe6536962d68f64563b7",
+      "sha256Copied": "6ad9dae8833ff86994cf86f6363c416954960f69049dfe6536962d68f64563b7",
+      "redacted": false,
+      "bytes": 2878
+    },
+    {
+      "source": "research/update_tests_v03.py",
+      "repo": "tools/history/update_tests_v03.py",
+      "sha256Source": "270535052f459b28d71df80607c796c8547b4dd40ec5630b9658ca7acc0d85a6",
+      "sha256Copied": "270535052f459b28d71df80607c796c8547b4dd40ec5630b9658ca7acc0d85a6",
+      "redacted": false,
+      "bytes": 1342
+    },
+    {
+      "source": "research/upgrade_expansion.py",
+      "repo": "tools/history/upgrade_expansion.py",
+      "sha256Source": "1df5c5f58368829da6ac4d255c2692e17b7778ab51c6a09fa6bdf3da07679723",
+      "sha256Copied": "1df5c5f58368829da6ac4d255c2692e17b7778ab51c6a09fa6bdf3da07679723",
+      "redacted": false,
+      "bytes": 3586
+    },
+    {
+      "source": "research/upgrade_model.py",
+      "repo": "tools/history/upgrade_model.py",
+      "sha256Source": "9e2603136e8ddff7aafdf55c0692558cb8d2f2da5067e87ee10f5d5493f191ed",
+      "sha256Copied": "9e2603136e8ddff7aafdf55c0692558cb8d2f2da5067e87ee10f5d5493f191ed",
+      "redacted": false,
+      "bytes": 1148
+    },
+    {
+      "source": "research/verify_native.mjs",
+      "repo": "tools/history/verify_native.mjs",
+      "sha256Source": "1896395a5fa15a1a25898d0b1cdad225297079ac68e73265ef66e80f97cc452c",
+      "sha256Copied": "1896395a5fa15a1a25898d0b1cdad225297079ac68e73265ef66e80f97cc452c",
+      "redacted": false,
+      "bytes": 2758
+    },
+    {
+      "source": "research/verify_release.py",
+      "repo": "tools/history/verify_release.py",
+      "sha256Source": "02eaad8ed71a399fe166d3d29eb28acdc08c0a77603f632604721a4edb547d42",
+      "sha256Copied": "02eaad8ed71a399fe166d3d29eb28acdc08c0a77603f632604721a4edb547d42",
+      "redacted": false,
+      "bytes": 3868
+    },
+    {
+      "source": "research/weather_dns_log.py",
+      "repo": "tools/history/weather_dns_log.py",
+      "sha256Source": "8ed83a4d8707f10bb32192de7ff9cfbd14eb9421d180d29c2e2bbb4ee2118ced",
+      "sha256Copied": "8ed83a4d8707f10bb32192de7ff9cfbd14eb9421d180d29c2e2bbb4ee2118ced",
+      "redacted": false,
+      "bytes": 641
+    }
+  ]
+}

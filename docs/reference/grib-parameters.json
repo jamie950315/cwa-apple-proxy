@@ -1,0 +1,506 @@
+[
+  {
+    "shortName": "sp",
+    "name": "Surface pressure",
+    "units": "Pa",
+    "discipline": 0,
+    "parameterCategory": 3,
+    "parameterNumber": 0,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "surface",
+    "level": 0,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 59807.73,
+    "maximum": 102347.58,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 101064.06,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "unknown",
+    "name": "unknown",
+    "units": "unknown",
+    "discipline": 0,
+    "parameterCategory": 1,
+    "parameterNumber": 8,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "surface",
+    "level": 0,
+    "startStep": 0,
+    "endStep": 6,
+    "stepType": "accum",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 0.0,
+    "maximum": 211.9909,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 3.4568000000000003,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "2t",
+    "name": "2 metre temperature",
+    "units": "K",
+    "discipline": 0,
+    "parameterCategory": 0,
+    "parameterNumber": 0,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "heightAboveGround",
+    "level": 2,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 272.52084,
+    "maximum": 303.2683,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 299.5162,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "2d",
+    "name": "2 metre dewpoint temperature",
+    "units": "K",
+    "discipline": 0,
+    "parameterCategory": 0,
+    "parameterNumber": 6,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "heightAboveGround",
+    "level": 2,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 272.08404,
+    "maximum": 299.69989000000004,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 296.53657000000004,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "2sh",
+    "name": "2 metre specific humidity",
+    "units": "kg kg**-1",
+    "discipline": 0,
+    "parameterCategory": 1,
+    "parameterNumber": 0,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "heightAboveGround",
+    "level": 2,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 0.004570196250000001,
+    "maximum": 0.021669816250000005,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 0.017886416250000002,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "2r",
+    "name": "2 metre relative humidity",
+    "units": "%",
+    "discipline": 0,
+    "parameterCategory": 1,
+    "parameterNumber": 1,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "heightAboveGround",
+    "level": 2,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 40.213950000000004,
+    "maximum": 99.99999000000001,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 83.5497,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "10u",
+    "name": "10 metre U wind component",
+    "units": "m s**-1",
+    "discipline": 0,
+    "parameterCategory": 2,
+    "parameterNumber": 2,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "heightAboveGround",
+    "level": 10,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": -16.85553875,
+    "maximum": 12.219231250000002,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": -2.13272875,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "10v",
+    "name": "10 metre V wind component",
+    "units": "m s**-1",
+    "discipline": 0,
+    "parameterCategory": 2,
+    "parameterNumber": 3,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "heightAboveGround",
+    "level": 10,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": -13.580647500000001,
+    "maximum": 13.1393225,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": -0.22199750000000001,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "gh",
+    "name": "Geopotential height",
+    "units": "gpm",
+    "discipline": 0,
+    "parameterCategory": 3,
+    "parameterNumber": 5,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "isobaricInhPa",
+    "level": 1000,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 70.40769375,
+    "maximum": 246.55399375000002,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 143.58879375,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "t",
+    "name": "Temperature",
+    "units": "K",
+    "discipline": 0,
+    "parameterCategory": 0,
+    "parameterNumber": 0,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "isobaricInhPa",
+    "level": 1000,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 288.07596,
+    "maximum": 304.24935000000005,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 298.09585000000004,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "u",
+    "name": "U component of wind",
+    "units": "m s**-1",
+    "discipline": 0,
+    "parameterCategory": 2,
+    "parameterNumber": 2,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "isobaricInhPa",
+    "level": 1000,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": -15.853688750000002,
+    "maximum": 10.51051125,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": -3.8764287500000005,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "v",
+    "name": "V component of wind",
+    "units": "m s**-1",
+    "discipline": 0,
+    "parameterCategory": 2,
+    "parameterNumber": 3,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "isobaricInhPa",
+    "level": 1000,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": -15.241818750000002,
+    "maximum": 14.928711250000001,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": -2.56726875,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "wz",
+    "name": "Geometric vertical velocity",
+    "units": "m s**-1",
+    "discipline": 0,
+    "parameterCategory": 2,
+    "parameterNumber": 9,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "isobaricInhPa",
+    "level": 1000,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": -0.2918158250000001,
+    "maximum": 0.19077687500000004,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": -0.027207725000000006,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "r",
+    "name": "Relative humidity",
+    "units": "%",
+    "discipline": 0,
+    "parameterCategory": 1,
+    "parameterNumber": 1,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "isobaricInhPa",
+    "level": 1000,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 26.3596225,
+    "maximum": 99.1541425,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 85.35598250000001,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "skt",
+    "name": "Skin temperature",
+    "units": "K",
+    "discipline": 0,
+    "parameterCategory": 0,
+    "parameterNumber": 17,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "surface",
+    "level": 0,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 273.15000000000003,
+    "maximum": 310.08322000000004,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 302.26358000000005,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "snswrf",
+    "name": "Surface net short-wave radiation flux",
+    "units": "W m**-2",
+    "discipline": 0,
+    "parameterCategory": 4,
+    "parameterNumber": 9,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "surface",
+    "level": 0,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 4.140071875,
+    "maximum": 720.312471875,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 250.24897187500002,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "prmsl",
+    "name": "Pressure reduced to MSL",
+    "units": "Pa",
+    "discipline": 0,
+    "parameterCategory": 3,
+    "parameterNumber": 1,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "meanSea",
+    "level": 0,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 100798.68000000001,
+    "maximum": 102938.258,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 101645.79400000001,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  },
+  {
+    "shortName": "t",
+    "name": "Temperature",
+    "units": "K",
+    "discipline": 0,
+    "parameterCategory": 0,
+    "parameterNumber": 0,
+    "tablesVersion": 2,
+    "localTablesVersion": 1,
+    "typeOfLevel": "meanSea",
+    "level": 0,
+    "startStep": 6,
+    "endStep": 6,
+    "stepType": "instant",
+    "centre": "138",
+    "missingValue": 9999,
+    "minimum": 270.749,
+    "maximum": 302.98728,
+    "taipei": [
+      {
+        "lat": 25.07852023912254,
+        "lon": 121.57000885866783,
+        "value": 296.74484,
+        "distance": 1.6265361507057245,
+        "index": 429032
+      }
+    ]
+  }
+]

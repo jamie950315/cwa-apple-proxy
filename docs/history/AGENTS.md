@@ -1,3 +1,5 @@
-# 歷史報告
+# Historical reports
 
-維持原作者當時紀錄。現在狀態以根目錄AGENTS與docs/HANDOFF、即時source為準；pending、Exit Node要求、資料來源等已在後續版本改變。新增工作建立新的帶日期報告，保留舊證據。
+These reports describe the system at their recorded dates. Current state comes from the root `AGENTS.md`, `docs/STATUS.md`, and live source/runtime checks. Later releases superseded older pending routes, exit-node requirements, enrollment state, and data-mapping policy. Preserve dated evidence rather than rewriting it as current operating guidance.
+
+Some filenames retain their original Chinese production-report names because those paths are part of the immutable production-source manifest. Their maintained Markdown content is English.

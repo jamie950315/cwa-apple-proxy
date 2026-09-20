@@ -1,4 +1,5 @@
-# 歷史脚本是唯讀研究資料
+# Historical scripts are read-only research material
 
-此目錄保留過去一次性探索、修補、部署及測試脚本。包含過時固定路徑、取數、發通知、改防火牆或重建憑證的命令。
-使用前先讀source；正常開發/驗收從repo根目錄scripts開始。勿批次執行或把history當遷移step。部分key已遮蔽，舊readme/報告有被後續版本取代的狀態。
+This directory preserves one-off exploration, patch, deployment, and test scripts. They may contain obsolete fixed paths or commands that fetch data, send notifications, alter firewall state, or regenerate certificates.
+
+Read the source before using any fragment. Normal development and validation start from the root `scripts/` directory. Never batch-run this directory or treat it as a migration procedure. Keys are redacted where applicable, and later releases supersede some states described by old scripts and reports.

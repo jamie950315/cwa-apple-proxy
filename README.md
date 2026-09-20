@@ -1,24 +1,25 @@
 # CWA Apple Proxy
 
-使用 Pi5 中轉 Apple 原生天氣的 `WK2.Weather` FlatBuffers，把有效範圍內的臺灣天氣數值替換成中央氣象署資料及有註明方法的推估。保留 Apple 原生 UI、其餘資料及翻譯錯誤回退。
+CWA Apple Proxy keeps the native Apple Weather interface while replacing supported Taiwan weather fields with data from Taiwan's Central Weather Administration (CWA). A Raspberry Pi 5 intercepts opted-in WeatherKit traffic, fetches and normalizes CWA products, rewrites known `WK2.Weather` FlatBuffers fields, and preserves the original Apple response whenever a mapping is unsupported or translation fails.
 
-| 項目 | 目前狀態 |
+## Current status
+
+| Component | Status |
 |---|---|
-| 本機 repo | `/Users/jamie/cwa-apple-proxy` |
-| 正式部署 | Pi5 `/home/jamie/cwa-weather-proxy` |
-| 資料層／傳輸層 | `0.3.2`／`1.0.2` |
-| 已啟用裝置 | Mac `100.122.163.78`、iPhone 14 Pro `100.123.14.68` |
-| Exit Node | 可选 None、Pi5 或其他正常節點，天氣維持 Pi5 分流 |
-| 診斷頁 | `http://100.78.140.101:18880/`，需 Tailscale |
-| 故障通知 | `ntfy.sh/cwa-apple-proxy`，翻譯逾時 3.5 秒、同原因 300 秒去重 |
-| 已知主要缺口 | `TAIWAN_AQI` 量尺端點 404，完整 AQI 卡片待處理 |
-| 本次範圍外 | jarvis 主機問題，依使用者指示略過 |
+| Data translation | `0.3.2`, deployed on the Pi 5 |
+| Network transport | `1.0.2`, deployed |
+| Repository | Public GitHub repository; `main` is the active branch |
+| Runtime | `/home/jamie/cwa-weather-proxy` on the Pi 5 |
+| Development checkout | `/Users/jamie/cwa-apple-proxy` on macOS |
+| Enrolled clients | Mac and iPhone 14 Pro; enrollment remains opt-in |
+| Apple Watch | Working after installing the custom CA on the Watch; successful watchOS transformations were observed |
+| Exit nodes | None, the Pi 5, or another working exit node; WeatherKit traffic remains split through the Pi 5 |
+| Diagnostics | `http://100.78.140.101:18880/` from the tailnet |
+| Main known limitation | The native `TAIWAN_AQI` scale endpoint returns 404, so the complete AQI card is not yet compatible |
 
-## AI 接手
+Version 0.3.2 prioritizes source accuracy over overwrite count. It uses coherent station thermodynamics, exact hourly forecast points and probability windows, complete precipitation windows, and explicitly derived calendar-day extrema. Unsupported or incompatible groups remain Apple data. The project does not claim that forecasts are error-free or that every visible field comes from CWA.
 
-從 [AGENTS.md](AGENTS.md) 與 [完整交接狀態](docs/HANDOFF.md) 開始。技術決策、已驗證範圍、失敗紀錄與下一步均有保留。原始對話逐字稿未另行匯出；文件是依當前對話與主機實際程式、研究及驗收檔案整理的技術交接。
-
-## 本機驗證
+## Validate the checkout
 
 ```sh
 cd ~/cwa-apple-proxy
@@ -27,29 +28,31 @@ cd ~/cwa-apple-proxy
 python3 scripts/verify_repo.py
 ```
 
-Python 環境安裝在 repo 的 `.venv`。Node 使用內建 test runner 與 vendor codec，無需 npm 網路下載。測試使用本地歷史 fixture 與 mock；實際 CWA API key 維持在 Pi5。
+The bootstrap creates a repository-local `.venv`. Node tests use the vendored codec and the built-in test runner. Offline tests use fixed fixtures and mocks; production credentials remain on the Pi 5.
 
-Mac 用於開發、閱讀與測試；正式服務使用 Linux systemd、nftables 與 Tailscale Serve。程式保留來源版本的正式位址與部分絕對路徑，搬移／本機啟動服務前請先讀 [開發環境](docs/DEVELOPMENT.md)。
+The Mac checkout is intended for development, review, and offline verification. The live runtime depends on Linux systemd, nftables, Tailscale, and AdGuard Home. Read [Development](docs/DEVELOPMENT.md) before attempting to run the full service outside the Pi 5.
 
-## 文件索引
+## Documentation
 
-| 文件 | 用途 |
+| Document | Purpose |
 |---|---|
-| [HANDOFF](docs/HANDOFF.md) | 現在狀態、使用者決策、驗收界線、閱讀順序 |
-| [ARCHITECTURE](docs/ARCHITECTURE.md) | 封包、服務、來源與 port 資料流 |
-| [DATA_SOURCES](docs/DATA_SOURCES.md) | CWA／Apple 欄位、時間解析度、推估語意 |
-| [NETWORKING](docs/NETWORKING.md) | DNS、Exit Node 共存、IPv4／IPv6 與 opt-in |
-| [OPERATIONS](docs/OPERATIONS.md) | 健康檢查、部署、備份、回復、憑證維護 |
-| [DEVELOPMENT](docs/DEVELOPMENT.md) | 依賴、fixture、離線測試及固定路徑限制 |
-| [VALIDATION](docs/VALIDATION.md) | 各版本的實測數字與證據層級 |
-| [KNOWN_ISSUES](docs/KNOWN_ISSUES.md) | 未完成項目與優先順序 |
-| [DECISIONS](docs/DECISIONS.md) | 架構選擇及捨棄方案的理由 |
-| [SECURITY](docs/SECURITY.md) | 憑證、位置紀錄、金鑰與分享邊界 |
-| [PROVENANCE](docs/PROVENANCE.md) | 正式檔案 SHA、歷史檔案與私有封存索引 |
-| [CHANGELOG](docs/CHANGELOG.md) | 功能演進與本 repo 交接修改 |
+| [Status](docs/STATUS.md) | Deployed state, verified behavior, and evidence boundaries |
+| [Architecture](docs/ARCHITECTURE.md) | Request flow, services, ports, and modules |
+| [Data sources](docs/DATA_SOURCES.md) | CWA and Apple field ownership, time windows, and derivations |
+| [Accuracy and coverage](docs/ACCURACY_COVERAGE.md) | Rationale and evidence behind the 0.3.2 mapping policy |
+| [Networking](docs/NETWORKING.md) | DNS, split routing, exit-node coexistence, and client enrollment |
+| [Operations](docs/OPERATIONS.md) | Health checks, deployment, rollback, certificates, and diagnostics |
+| [Development](docs/DEVELOPMENT.md) | Dependencies, tests, fixtures, and platform constraints |
+| [Validation](docs/VALIDATION.md) | What each evidence layer proves and does not prove |
+| [Known issues](docs/KNOWN_ISSUES.md) | Active limitations and future work |
+| [Decisions](docs/DECISIONS.md) | Current architectural decisions and rejected approaches |
+| [Security](docs/SECURITY.md) | Secrets, certificates, private evidence, and public-repository boundaries |
+| [Provenance](docs/PROVENANCE.md) | Source snapshots, manifests, and archived evidence |
+| [Performance](docs/PERFORMANCE.md) | Cache behavior and measured latency |
+| [Changelog](docs/CHANGELOG.md) | Version and deployment history |
 
-`systemd/` 為來源部署檔；`infra/live-systemd/` 保存實際已安裝的 unit 快照，以便比較差異。`docs/history/` 保存各版本原報告，內容按其日期解讀。完整研究及位置證據另存於 `.private/`，Git 會略過。
+`systemd/` contains source unit files, while `infra/live-systemd/` contains captured installed units for comparison. `docs/history/` contains dated reports; they describe the state at the time of each test and are not current operating instructions. Private raw captures and precise location evidence are excluded from Git.
 
-## 授權
+## License
 
-原始專案 `package.json` 的自訂程式授權維持 `UNLICENSED`，repo 保持 private/local。vendor codec 的 Apache-2.0 授權與來源 NOTICE 已原樣保留於 `vendor/`。第三方研究參考各維持原授權；本 repo 未額外授予整體公開散佈授權。
+The project-specific code remains `UNLICENSED`; making the repository public does not grant a license to use, copy, or redistribute that code. The vendored codec retains its Apache-2.0 license and NOTICE. Third-party research material remains subject to its original license.

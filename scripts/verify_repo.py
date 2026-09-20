@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline handoff integrity and credential checks; --staged reads actual Git index bytes."""
+"""Offline repository integrity and credential checks; --staged reads actual Git index bytes."""
 from __future__ import annotations
 import argparse,hashlib,json,re,subprocess
 from pathlib import Path
@@ -8,7 +8,7 @@ CREDENTIAL=re.compile(rb'CWA-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-
 PRIVATE=re.compile(rb'-----BEGIN [A-Z ]*PRIVATE KEY-----[\r\n]')
 FORBIDDEN={'.private','certs','backups','data','logs','.venv','node_modules','__pycache__'}
 SENSITIVE={'clients.json','config/managed-dns-rules.json','config/split-route-state.json'}
-REQUIRED=['AGENTS.md','README.md','versions.json','mapper.mjs','addon.py','api.py','cwa_client.py','cwa_snapshot.py','model_worker.py','network_rules.py','split_routes.py','bridgectl.py','flatbuffer_expand.mjs','sni_router.py','codec_server.mjs','weather_math.mjs','cwa_regions.json','town_index.json','requirements.production-linux.lock','requirements.development.lock','vendor/weatherkit-codec.full.mjs','vendor/LICENSE-WeatherKit','vendor/NOTICE','docs/HANDOFF.md','docs/ARCHITECTURE.md','docs/OPERATIONS.md','docs/NETWORKING.md','docs/DATA_SOURCES.md','docs/KNOWN_ISSUES.md','docs/DEVELOPMENT.md','docs/VALIDATION.md','docs/DECISIONS.md','docs/SECURITY.md','docs/PROVENANCE.md','docs/CHANGELOG.md','infra/snapshots/tailscale-serve.json']
+REQUIRED=['AGENTS.md','README.md','versions.json','mapper.mjs','addon.py','api.py','cwa_client.py','cwa_snapshot.py','model_worker.py','network_rules.py','split_routes.py','bridgectl.py','flatbuffer_expand.mjs','sni_router.py','codec_server.mjs','weather_math.mjs','cwa_regions.json','town_index.json','requirements.production-linux.lock','requirements.development.lock','vendor/weatherkit-codec.full.mjs','vendor/LICENSE-WeatherKit','vendor/NOTICE','docs/STATUS.md','docs/ARCHITECTURE.md','docs/OPERATIONS.md','docs/NETWORKING.md','docs/DATA_SOURCES.md','docs/KNOWN_ISSUES.md','docs/DEVELOPMENT.md','docs/VALIDATION.md','docs/DECISIONS.md','docs/SECURITY.md','docs/PROVENANCE.md','docs/CHANGELOG.md','infra/snapshots/tailscale-serve.json']
 def git(args):
     return subprocess.check_output(['git','-C',str(ROOT),*args],stderr=subprocess.DEVNULL)
 def work_files():
@@ -54,7 +54,7 @@ def main():
         dest=ROOT/row['repo']
         if not dest.is_file():errors.append('Missing copied source: '+row['repo']);continue
         if hashlib.sha256(dest.read_bytes()).hexdigest()!=row['sha256Copied']:
-            warnings.append('Source changed since handoff: '+row['repo'])
+            warnings.append('Source changed since initial production snapshot: '+row['repo'])
         else:verified+=1
     result={'status':'passed' if not errors else 'failed','scannedFiles':count,'productionFilesMatchingSnapshot':verified,'documentationLinksChecked':links,'errors':errors,'warnings':warnings}
     print(json.dumps(result,ensure_ascii=False,indent=2));return 0 if not errors else 1

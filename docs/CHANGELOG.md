@@ -1,57 +1,61 @@
-# 演進紀錄
+# Changelog
 
-## 0.3.2 — 2026-09-20: Aligned-source accuracy and coverage policy
+## Documentation refresh - 2026-09-20
 
-Deployed coherent same-station thermodynamics, exact hourly forecast points and PoP windows, validated station DailyExtreme data, and derived calendar-day extrema with synchronized occurrence times. Rainfall requires complete source windows and compatible phase companions; retained Apple phase classification is marked mixed. Removed fractional rain allocation, hazard-based PoP disaggregation, fabricated trace amounts and the grid-only temperature override. Added source assignments (including unchanged values), retention reasons, regression fixtures and stricter NWP lead/time validation. Mac/Pi5: 89 Python + 37 Node tests each; 20 native replays passed checked invariants, and Mac native 0.3.2 preview loaded successfully. Existing cache optimization, transport, CA and fallback remain intact; no calibrated new disaggregation or extended WRF horizon is deployed. See `docs/evidence/accuracy-032.json`.
+Converted maintained repository documentation to English, replaced the handoff-oriented entry point with a current status document, updated public-repository and GitHub state, and removed stale pending language from README and agent instructions. Historical evidence remains dated and does not override current status.
 
-## 2026-09-20: Accuracy and coverage research
+## 0.3.2 - 2026-09-20: aligned-source accuracy and coverage
 
-Measured exact-source compatibility by native forecast horizon, found unused station DailyExtreme values/timestamps, and checked official precipitation products and their temporal limits. Recorded a staged coherent-field/exact-source/validated-derivation proposal in ACCURACY_COVERAGE. No runtime, mapper, dataset cache, or collection schedule changed.
+Deployed coherent same-station thermodynamics, exact hourly forecast points and PoP windows, validated station `DailyExtreme` data, and derived calendar-day extrema with synchronized occurrence times.
 
-## 2026-09-20: Temperature and precipitation correctness audit
+Rainfall now requires complete source windows and compatible phase companions. Retained Apple rain phase is reported as mixed-source. Fractional rainfall allocation, hazard-based PoP disaggregation, fabricated trace amounts, and the grid-only temperature override were removed. Reports now include source assignments even when values are unchanged, source-kind counts, and retention reasons.
 
-Read-only live/fixture audit checked 1,975 scalar writes in 20 native proofs with zero encoding discrepancies, but failed semantic acceptance: daily extrema use shifted windows and retain Apple extrema timestamps; PoP conversion and precipitation companion fields have reproducible inconsistencies. Uncalibrated interpolation/disaggregation cannot be certified as exact official data. Recorded evidence and prioritized strict semantic mapping ahead of AQI card work. No runtime or mapping changes were deployed in this audit.
+Mac and Pi 5 each passed 89 Python and 37 Node tests. Twenty native replays passed checked invariants, and a fresh Mac native preview loaded 0.3.2 successfully. Cache behavior, transport, CA, and fallback remained unchanged. No calibrated disaggregation or extended WRF horizon was deployed.
 
-## 2026-09-20: Cache latency optimization and source audit
+## Research and audits - 2026-09-20
 
-Deployed proactive refresh of existing dataset caches and immediate valid-cache reads during refresh; retained TTL, stale limits, concurrency, and the translation deadline. Removed the unused warning-summary fetch, verified identical normalized output, and added per-stage latency evidence. Mac and Pi5 each passed 104 tests; native Mac Weather loaded values. Audited conditional CWA/Apple/MOENV data provenance in DATA_SOURCES. Watch recovery was confirmed by the user after manual CA installation and supported by successful watchOS response logs. See PERFORMANCE and the dated latency evidence.
+### Accuracy and coverage research
 
-## 2026-09-20: Apple Watch transport diagnostics
+Measured exact-source compatibility by forecast horizon, found unused station daily-extreme values/timestamps, and reviewed official precipitation products and temporal limits. The resulting exact/coherent policy was subsequently implemented in 0.3.2.
 
-Investigated the user-confirmed Tailscale-dependent Watch Weather failure. Added bounded, privacy-limited TLS outcome and HTTP response classification logs to the reverse proxy; 22 related tests passed on Mac and Pi5. Deployed with a source backup and restarted only the reverse proxy. Verified controlled untrusted/trusted TLS probes and the existing public CA/profile downloads. No routing, DNS, CA, enrollment, or weather transformation behavior changed. iPhone Mirroring eventually connected; the existing CA was downloaded and the Apple Watch profile installer reached. Installation is paused pending explicit security-setting confirmation. Watch certificate trust and device-side recovery remain unverified. See `docs/evidence/watch-diagnostics-20260920.json`.
+### Temperature and precipitation correctness audit
 
-## 2026-09-11：Mac repo交接
+A read-only audit verified 1,975 encoded scalar writes in 20 native proofs but rejected the 0.3.1 mapping semantics: extrema used shifted windows and Apple timestamps, PoP was uncalibrated, and precipitation companions could become inconsistent. This evidence motivated the 0.3.2 policy.
 
-從正式Pi5抽取完整功能source、vendor、測試與實際systemd/Serve/DNS/nft快照，建立`~/cwa-apple-proxy`本機Git。
-新增AGENTS及手動操作runbook、來源欄位表、歷史決策/已知限制、驗收manifest、bootstrap/離線測試/secret hook。
-擷取完整production dependency freeze補上舊鎖缺少的GRIB/空間套件；package metadata在Mac校正為0.3.1，傳輸版本獨立1.0.2。正式Pi5程式、DNS、服務設定原樣保留。
-使用者決策：jarvis略過。Mac建repo工具遇到Executor502，透過Pi5已知SSH通道續作。
+### Cache latency optimization and source audit
 
-## 1.0.2傳輸
+Deployed proactive refresh of existing dataset caches and immediate valid-cache reads during refresh. TTL, stale limits, concurrency, and the translation deadline remained unchanged. Removed an unused warning-summary request, verified identical normalized output, and added per-stage timing.
 
-四條restricted DNS開啟Use with exit node。None、Pi5、A1-JP、A1-US、兩個Mullvad代表出口有實際Weather新回應；12份/10,846字段核對，99回歸。Mac還原原設定。jarvis留失敗證據後依使用者略過。
+### Apple Watch diagnostics and recovery
 
-## iPhone加入
+Added privacy-limited TLS/HTTP transport diagnostics without changing routing, DNS, CA, enrollment, or weather mapping. The user then installed the CA on Apple Watch and confirmed recovery with Tailscale enabled; later server logs contained successful watchOS transformations.
 
-使用者安裝信任CA後，將100.123.14.68加入IPv4/IPv6 opt-in；2原生App+1Widget實際回應，2,160欄位通過。server可見請求，不可由server直接知道客戶端選的Exit Node。
+## 2026-09-11: repository initialization
 
-## 1.0.1傳輸
+Extracted the complete deployed Pi 5 source, vendor files, tests, and systemd/Serve/DNS/nftables snapshots into the Mac Git checkout. Added repository instructions, operations documentation, source-field tables, decisions, limitations, evidence manifests, bootstrap/testing tools, and secret scanning.
 
-四條子網路核准後補四restricted DNS。IPv6無公網route時新增early QUIC與missing-FIB TCP快速回退；95回歸與13傳輸檢查。0.3.1資料功能維持。
+Captured the full production dependency freeze and added missing GRIB/spatial dependencies. Kept the Pi 5 program, DNS, and services unchanged during repository construction. The user excluded the unhealthy `jarvis` host.
 
-## 1.0.0傳輸
+## Transport 1.0.2
 
-由全流量Pi5 Exit Node轉為DNS+relay-specific routes；路由宣告與pending明確區分。Mac None模式App/Widget成功，控制端核准後才形成下一版驗收。
+Enabled **Use with exit node** for four restricted DNS entries. Verified fresh Mac Weather responses with None, Pi 5, A1-JP, A1-US, and two representative Mullvad exits. Twelve payloads and 10,846 mapped fields passed decoding checks; the Mac configuration was restored afterward.
 
-## 0.3.1資料
+## iPhone enrollment
 
-新增雨量站、官方溫度分析、1h radar QPF、WRF累積量差分、PoP推估、pressure/visibility/新鮮gust、天文與LinkedAQI、CWA警報、3.5s非同步ntfy。
-擴充省略scalar、保留unknown root；PoP推估與均勻雨強假設可查核。AQI量尺卡片404仍待修。
+After the user installed and trusted the CA, enrolled `100.123.14.68` for IPv4/IPv6 interception. Two native Weather responses and one Widget response produced 2,160 verified mapped fields.
 
-## 0.2.0與協定研究
+## Transport 1.0.1
 
-真實原生App的weatherkit API/v2、WK2.Weather FlatBuffers擷取、CA/SNI/Serve/AdGuard/Tailscale連接；最初溫度與鄉鎮預報替換。初期降雨機率保留Apple，後由0.3.1擴充。
+After approval of four relay routes, added four restricted DNS entries. Added early QUIC and missing-FIB IPv6 TCP fallback for the Pi 5 environment without a public IPv6 route.
 
-### 本機實測補正
+## Transport 1.0.0
 
-Mac完成99項既有回歸與ecCodes自檢。Linux-only二進位wheel與Mac版本分開鎖定；首次失敗保留.private，requirements.macos.lock記錄成功解析的67套件。
+Moved from a full-tunnel Pi 5 exit requirement to restricted DNS plus relay-specific routes. Explicitly separated route advertisement from control-plane approval.
+
+## Data 0.3.1
+
+Added rain stations, official temperature analysis, one-hour radar QPF, WRF cumulative-precipitation differences, PoP derivation, pressure/visibility/fresh gusts, astronomy, LinkedAPI AQI, warnings, and the 3.5-second asynchronous fallback notification. Later semantic audit findings were corrected or guarded by 0.3.2.
+
+## Data 0.2.0 and protocol research
+
+Captured the native WeatherKit `api/v2` / `WK2.Weather` FlatBuffers protocol and built the CA/SNI/Serve/AdGuard/Tailscale path. Implemented the initial current-temperature and township-forecast overrides while preserving unknown native payload data.

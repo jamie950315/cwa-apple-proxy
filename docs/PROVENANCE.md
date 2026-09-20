@@ -1,23 +1,22 @@
-# 檔案来源與保留範圍
+# Source provenance and retained evidence
 
-來源權威：本次唯讀擷取Pi5 `/home/jamie/cwa-weather-proxy`。`evidence/production-source-manifest.json`記錄初始拷貝source path、SHA256、長度與遮蔽旗標。
-功能.py/.mjs保持正式位元組；README、package metadata、developer scripts、完整依賴鎖與交接文檔是Mac repo新增／整理，不會自動改正式部署。
+The authoritative initial source extraction came from `/home/jamie/cwa-weather-proxy` on the Pi 5. `docs/evidence/production-source-manifest.json` records source paths, SHA-256 hashes, sizes, and redaction flags at that date. Later deployments are documented separately; the initial manifest is not a claim that production never changed.
 
-## 分層保存
+## Storage layers
 
-| 路徑 | 範圍 |
+| Path | Contents |
 |---|---|
-| 根目錄功能程式、vendor、tests、systemd、config | 正式完整程式與必要配置／測試，少量即時狀態採example |
-| infra/live-systemd | systemctl cat取得的已安裝unit；需與source unit區分 |
-| infra/snapshots | 本次service、Serve、route、DNS、nft與dependency freeze快照 |
-| docs/reference | 官方API YAML／LinkedAPI schema／GRIB及原生codec研究 |
-| docs/history | 原始部署與驗收報告，維持當時內容 |
-| tools/history | 歷史研究與一次性修補脚本，供讀碼追溯，全部標為非自動操作入口 |
-| .private/history.tar.gz | 原始研究文字、日誌、schema、早期失敗與報告 |
-| .private/native-evidence.tar.gz | 可用裝置原生bytes、mapper報告、CWA snapshot等 |
-| .private/runtime | 當時clients/managed DNS/路由ownership狀態與public CA |
-| .private/provenance/history-manifest.json | 歷史封存檔案hash、遮蔽及省略理由 |
+| Root source, `vendor/`, `tests/`, `systemd/`, `config/` | Maintained program, required configuration, and tests |
+| `infra/live-systemd/` | Captured installed units; distinguish them from source units |
+| `infra/snapshots/` | Dated service, Serve, route, DNS, nftables, and dependency snapshots |
+| `docs/reference/` | CWA API schemas, GRIB metadata, and native codec research |
+| `docs/history/` | Dated deployment and acceptance reports; historical, not current instructions |
+| `tools/history/` | One-off research and patch scripts; read-only reference |
+| `.private/history.tar.gz` | Excluded raw research, logs, schemas, failures, and reports |
+| `.private/native-evidence.tar.gz` | Excluded native payloads, mapper reports, and source snapshots |
+| `.private/runtime/` | Excluded client, managed-DNS, route ownership, and public-CA snapshots |
+| `.private/provenance/history-manifest.json` | Excluded archive hashes, redactions, and omission reasons |
 
-省略的是可重建的環境`.venv`/node_modules、.git、暫存PID、大型GRIB原始下載與秘密設定備份；這些仍在Pi5原本位置。GRIB重新取得方法見model_worker與official schema。原生proof有原先20組滾動保留限制，本次只能封存當時仍存在的檔案，已有被滾掉的原始資料不宣稱完整復原。
+Reproducible environments, temporary PIDs, large GRIB downloads, secrets, and private keys are omitted from Git. Native proof storage had a rolling limit, so evidence that had already rotated away is not claimed as recovered.
 
-本次沒有原始ChatGPT對話逐字稿匯出，HANDOFF/DECISIONS/CHANGELOG保留可見對話的技術決策與修正，搭配實際檔案與測試證據。後續AI以具體內容與新的live驗證接續。
+Current technical state is documented in [Status](STATUS.md), while decisions and evolution are in [Decisions](DECISIONS.md) and [Changelog](CHANGELOG.md). Always pair a dated report with live verification when making an operational claim.

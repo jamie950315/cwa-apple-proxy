@@ -1,8 +1,8 @@
-# Accuracy-preserving coverage research
+# Accuracy-preserving coverage policy
 
-Research date: 2026-09-20. No runtime or mapper changes were made. This is a proposal, not an accepted or deployed accuracy guarantee.
+Research date: 2026-09-20. Implemented in translation version 0.3.2.
 
-**Subsequent implementation:** the user approved applying this proposal. Version 0.3.2 deploys the coherent/exact-source groups and explicitly derived calendar-day extrema; unvalidated disaggregation, shifted day-part windows and +78/+84h extension remain disabled. See [acceptance evidence](evidence/accuracy-032.json). The research findings below retain their original context.
+Version 0.3.2 deploys coherent exact-source groups and explicitly derived calendar-day extrema. Unvalidated disaggregation, shifted day-part windows, and the +78/+84-hour WRF extension remain disabled. See [acceptance evidence](evidence/accuracy-032.json). The measurements below preserve the research basis for the deployed policy; they are not an accuracy guarantee.
 
 ## Recommendation
 

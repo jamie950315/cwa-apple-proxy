@@ -1,50 +1,48 @@
-# 已知問題與待辦
+# Known issues and future work
 
-## Corrected/guarded in 0.3.2: temperature and precipitation audit findings
+## P1: native Taiwan AQI scale
 
-The bridge must not be described as error-free weather or a complete copy of official CWA values. The [0.3.1 audit evidence](evidence/correctness-20260920.json) is historical; [0.3.2 acceptance](evidence/accuracy-032.json) records the applied corrections.
+CWA LinkedAPI delivers Taiwan MOENV AQI data, and the mapper writes `scale=TAIWAN_AQI`. The native app then requests `/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI`, which currently returns 404. Successful root/scalar decoding proves the payload value but not complete AQI-card rendering.
 
-- Daily extrema now use a complete 00–24 hourly sample set (plus today's validated observations) and update both occurrence times. Missing coverage retains the entire Apple extrema family. Sampled extrema remain a derived forecast, not exact continuous-time extrema.
-- Rainfall totals update only compatible rain-only companions; unsupported/multiple/snow phases retain Apple. Apple phase classification is explicitly mixed-source rather than falsely attributed to CWA. Tests cover top-level phase conflicts and nonzero snow intensity.
-- PoP only uses an identical, non-conflicting official interval. Unmatched hourly/daily values remain Apple; the 3h/12h hazard model is removed from live conversion.
-- Rainfall is no longer fractionally split or radar/model blended. Trace `T` remains nonnumeric. The next-hour QPF is only usable for its exact source window.
-- Current thermodynamics stay with one station/time; grid analysis is diagnostic-only. Missing/inconsistent thermodynamic groups retain Apple. Hourly temperature-related groups use exact same-time source points, not interpolation.
+A correct fix requires capturing a supported scale response, understanding the private classification/color/range schema, implementing the Taiwan scale endpoint, adding mapping tests, and validating the native Mac and iPhone UI. Relabeling Taiwan values as another country's scale is not acceptable.
 
-Remaining limits: native coverage is intentionally lower for incompatible precipitation windows and long-horizon temperatures; daily extrema depend on sampled hourly forecasts and spatially representative station/town data; Apple comparisons, summaries and other unmapped fields may still describe Apple's forecast. There is no calibrated new disaggregation model or validated +78/+84h extension. A new physical iPhone/Watch UI check for 0.3.2 remains separate from Mac/replay validation.
+## Mapping limits after 0.3.2
 
-## Resolved: Apple Watch Weather and custom CA trust
+The semantic defects identified in the 0.3.1 temperature/precipitation audit are corrected or guarded in 0.3.2. Historical failure evidence remains in `evidence/correctness-20260920.json`; current acceptance is in `evidence/accuracy-032.json`.
 
-The user installed the custom CA on Watch and confirmed Weather recovery with iPhone Tailscale enabled. The subsequent server audit identified four successful Watch responses. Apple requires installing a custom CA on both paired devices ([QA1948](https://developer.apple.com/library/archive/qa/qa1948/_index.html)). Controlled `unknown-ca` probes are not device evidence. No routing workaround was needed.
+- Calendar-day extrema are derived from validated observations and complete hourly samples. They are not exact continuous-time official extrema.
+- Incompatible rain phases, multiple ByType entries, snow fields, partial windows, and conflicting values retain Apple.
+- Unmatched hourly/daily PoP remains Apple. The former uncalibrated 3-hour/12-hour disaggregation is disabled.
+- Trace rain is nonnumeric. Rainfall is not fractionally split or blended across radar/model families.
+- Current thermodynamics use one station/time. Temperature-analysis grids are diagnostics only.
+- Coverage intentionally decreases where source semantics do not align.
+- Apple summaries, comparisons, icons, and other unmapped fields may disagree with CWA values.
+- No calibrated disaggregation model or validated WRF +78/+84-hour extension is deployed.
 
-Keep existing iPhone/Mac enrollment and routing intact. Installing a certificate on iPhone alone is not Watch acceptance. Do not reset, unpair, or introduce MDM as an automatic workaround.
+## Geographic and forecast representativeness
 
-## P1：AQI量尺卡片相容性
+Nearest representative township points and horizontal station distance are imperfect near administrative borders and in mountainous terrain. Future improvement may use administrative polygons, elevation, and terrain-aware selection. Any new derived forecast needs independent forecast-skill validation; conservation or schema tests alone are insufficient.
 
-現有CWA LinkedAPI AQI寫入`TAIWAN_AQI`後，原生App再取 `/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI` 得404。scalar/root解碼成功只驗證數值，完整卡片尚未修復。下一步：擷取支援的scale response、解析protocol與分類文字/顏色/區间，實作正確台灣量尺端點與對照測試，最後Mac與iPhone UI驗收。不要重標其他國量尺作為臺灣量尺的捷徑。
+## Operations
 
-## P2：氣象語意与地理代表性
+- WRF APCP and pressure extraction rely on the validated current file layout. A dynamic GRIB message index would be more robust; existing fail-closed checks must remain.
+- Leaf-certificate and CA renewal are manual.
+- Pi 5, Tailscale, TLS, or Apple-upstream outages occur before translation fallback and need separate monitoring.
+- New OS releases and unknown FlatBuffers slots require renewed capture and compatibility testing.
+- `configurationReady` covers current route/DNS conditions, but the exit-DNS flag is a recorded snapshot rather than continuously queried live state.
+- Linux units, host addresses, and some paths are deployment-specific and are not yet parameterized for a second host.
+- Physical iPhone/Watch UI acceptance specifically for 0.3.2 remains separate from server replay and Mac UI evidence.
 
-- 0.3.2 已停用未校準 PoP／雨量拆分；新增衍生模型仍需獨立預報準確度驗證，不能以守恆測試取代。
-- 0.3.2 已修正曆日時段與極值時間；保留 Apple 的其他圖示／歷史比較摘要仍可能與 CWA 資料不同。
-- 最近鄉鎮代表點、水平距離測站配對，邊界與山區需要多邊形/海拔/地形改善。
-- 0.3.2 的格點溫度僅供診斷；若未來重新採用，必須先解決完整溫濕度組與時間／空間代表性。
+## Resolved Watch issue
 
-## P2：運行維護
+The user installed the custom CA on Apple Watch and confirmed Weather recovery with iPhone Tailscale enabled. Four subsequent watchOS transformations support the diagnosis. No routing workaround was necessary. A CA installed only on the iPhone is not sufficient Watch acceptance; do not reset, unpair, or introduce MDM automatically.
 
-- WRF APCP固定byte offset、pressure尾部估算對現格式有效；新增動態message索引較穩健，現有強檢查與fail-safe應保留。
-- TLS leaf續期與CA續期尚為人工；整機/Tailscale/Apple上游離線未纳入3.5秒翻譯fallback，外部監控可獨立設計。
-- 原生協定未知slot、新OS版本須重新驗證；保留的Apple字段與圖磚整合逐項研究。
-- `configurationReady`只整合目前route/DNS條件；Use-with-exit旗標目前歷史快照，而非每分鐘live核對。
-- repo中的Linux unit、IP與部分ROOT硬編碼，獨立host配置／本機runtime參數化尚未實作。現有production metadata package.json0.2.0已在Mac repo校正，正式source尚未變更。
+## Validation still requiring separate evidence
 
-## 驗證仍需分開進行
+Treat each of these as an independent test: iPhone under each exit node, Wi-Fi/cellular roaming, native AQI and other new cards, full-device restart and disconnect recovery, long-running reliability, and actual delivery of ntfy notifications to a subscribed device.
 
-iPhone每個Exit Node、Wi-Fi↔行動網路、不同網路漫遊；原生AQI與其他新增卡片UI；全機重開機／斷線恢復；長時間運行與通知實際手機接收。不要因某一個Mac模式通過宣稱全部組合已驗。
+## Out of scope
 
-## 排除項目
+The user explicitly excluded the unhealthy `jarvis` host. Preserve existing failure evidence, but do not treat that host as a project blocker or resume repair without a new request.
 
-**jarvis：使用者在本次repo交接前已明確指示略過，主機本身有問題。** 保留既有失敗證據，對其進一步探測／修復需使用者重新提出。
-
-## 文件／版本陷阱
-
-`docs/history`與`.private`內保留舊pending/舊規則，現在狀態由HANDOFF与live source判讀。剛建立Git repo的snapshot不是自動部署管線；正式Pi5跟Mac source後續可能分岔，deploy先比hash。
+Historical reports may describe routes, iPhone enrollment, or Watch trust as pending. Those statements are dated and superseded by [Current status](STATUS.md).

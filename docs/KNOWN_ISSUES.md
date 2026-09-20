@@ -1,5 +1,17 @@
 # 已知問題與待辦
 
+## P1: Temperature and precipitation correctness audit failed (2026-09-20)
+
+The bridge must not be described as fully correct or as a direct copy of official CWA values. Read [the audit evidence](evidence/correctness-20260920.json) before changing these mappings.
+
+- Live: 120 daily windows in 20 retained proofs use CWA 06:00–next 06:00 extrema in Apple 00:00–24:00 days. Changed maxima/minima retain Apple's original extrema timestamps (120 of each). The current tests accept the shifted window; passing them is not semantic validation.
+- Reproduced: changing precipitation scalar totals without their ByType companions can leave conflicting values in one native payload. The current 20-proof live sample had zero newly conflicting populated pairs among 114 checked; the bug is demonstrated by an existing native fixture, not asserted as present in that live sample.
+- Reproduced: nested official PoP windows (12h 60%, nested 3h 50%) yield 74.8513% for the full 12h instead of retaining the source's 60%. Choosing the shortest overlapping interval and splicing independent hazards does not preserve official probability constraints.
+- Uncalibrated assumptions: splitting 3h PoP into hourly probabilities, uniformly allocating 6h rainfall, and blending radar/model windows do not have a unique official answer. Trace `T` is mapped to an invented exact 0.05 mm. These must not be represented as exact official values.
+- Conditional temperature inconsistency: replacing station temperature with a newer grid value retains station-derived dew point and station `asOf`; pressure provenance also describes station temperature while using the grid value. A constructed case yields temperature 20 C and dew point 30 C. The sampled live location did not use the grid override.
+
+No mapper, runtime, or data policy changed during this audit. Decide the strictness contract before removing estimates or retaining more Apple fields. The recommended contract is to override only semantically aligned fields with compatible companion metadata; unsupported windows retain Apple rather than fabricate new official-looking values. This cannot guarantee forecast accuracy or exact conditions at the user's position.
+
 ## Resolved: Apple Watch Weather and custom CA trust
 
 The user installed the custom CA on Watch and confirmed Weather recovery with iPhone Tailscale enabled. The subsequent server audit identified four successful Watch responses. Apple requires installing a custom CA on both paired devices ([QA1948](https://developer.apple.com/library/archive/qa/qa1948/_index.html)). Controlled `unknown-ca` probes are not device evidence. No routing workaround was needed.

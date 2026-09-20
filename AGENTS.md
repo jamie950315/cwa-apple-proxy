@@ -21,6 +21,7 @@ Exit Node 可選 None、Pi5 或其他正常節點。四條 restricted DNS 的 Us
 - 成功封包的 `skippedFields=0` 僅描述本次可映射寫入；整包仍有刻意保留的 Apple 欄位。
 - Watch recovery (2026-09-20): the user installed the CA on Watch and confirmed Weather works with Tailscale enabled; server logs subsequently showed successful watchOS transformations. Do not control the user's iPhone now that they have left the Mac at home. Keep iPhone/Mac enrollment intact. Initial controlled TLS probes are not Watch evidence; AdGuard logs are in `/var/log/adguard/`.
 - Cache optimization (2026-09-20): Pi5 refreshes active dataset caches before expiry, without extending TTL/stale limits. Native bridge logs include Apple/CWA/codec/proof timings; they exclude device DNS/Bluetooth/rendering. See `docs/PERFORMANCE.md`; full Apple responses are not cached.
+- Correctness audit (2026-09-20) failed semantic acceptance for daily temperature windows/companion timestamps and precipitation mappings. See `docs/evidence/correctness-20260920.json` and KNOWN_ISSUES before further mapper work. No corrective data policy has yet been deployed; never describe the current mixed estimates as entirely official or error-free.
 - 氣象推估保留來源、單位、時段、假設。PoP 時間拆分屬尚未校準的推估；時間內插維持現有限制。
 - 保留 3.5 秒翻譯截止期限、Apple 原始位元組及標頭回退、非同步 ntfy 與 300 秒去重。
 - 維持裝置 opt-in。完整信任 CA 後才 enable 新裝置；Mac、iPhone 已完成的啟用狀態不要回復成 pending。

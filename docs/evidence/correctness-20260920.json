@@ -1,0 +1,61 @@
+{
+  "date": "2026-09-20",
+  "acceptance": "failed-semantic-correctness",
+  "scope": ["temperature", "precipitation amount", "precipitation probability"],
+  "runtimeModified": false,
+  "liveChecks": {
+    "retainedProofs": 20,
+    "decodedRelevantScalarWrites": 1975,
+    "encodingMismatches": 0,
+    "dailyTemperatureWindowMismatches": 120,
+    "changedMaximaWithRetainedAppleTime": 120,
+    "changedMinimaWithRetainedAppleTime": 120,
+    "uncalibratedProbabilityWrites": 718,
+    "estimatedAmountWrites": 60,
+    "populatedRainScalarByTypePairsChecked": 114,
+    "newRainScalarByTypeMismatchesObserved": 0,
+    "rainStationsChecked": 1335,
+    "rainCumulativePairsChecked": 6675,
+    "nonmonotonicRainPairs": 0
+  },
+  "fixtureReproductions": [
+    {
+      "issue": "scalar changed while ByType companion remains Apple",
+      "dailyAmountBeforeMm": 6.284,
+      "dailyAmountAfterMm": 24,
+      "retainedByTypeExpectedMm": 6.284,
+      "observedInLiveSample": false
+    },
+    {
+      "issue": "overlapping probability windows violate longer official aggregate",
+      "official12hProbability": 0.6,
+      "nested3hProbability": 0.5,
+      "mapped12hProbabilityApprox": 0.748513,
+      "observedInLiveSample": "not independently classified"
+    },
+    {
+      "issue": "grid temperature mixed with station-derived dew point and timestamp",
+      "stationTemperatureC": 30,
+      "stationHumidityPercent": 100,
+      "gridTemperatureC": 20,
+      "outputDewPointCApprox": 30,
+      "observedInLiveSample": false
+    }
+  ],
+  "nonIdentifiableEstimates": [
+    "3h PoP 30 percent does not uniquely imply hourly PoP 11.2096 percent.",
+    "A 6h rainfall total does not uniquely identify any individual hourly total.",
+    "Radar/model replacement is a blending policy, not preservation of both source totals.",
+    "Trace precipitation is not an exact measured 0.05 mm.",
+    "Horizontal nearest-station/town matching is not exact weather at the user's position."
+  ],
+  "officialWindowReference": "https://www.cwa.gov.tw/V8/C/W/County/index.html",
+  "testEvidence": {
+    "mapperAndWeatherMathNodeTestsPassed": 23,
+    "rainRelatedPythonTestsPassed": 25,
+    "temperatureRelatedPythonTestsPassed": 20,
+    "note": "Suites overlap. Existing tests validate current behavior and do not establish semantic correctness."
+  },
+  "recommendedPolicy": "Only override exact compatible source windows and complete companion fields; retain Apple for unsupported conversions instead of claiming exact CWA values.",
+  "absoluteForecastAccuracyGuaranteed": false
+}

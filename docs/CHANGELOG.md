@@ -1,5 +1,9 @@
 # 演進紀錄
 
+## 2026-09-20: Temperature and precipitation correctness audit
+
+Read-only live/fixture audit checked 1,975 scalar writes in 20 native proofs with zero encoding discrepancies, but failed semantic acceptance: daily extrema use shifted windows and retain Apple extrema timestamps; PoP conversion and precipitation companion fields have reproducible inconsistencies. Uncalibrated interpolation/disaggregation cannot be certified as exact official data. Recorded evidence and prioritized strict semantic mapping ahead of AQI card work. No runtime or mapping changes were deployed in this audit.
+
 ## 2026-09-20: Cache latency optimization and source audit
 
 Deployed proactive refresh of existing dataset caches and immediate valid-cache reads during refresh; retained TTL, stale limits, concurrency, and the translation deadline. Removed the unused warning-summary fetch, verified identical normalized output, and added per-stage latency evidence. Mac and Pi5 each passed 104 tests; native Mac Weather loaded values. Audited conditional CWA/Apple/MOENV data provenance in DATA_SOURCES. Watch recovery was confirmed by the user after manual CA installation and supported by successful watchOS response logs. See PERFORMANCE and the dated latency evidence.

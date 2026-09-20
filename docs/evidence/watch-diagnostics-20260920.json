@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-09-20T11:49:31+08:00",
+  "status": "awaiting-certificate-installation-confirmation",
+  "userObservation": "Watch Weather recovers when iPhone Tailscale is disabled.",
+  "rootCause": "not-confirmed",
+  "leadingHypothesis": "Watch has not established trust in the custom WeatherKit CA.",
+  "liveChecks": {
+    "coreServices": "active",
+    "iphoneDns": "weatherkit.apple.com rewritten to Pi5",
+    "captureWindowsSeconds": [55, 55],
+    "watchRequestIdentified": false,
+    "relayHostnameQueriesFromIphoneInAvailableDnsLogs": 0,
+    "currentAdGuardLogDirectory": "/var/log/adguard",
+    "iphoneMirroring": "initially blocked by iPhone in use; subsequently connected",
+    "pairedWatch": "Apple Watch Ultra 3",
+    "watchInstaller": "Safari CA download -> Other Devices -> Apple Watch -> CWA Weather Bridge Root profile installer; Install not pressed"
+  },
+  "diagnosticDeployment": {
+    "files": ["addon.py", "tests/test_addon.py"],
+    "backup": "/home/jamie/cwa-weather-proxy/backups/watch-diagnostics-20260920-1149",
+    "restartedService": "cwa-weather-proxy",
+    "addonOriginalSha256": "35ea800e6453556bc842d4f6283dd8ff09781e40ae21b7ce4a327ddccb16a87e",
+    "addonDeployedSha256": "4238cbd46ce7714e806926e0cae0c66f5ba15008994bf32e83e212519ea6a3a8",
+    "testsDeployedSha256": "b5838c24571ba78fcaa5a27b9f05b179a86c88f80ee583b0b4abbfafacce350d",
+    "macRelatedTestsPassed": 22,
+    "piRelatedTestsPassed": 22,
+    "dnsRoutesCertificatesEnrollmentChanged": false,
+    "dataVersion": "0.3.1",
+    "transportPolicyVersion": "1.0.2"
+  },
+  "controlledProbes": {
+    "timestamp": 1789876126,
+    "origin": "Pi5 diagnostic client, not Apple Watch",
+    "untrustedCa": "certificate verification failed; server recorded unknown-ca",
+    "trustedCa": "TLSv1.3 verified; upstream HEAD / returned HTTP 302",
+    "diagnosticRedactionUnitTest": "passed"
+  },
+  "certificateDownloads": {
+    "certificateHttp": 200,
+    "profileHttp": 200,
+    "profilePayloadTypes": ["com.apple.security.root"],
+    "profileCertificateMatchesDeployedCa": true,
+    "caDerSha256": "002ac26eb292b77d731b0807ca0401fe9becfad64eadbe01ec643023502b5865",
+    "nameConstraint": "weatherkit.apple.com"
+  },
+  "limitations": [
+    "No Watch TLS failure or HTTP response has been identified.",
+    "No certificate installation on Watch was performed or verified.",
+    "Watch UI recovery with Tailscale enabled remains unverified.",
+    "Two short passive captures do not exclude cached or later requests."
+  ],
+  "appleReference": "https://developer.apple.com/library/archive/qa/qa1948/_index.html"
+}

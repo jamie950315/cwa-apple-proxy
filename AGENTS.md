@@ -19,6 +19,7 @@ Exit Node 可選 None、Pi5 或其他正常節點。四條 restricted DNS 的 Us
 - Executor Mac 發生 502 時，可透過 Executor Pi5 的已驗證 SSH `jamie@100.122.163.78` 操作 Mac。SSH 的 Safari JavaScript／Accessibility 權限有歷史限制；工具恢復後優先用帶 captureId 的桌面操作。
 - 結果區分：設定已存／路由已宣告／控制端已核准／裝置已收到／HTTPS 通過／轉換完成／封包核對／原生 UI 顯示。各層需有各自證據。
 - 成功封包的 `skippedFields=0` 僅描述本次可映射寫入；整包仍有刻意保留的 Apple 欄位。
+- Watch investigation (2026-09-20): disabling iPhone Tailscale restores Watch Weather, but the exact cause and Watch CA trust remain unverified. Use `logs/transport-reverse.jsonl` for TLS/HTTP diagnostics; initial controlled TLS probes are not Watch evidence. Current AdGuard logs are in `/var/log/adguard/`. Keep iPhone/Mac enrollment intact. See HANDOFF and the dated evidence JSON.
 - 氣象推估保留來源、單位、時段、假設。PoP 時間拆分屬尚未校準的推估；時間內插維持現有限制。
 - 保留 3.5 秒翻譯截止期限、Apple 原始位元組及標頭回退、非同步 ntfy 與 300 秒去重。
 - 維持裝置 opt-in。完整信任 CA 後才 enable 新裝置；Mac、iPhone 已完成的啟用狀態不要回復成 pending。

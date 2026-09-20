@@ -9,10 +9,12 @@ def flow(country='TW',status=200,content=b'original bytes'):
 @pytest.fixture
 def bridge(tmp_path,monkeypatch):
  (tmp_path/'logs').mkdir();(tmp_path/'data').mkdir();monkeypatch.setattr(addon,'ROOT',tmp_path)
- logger=logging.getLogger('cwa-weather-bridge')
- for h in logger.handlers[:]:h.close();logger.removeHandler(h)
+ loggers=[logging.getLogger(name) for name in ['cwa-weather-bridge','cwa-weather-transport']]
+ for logger in loggers:
+  for h in logger.handlers[:]:h.close();logger.removeHandler(h)
  yield addon.Bridge()
- for h in logger.handlers[:]:h.close();logger.removeHandler(h)
+ for logger in loggers:
+  for h in logger.handlers[:]:h.close();logger.removeHandler(h)
 @pytest.mark.parametrize('country',['JP','AT','US',''])
 def test_foreign_passthrough(bridge,country):
  f=flow(country);body=f.response.content;headers=f.response.headers.copy()
@@ -46,6 +48,19 @@ def test_all_translation_errors_preserve_bytes_and_headers(bridge,failure):
 def test_regular_proxy_rejects_unrelated_connect(bridge):
  f=SimpleNamespace(request=http.Request.make('CONNECT','https://example.org/'),response=None)
  bridge.http_connect(f);assert f.response.status_code==403
+
+def test_transport_diagnostics_redact_sensitive_values(bridge,tmp_path):
+ import json
+ conn=SimpleNamespace(id='test-connection',sni='weatherkit.apple.com',error='TLS alert unknown ca; private detail')
+ bridge.tls_failed_client(SimpleNamespace(conn=conn));bridge.tls_established_client(SimpleNamespace(conn=conn))
+ f=flow();f.client_conn=conn;f.request.headers['User-Agent']='WeatherKit_Weather_watchOS_Version test-private';bridge.transport_response(f)
+ text=(tmp_path/'logs'/'transport-reverse.jsonl').read_text();events=[json.loads(line) for line in text.splitlines()]
+ assert [e['event'] for e in events]==['tls-failed','tls-established','http-response']
+ assert events[0]['reason']=='unknown-ca'
+ assert events[2]['platform']=='watchos' and events[2]['endpoint']=='weather-v2' and events[2]['status']==200
+ assert all(value not in text for value in ['25.09','121.56','private','country','WeatherKit'])
+ conn.sni='example.org';bridge.tls_failed_client(SimpleNamespace(conn=conn));bridge.tls_established_client(SimpleNamespace(conn=conn))
+ assert (tmp_path/'logs'/'transport-reverse.jsonl').read_text()==text
 
 def test_translation_handles_compressed_response(bridge):
  import base64,gzip

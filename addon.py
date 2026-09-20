@@ -13,6 +13,26 @@ class Bridge:
         self.log=logging.getLogger('cwa-weather-bridge');self.log.setLevel(logging.INFO)
         if not self.log.handlers:
             handler=logging.handlers.RotatingFileHandler(ROOT/'logs'/f'bridge-{MODE}.jsonl',maxBytes=5000000,backupCount=2,delay=True);handler.setFormatter(logging.Formatter('%(message)s'));self.log.addHandler(handler)
+        self.transport_log=logging.getLogger('cwa-weather-transport');self.transport_log.setLevel(logging.INFO);self.transport_log.propagate=False
+        if not self.transport_log.handlers:
+            handler=logging.handlers.RotatingFileHandler(ROOT/'logs'/f'transport-{MODE}.jsonl',maxBytes=500000,backupCount=2,delay=True);handler.setFormatter(logging.Formatter('%(message)s'));self.transport_log.addHandler(handler)
+    def transport_event(self,event,conn,**fields):
+        # No URLs, coordinates, headers, raw errors, or TLS secrets belong here.
+        try:self.transport_log.info(json.dumps({'time':int(time.time()),'event':event,'connection':str(conn.id) if conn else None,**fields}))
+        except OSError:pass
+    def tls_established_client(self,data):
+        if data.conn.sni=='weatherkit.apple.com':self.transport_event('tls-established',data.conn)
+    def tls_failed_client(self,data):
+        if data.conn.sni!='weatherkit.apple.com':return
+        error=(data.conn.error or '').lower()
+        reason=next((name for token,name in [('unknown ca','unknown-ca'),('certificate unknown','certificate-unknown'),('bad certificate','bad-certificate'),('does not trust','certificate-untrusted')] if token in error),'other-tls-failure')
+        self.transport_event('tls-failed',data.conn,reason=reason)
+    def transport_response(self,flow):
+        agent=flow.request.headers.get('user-agent','').lower()
+        platform=next((name for name in ['watchos','ios','macos'] if name in agent),'other')
+        path=flow.request.path.split('?',1)[0]
+        endpoint=next((name for prefix,name in [('/api/v2/weather/','weather-v2'),('/api/v1/weather/','weather-v1'),('/api/v1/airQualityScale/','air-quality-scale')] if path.startswith(prefix)),'other')
+        self.transport_event('http-response',getattr(flow,'client_conn',None),platform=platform,endpoint=endpoint,status=flow.response.status_code)
     def running(self):
         # The outer 3.5 second budget governs the whole CWA + codec path.
         self.client=httpx.AsyncClient(timeout=httpx.Timeout(10,connect=1.5),trust_env=False)
@@ -60,6 +80,7 @@ class Bridge:
         task=asyncio.create_task(self._notify(reason,event));self.notify_tasks.add(task);task.add_done_callback(self.notify_tasks.discard)
     async def response(self,flow):
         if flow.request.host!='weatherkit.apple.com':return
+        self.transport_response(flow)
         self.stats['seen']+=1;location=self.target(flow)
         if not location or flow.response.status_code!=200 or not re.search(r'application/vnd\.apple\.flatbuffer\s*;\s*messageType=\"?WK2\.Weather(?:[\";\s]|$)',flow.response.headers.get('content-type',''),re.I):self.stats['passthrough']+=1;return
         original=flow.response.content;original_raw=flow.response.raw_content;headers=flow.response.headers.copy();started=time.monotonic();event={'mode':MODE,'version':VERSION,'time':int(time.time()),'latitude':location[0],'longitude':location[1],'status':'passthrough','app':flow.request.headers.get('user-agent','')}

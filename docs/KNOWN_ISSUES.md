@@ -1,5 +1,11 @@
 # 已知問題與待辦
 
+## P1: Apple Watch Weather unavailable with iPhone Tailscale enabled
+
+User A/B: disabling iPhone Tailscale restores Watch Weather. This confirms a path-dependent failure, not its exact cause. Watch trust of the custom WeatherKit CA is unverified; Apple requires installing a custom CA on both paired devices ([QA1948](https://developer.apple.com/library/archive/qa/qa1948/_index.html)). Current diagnostics can distinguish TLS failures from HTTP responses, but no Watch event has yet been identified. Controlled `unknown-ca` probes must not be attributed to Watch.
+
+Keep existing iPhone/Mac enrollment and routing intact. Verify the Watch CA installation and reproduce with Tailscale enabled before changing relay DNS or QUIC policy. Installing a certificate on iPhone alone is not Watch acceptance. The archived Apple installation UI may differ on current watchOS; do not reset, unpair, or introduce MDM as an automatic workaround.
+
 ## P1：AQI量尺卡片相容性
 
 現有CWA LinkedAPI AQI寫入`TAIWAN_AQI`後，原生App再取 `/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI` 得404。scalar/root解碼成功只驗證數值，完整卡片尚未修復。下一步：擷取支援的scale response、解析protocol與分類文字/顏色/區间，實作正確台灣量尺端點與對照測試，最後Mac與iPhone UI驗收。不要重標其他國量尺作為臺灣量尺的捷徑。

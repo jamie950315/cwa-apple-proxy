@@ -52,6 +52,15 @@ sudo .venv/bin/python split_routes.py withdraw
 
 ## 憑證／故障通知
 
+### Watch diagnostics and certificate onboarding
+
+- Current AdGuard query logs are under `/var/log/adguard/`, as configured by `querylog.dir_path`; `/opt/AdGuardHome/data/` contains stale January logs. Inspect the live setting before choosing a log path.
+- `logs/transport-reverse.jsonl` records `tls-established`, `tls-failed`, and `http-response` events. TLS failures include a fixed reason category; HTTP responses include only coarse OS/endpoint labels and status. Rotation is 500 KB plus two backups. Do not add full URLs, raw errors, request headers, or key logging.
+- Connection IDs correlate TLS and HTTP events, but do not identify the physical device: Tailscale Serve and the SNI router hide the original peer from mitmproxy. User-Agent classification is evidence only after HTTP is received, not authenticated device identity.
+- Public CA downloads: `http://100.78.140.101:18880/ca.cer` and `http://100.78.140.101:18880/CWA-Weather.mobileconfig`, accessible on the tailnet. The verified CA DER SHA-256 is `002ac26eb292b77d731b0807ca0401fe9becfad64eadbe01ec643023502b5865`. It is name-constrained to `weatherkit.apple.com`; no new CA is required.
+- [Apple QA1948](https://developer.apple.com/library/archive/qa/qa1948/_index.html) describes separately installing the same root on iPhone and Apple Watch. Use the Apple Watch target when offered by the paired iPhone installation flow. Actual installation/trust and Weather recovery must be verified on the device; the archived instructions do not guarantee identical current UI.
+- Diagnostic deployment rollback: restore `addon.py` from `backups/watch-diagnostics-20260920-1149/addon.py`, then restart only `cwa-weather-proxy` after checking active connections. The matching original test is stored as `test_addon.py` in that backup directory. No DNS, firewall, or certificate rollback is needed because none changed.
+
 ```sh
 # Pi5，只讀public cert資訊
 openssl x509 -in certs/ca.pem -noout -subject -dates -fingerprint -sha256

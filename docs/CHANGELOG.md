@@ -1,5 +1,9 @@
 # 演進紀錄
 
+## 2026-09-20: Apple Watch transport diagnostics
+
+Investigated the user-confirmed Tailscale-dependent Watch Weather failure. Added bounded, privacy-limited TLS outcome and HTTP response classification logs to the reverse proxy; 22 related tests passed on Mac and Pi5. Deployed with a source backup and restarted only the reverse proxy. Verified controlled untrusted/trusted TLS probes and the existing public CA/profile downloads. No routing, DNS, CA, enrollment, or weather transformation behavior changed. iPhone Mirroring eventually connected; the existing CA was downloaded and the Apple Watch profile installer reached. Installation is paused pending explicit security-setting confirmation. Watch certificate trust and device-side recovery remain unverified. See `docs/evidence/watch-diagnostics-20260920.json`.
+
 ## 2026-09-11：Mac repo交接
 
 從正式Pi5抽取完整功能source、vendor、測試與實際systemd/Serve/DNS/nft快照，建立`~/cwa-apple-proxy`本機Git。

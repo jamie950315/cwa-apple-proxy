@@ -1,5 +1,9 @@
 # 演進紀錄
 
+## 2026-09-20: Accuracy and coverage research
+
+Measured exact-source compatibility by native forecast horizon, found unused station DailyExtreme values/timestamps, and checked official precipitation products and their temporal limits. Recorded a staged coherent-field/exact-source/validated-derivation proposal in ACCURACY_COVERAGE. No runtime, mapper, dataset cache, or collection schedule changed.
+
 ## 2026-09-20: Temperature and precipitation correctness audit
 
 Read-only live/fixture audit checked 1,975 scalar writes in 20 native proofs with zero encoding discrepancies, but failed semantic acceptance: daily extrema use shifted windows and retain Apple extrema timestamps; PoP conversion and precipitation companion fields have reproducible inconsistencies. Uncalibrated interpolation/disaggregation cannot be certified as exact official data. Recorded evidence and prioritized strict semantic mapping ahead of AQI card work. No runtime or mapping changes were deployed in this audit.

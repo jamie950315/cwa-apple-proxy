@@ -47,6 +47,8 @@ Proactive dataset refresh, lock-free valid cache hits, removal of the unused war
 
 **Priority update, 2026-09-20:** the temperature/precipitation correctness audit failed semantic acceptance. Fixing or disabling unsafe mappings takes priority over the AQI card. See [correctness evidence](evidence/correctness-20260920.json) and KNOWN_ISSUES. The audit was read-only against Pi5; no stricter data policy has been deployed. User agreement is needed on whether unsupported/estimated CWA fields should retain Apple under a strict-source policy. Do not promise zero weather error or treat existing tests as proof of semantic accuracy.
 
+The user then requested research into preserving accuracy and coverage together. [ACCURACY_COVERAGE](ACCURACY_COVERAGE.md) proposes exact-source coverage first, coherent field groups, and independently validated derivations rather than blanket reversion to Apple. The live sample had exact CWA temperatures for all 464 next-24h native slots, and existing station DailyExtreme data can support today's extrema. No new mapper policy or collector was deployed in that research.
+
 AQI 是確定的既有相容性缺口：mapper 已寫入 `scale=TAIWAN_AQI`，App 接著請求 `/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI`，現有上游回 404，卡片呈現待修。
 建議先解析真實已支援的 scale 端點格式，再實作該量尺的正確回應／資料映射與測試，驗證臺灣 AQI 分類和原生 UI。保留污染物單位，避免用名稱替換掩蓋量尺差異。
 其餘工作見 KNOWN_ISSUES；本次 repo 建立不順便修資料算法或改正式部署。

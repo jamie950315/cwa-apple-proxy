@@ -1,5 +1,9 @@
 # 演進紀錄
 
+## 2026-09-20: Cache latency optimization and source audit
+
+Deployed proactive refresh of existing dataset caches and immediate valid-cache reads during refresh; retained TTL, stale limits, concurrency, and the translation deadline. Removed the unused warning-summary fetch, verified identical normalized output, and added per-stage latency evidence. Mac and Pi5 each passed 104 tests; native Mac Weather loaded values. Audited conditional CWA/Apple/MOENV data provenance in DATA_SOURCES. Watch recovery was confirmed by the user after manual CA installation and supported by successful watchOS response logs. See PERFORMANCE and the dated latency evidence.
+
 ## 2026-09-20: Apple Watch transport diagnostics
 
 Investigated the user-confirmed Tailscale-dependent Watch Weather failure. Added bounded, privacy-limited TLS outcome and HTTP response classification logs to the reverse proxy; 22 related tests passed on Mac and Pi5. Deployed with a source backup and restarted only the reverse proxy. Verified controlled untrusted/trusted TLS probes and the existing public CA/profile downloads. No routing, DNS, CA, enrollment, or weather transformation behavior changed. iPhone Mirroring eventually connected; the existing CA was downloaded and the Apple Watch profile installer reached. Installation is paused pending explicit security-setting confirmation. Watch certificate trust and device-side recovery remain unverified. See `docs/evidence/watch-diagnostics-20260920.json`.

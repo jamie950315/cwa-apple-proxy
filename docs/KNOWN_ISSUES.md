@@ -1,10 +1,10 @@
 # 已知問題與待辦
 
-## P1: Apple Watch Weather unavailable with iPhone Tailscale enabled
+## Resolved: Apple Watch Weather and custom CA trust
 
-User A/B: disabling iPhone Tailscale restores Watch Weather. This confirms a path-dependent failure, not its exact cause. Watch trust of the custom WeatherKit CA is unverified; Apple requires installing a custom CA on both paired devices ([QA1948](https://developer.apple.com/library/archive/qa/qa1948/_index.html)). Current diagnostics can distinguish TLS failures from HTTP responses, but no Watch event has yet been identified. Controlled `unknown-ca` probes must not be attributed to Watch.
+The user installed the custom CA on Watch and confirmed Weather recovery with iPhone Tailscale enabled. The subsequent server audit identified four successful Watch responses. Apple requires installing a custom CA on both paired devices ([QA1948](https://developer.apple.com/library/archive/qa/qa1948/_index.html)). Controlled `unknown-ca` probes are not device evidence. No routing workaround was needed.
 
-Keep existing iPhone/Mac enrollment and routing intact. Verify the Watch CA installation and reproduce with Tailscale enabled before changing relay DNS or QUIC policy. Installing a certificate on iPhone alone is not Watch acceptance. The archived Apple installation UI may differ on current watchOS; do not reset, unpair, or introduce MDM as an automatic workaround.
+Keep existing iPhone/Mac enrollment and routing intact. Installing a certificate on iPhone alone is not Watch acceptance. Do not reset, unpair, or introduce MDM as an automatic workaround.
 
 ## P1：AQI量尺卡片相容性
 

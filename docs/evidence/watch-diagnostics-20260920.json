@@ -1,6 +1,13 @@
 {
   "checkedAt": "2026-09-20T11:49:31+08:00",
-  "status": "awaiting-certificate-installation-confirmation",
+  "status": "resolved-after-user-installed-watch-ca",
+  "followup": {
+    "date": "2026-09-20",
+    "installation": "user reported manual installation",
+    "watchUi": "user confirmed Weather data with Tailscale enabled",
+    "serverEvidence": "subsequent audit found four successful WeatherKit_nanoweatherd_watchOS transformations",
+    "earlierProbeAttribution": "controlled unknown-ca event remains Pi5 test evidence only"
+  },
   "userObservation": "Watch Weather recovers when iPhone Tailscale is disabled.",
   "rootCause": "not-confirmed",
   "leadingHypothesis": "Watch has not established trust in the custom WeatherKit CA.",
@@ -43,7 +50,7 @@
     "caDerSha256": "002ac26eb292b77d731b0807ca0401fe9becfad64eadbe01ec643023502b5865",
     "nameConstraint": "weatherkit.apple.com"
   },
-  "limitations": [
+  "limitationsAtInitialCheck": [
     "No Watch TLS failure or HTTP response has been identified.",
     "No certificate installation on Watch was performed or verified.",
     "Watch UI recovery with Tailscale enabled remains unverified.",

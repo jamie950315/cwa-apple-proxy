@@ -12,8 +12,11 @@ store=None
 request_limit=asyncio.Semaphore(12)
 async def warmup():
     while True:
-        await asyncio.gather(store.get('O-A0003-001'),store.get('O-A0001-001'),store.get('O-A0002-001'),store.file_get('F-B0046-001'),store.file_get('O-A0038-003'),store.get('W-C0033-001'),store.get('W-C0033-002'),store.get('A-B0062-001'),store.get('A-B0063-001'),store.linked_aqi(),return_exceptions=True)
-        await asyncio.sleep(300)
+        await asyncio.gather(store.get('O-A0003-001'),store.get('O-A0001-001'),store.get('O-A0002-001'),store.file_get('F-B0046-001'),store.file_get('O-A0038-003'),store.get('W-C0033-002'),store.get('A-B0062-001'),store.get('A-B0063-001'),store.linked_aqi(),return_exceptions=True)
+        # Refresh before expiry, including recently requested county forecasts.
+        # Existing TTL and stale limits still govern foreground requests.
+        await store.refresh_due()
+        await asyncio.sleep(30)
 @asynccontextmanager
 async def lifespan(app):
     global store

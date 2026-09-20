@@ -31,9 +31,9 @@ async def snapshot(store,lat,lon,country='TW'):
     if not ref:raise Unavailable('outside forecast reference coverage')
     forecast_distance,place=ref;county=place['county'];n=COUNTY_IDS.get(county)
     ids=[f'F-D0047-{n:03d}',f'F-D0047-{n+2:03d}'] if n else []
-    tasks=[store.get('O-A0003-001'),store.get('O-A0001-001'),store.get('O-A0002-001'),store.file_get('F-B0046-001'),store.file_get('O-A0038-003'),store.get('W-C0033-001'),store.get('W-C0033-002'),store.get('A-B0062-001'),store.get('A-B0063-001'),store.linked_aqi()]+[store.get(i) for i in ids]
+    tasks=[store.get('O-A0003-001'),store.get('O-A0001-001'),store.get('O-A0002-001'),store.file_get('F-B0046-001'),store.file_get('O-A0038-003'),store.get('W-C0033-002'),store.get('A-B0062-001'),store.get('A-B0063-001'),store.linked_aqi()]+[store.get(i) for i in ids]
     data=await asyncio.gather(*tasks,return_exceptions=True)
-    obs3,obs1,rain_data,qpf_data,temp_data,alert_summary_data,alert_detail_data,sun_data,moon_data,aqi_data=data[:10];forecast_data=data[10:]
+    obs3,obs1,rain_data,qpf_data,temp_data,alert_detail_data,sun_data,moon_data,aqi_data=data[:9];forecast_data=data[9:]
     stations={}
     for d in [obs1,obs3]:
         if isinstance(d,Exception):continue

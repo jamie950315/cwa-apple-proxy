@@ -68,8 +68,12 @@ def test_translation_handles_compressed_response(bridge):
  class Client:
   async def get(self,*a,**kw):return httpx.Response(200,request=httpx.Request('GET','http://local'),json=snapshot)
   async def post(self,*a,**kw):return httpx.Response(200,request=httpx.Request('POST','http://local'),json={'body':base64.b64encode(b'modified bytes').decode(),'report':{'modifiedFields':1,'skippedFields':0}})
- bridge.client=Client();f=flow();f.response.encode('gzip')
+ bridge.client=Client();f=flow();f.response.encode('gzip');f.request.timestamp_end=10;f.response.timestamp_end=10.25
  asyncio.run(bridge.response(f));assert f.response.content==b'modified bytes';assert gzip.decompress(f.response.raw_content)==b'modified bytes';assert 'etag' not in f.response.headers;assert f.response.headers['x-cwa-bridge'].startswith('0.3.1')
+ import json
+ event=json.loads((addon.ROOT/'data'/'bridge-status.json').read_text())['last']
+ assert event['appleResponseMs']==250
+ assert all(event[k]>=0 for k in ['cwaMs','codecMs','proofMs','proxyTotalMs'])
 
 
 def test_deadline_fallback_schedules_ntfy(bridge,monkeypatch):

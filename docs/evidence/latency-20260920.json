@@ -1,0 +1,82 @@
+{
+  "date": "2026-09-20",
+  "status": "deployed-and-native-mac-verified",
+  "scope": "dataset cache scheduling, valid cache lock bypass, unused source removal, stage timing",
+  "baseline": {
+    "native24hSamples": 55,
+    "translationMedianMs": 284,
+    "translationP95Ms": 1295,
+    "translationMaxMs": 1486,
+    "note": "translation only; excludes Apple response and device-side time",
+    "warmSnapshotApiMedianMs": 34.7,
+    "warmCodecMedianMs": 14.31,
+    "stageProbeSamplesEach": 8,
+    "smallPayloadReplayWarmMs": [54.27, 53.12, 52.65, 52.54, 52.32]
+  },
+  "syntheticExpiryProbe": {
+    "externalNetworkUsed": false,
+    "injectedFetchMs": 200,
+    "oldForegroundMs": 200.588,
+    "prefetchedForegroundMs": 0.007,
+    "fetchesPerVariant": 1,
+    "ttlSecondsBothVariants": 300,
+    "note": "not an end-to-end application speedup factor"
+  },
+  "snapshotEquivalence": {
+    "input": "existing Pi5 disk datasets at a frozen timestamp",
+    "equal": true,
+    "sourcesBefore": 12,
+    "sourcesAfter": 11,
+    "removedSource": "W-C0033-001",
+    "warningDetailRetained": "W-C0033-002"
+  },
+  "liveBackgroundRefresh": {
+    "beforeTime": 1789879129,
+    "afterTime": 1789879149,
+    "fetchCountBefore": 0,
+    "fetchCountAfter": 7,
+    "observationAgeBeforeSeconds": 237,
+    "observationAgeAfterSeconds": 15,
+    "observationTtlSeconds": 300,
+    "temperatureAnalysisAgeBeforeSeconds": 1741,
+    "temperatureAnalysisAgeAfterSeconds": 14,
+    "aqiAgeBeforeSeconds": 538,
+    "aqiAgeAfterSeconds": 15,
+    "errors": {},
+    "cacheManuallyExpiredOrCleared": false
+  },
+  "initialPostDeploymentNativeMac": [
+    {"time": 1789878903, "appleResponseMs": 88, "cwaMs": 172, "codecMs": 42, "proofMs": 4, "elapsedMs": 217, "proxyTotalMs": 308},
+    {"time": 1789878908, "appleResponseMs": 78, "cwaMs": 36, "codecMs": 37, "proofMs": 3, "elapsedMs": 77, "proxyTotalMs": 156},
+    {"time": 1789878910, "appleResponseMs": 59, "cwaMs": 51, "codecMs": 25, "proofMs": 3, "elapsedMs": 79, "proxyTotalMs": 140}
+  ],
+  "validation": {
+    "macPythonPassed": 81,
+    "macNodePassed": 23,
+    "piPythonPassed": 81,
+    "piNodePassed": 23,
+    "nativeMacUi": "current values and forecasts visible after deployment",
+    "iphoneWatchPostOptimizationUi": "not remotely operated; not verified"
+  },
+  "deployment": {
+    "backupDirectory": "/home/jamie/cwa-weather-proxy/backups/perf-cache-20260920",
+    "restartedServices": ["cwa-weather-api", "cwa-weather-proxy"],
+    "dnsRoutesCertificatesEnrollmentChanged": false,
+    "dataVersion": "0.3.1",
+    "transportPolicyVersion": "1.0.2",
+    "sha256": {
+      "addon.py": "adc8a8c31f9a1295be76f3f7277784bfa50f911b24db67e2303e731dbc20e589",
+      "api.py": "87a2af83ce6a1e47fce5cfe19b8b7e80f05aefeea55d41033c756fd123aabcbf",
+      "cwa_client.py": "84c89e531b9222d8a59f1ac6057a60ba3b1f46fd415ca86fb3b2037afc27b87d",
+      "cwa_snapshot.py": "c8c0bd61d550e200de14e54911c40c0224f919336da4fa8b33a284245073f1f5",
+      "tests/test_addon.py": "4f84338aa2b46ed3efc98973d178cc6c821c2ef06c6057e60843f820563ef1ba",
+      "tests/test_client.py": "fc632de439ca8b5285c4bd85f174c5dc49b4b8dbcb5e23d3290c1fc3a3e8186a"
+    }
+  },
+  "limitations": [
+    "No matched pre/post device load-time comparison is available.",
+    "DNS, Bluetooth, handset scheduling and rendering are outside proxyTotalMs.",
+    "Cold counties and upstream outages can still require foreground downloads.",
+    "Existing AQI scale endpoint 404 is unchanged."
+  ]
+}

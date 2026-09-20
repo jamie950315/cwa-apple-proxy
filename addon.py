@@ -84,22 +84,28 @@ class Bridge:
         self.stats['seen']+=1;location=self.target(flow)
         if not location or flow.response.status_code!=200 or not re.search(r'application/vnd\.apple\.flatbuffer\s*;\s*messageType=\"?WK2\.Weather(?:[\";\s]|$)',flow.response.headers.get('content-type',''),re.I):self.stats['passthrough']+=1;return
         original=flow.response.content;original_raw=flow.response.raw_content;headers=flow.response.headers.copy();started=time.monotonic();event={'mode':MODE,'version':VERSION,'time':int(time.time()),'latitude':location[0],'longitude':location[1],'status':'passthrough','app':flow.request.headers.get('user-agent','')}
+        request_end=flow.request.timestamp_end;response_end=flow.response.timestamp_end
+        if request_end is not None and response_end is not None and response_end>=request_end:event['appleResponseMs']=round((response_end-request_end)*1000)
         try:
             async with asyncio.timeout(DEADLINE):
                 r=await self.client.get('http://100.78.140.101:18880/v1/cwa/weather',params={'latitude':location[0],'longitude':location[1],'country':'TW'});r.raise_for_status();snapshot=r.json()
+                event['cwaMs']=round((time.monotonic()-started)*1000);codec_started=time.monotonic()
                 r=await self.client.post('http://127.0.0.1:18881/transform',json={'body':base64.b64encode(original).decode(),'snapshot':snapshot});r.raise_for_status();mapped=r.json();body=base64.b64decode(mapped['body'],validate=True)
+                event['codecMs']=round((time.monotonic()-codec_started)*1000)
             if time.monotonic()-started>DEADLINE:raise TimeoutError('translation deadline')
             report=mapped['report']
             if len(body)!=len(original) and not report.get('rebuiltRoots'):raise ValueError('Codec changed buffer length without verified root rebuild')
             if not 12<=len(body)<=4_000_000:raise ValueError('Codec output size invalid')
             if not report['modifiedFields'] and not report.get('rebuiltRoots'):self.stats['unchanged']+=1;event['status']='unchanged'
             else:
-                event.update(status='modified',fields=report['modifiedFields'],skipped=report['skippedFields'],coverage=report.get('coverage',{}),station=snapshot['location']['stationId'],stationName=snapshot['location'].get('stationName'),temperature=snapshot['current']['temperature'],observationTime=snapshot['current']['observationTime']);event['proof']=self.proof(original,body,snapshot,report,event)
+                event.update(status='modified',fields=report['modifiedFields'],skipped=report['skippedFields'],coverage=report.get('coverage',{}),station=snapshot['location']['stationId'],stationName=snapshot['location'].get('stationName'),temperature=snapshot['current']['temperature'],observationTime=snapshot['current']['observationTime']);proof_started=time.monotonic();event['proof']=self.proof(original,body,snapshot,report,event);event['proofMs']=round((time.monotonic()-proof_started)*1000)
                 flow.response.content=body
                 for name in ['etag','content-md5','digest','content-digest','age']:flow.response.headers.pop(name,None)
                 flow.response.headers['cache-control']='private, max-age=120';flow.response.headers['x-cwa-bridge']=VERSION+'; cwa-first';flow.response.headers['x-cwa-station']=str(snapshot['location']['stationId']);self.stats['modified']+=1
         except Exception as e:
             flow.response.raw_content=original_raw;flow.response.headers=headers;self.stats['errors']+=1
             reason='timeout-3.5s' if isinstance(e,TimeoutError) else type(e).__name__;event.update(status='passthrough',error=type(e).__name__,fallbackReason=reason);event['elapsedMs']=round((time.monotonic()-started)*1000);self.notify_failure(reason,event)
-        event.setdefault('elapsedMs',round((time.monotonic()-started)*1000));self.record(event)
+        event.setdefault('elapsedMs',round((time.monotonic()-started)*1000))
+        if flow.request.timestamp_start is not None:event['proxyTotalMs']=max(0,round((time.time()-flow.request.timestamp_start)*1000))
+        self.record(event)
 addons=[Bridge()]

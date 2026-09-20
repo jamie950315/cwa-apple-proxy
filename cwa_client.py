@@ -13,6 +13,7 @@ class Store:
         self.key=os.getenv('CWA_API_KEY',cfg.get('CWA_API_KEY',''))
         if not self.key:raise RuntimeError('CWA_API_KEY required')
         self.model_cache=None;self.cache={};self.locks={};self.errors={};self.fetch_count=0
+        self.fetchers={};self.last_used={}
         ctx=ssl.create_default_context()
         # CWA's chain currently needs OpenSSL legacy-extension compatibility; certificate + hostname checks stay enabled.
         if hasattr(ssl,'VERIFY_X509_STRICT'):ctx.verify_flags &= ~ssl.VERIFY_X509_STRICT
@@ -34,14 +35,21 @@ class Store:
         if not path.exists():return None
         try:return (path.stat().st_mtime,json.loads(path.read_text()))
         except (OSError,ValueError):return None
-    async def _cached(self,key,fetch):
-        ttl=self._ttl(key)
+    async def _cached(self,key,fetch,refresh_ahead=0):
+        now=time.time();ttl=self._ttl(key);refresh_ahead=max(0,min(float(refresh_ahead),ttl))
+        if refresh_ahead==0:
+            self.fetchers[key]=fetch;self.last_used[key]=now
+        entry=self.cache.get(key)
+        if not entry:
+            entry=self._disk_entry(key)
+            if entry:self.cache[key]=entry
+        if entry and now-entry[0]<ttl-refresh_ahead:return entry[1]
         async with self.locks.setdefault(key,asyncio.Lock()):
             now=time.time();entry=self.cache.get(key)
             if not entry:
                 entry=self._disk_entry(key)
                 if entry:self.cache[key]=entry
-            if entry and now-entry[0]<ttl:return entry[1]
+            if entry and now-entry[0]<ttl-refresh_ahead:return entry[1]
             if now-self.errors.get(key,{}).get('time',0)<60:
                 if entry and now-entry[0]<3600:return entry[1]
                 raise Unavailable('CWA retry backoff')
@@ -55,6 +63,17 @@ class Store:
                 stale_limit=1800 if key=='file:F-B0046-001' else 7200 if key.startswith('file:') else 3600
                 if entry and now-entry[0]<stale_limit:return entry[1]
                 raise Unavailable('CWA data unavailable') from None
+    async def refresh_due(self,refresh_ahead=60,active_within=21600):
+        now=time.time();jobs=[];keys=[]
+        for key,last_used in tuple(self.last_used.items()):
+            entry=self.cache.get(key);fetch=self.fetchers.get(key)
+            if not entry or not fetch or now-last_used>active_within:continue
+            ttl=self._ttl(key);ahead=max(0,min(float(refresh_ahead),ttl))
+            if now-entry[0]<ttl-ahead:continue
+            keys.append(key);jobs.append(self._cached(key,fetch,refresh_ahead=ahead))
+        if not jobs:return {}
+        results=await asyncio.gather(*jobs,return_exceptions=True)
+        return dict(zip(keys,results))
     async def get(self,dataset):
         if dataset not in REST_ALLOWED:raise ValueError('unknown dataset')
         async def fetch():

@@ -10,11 +10,15 @@ Jamie 偏好 Apple iOS／macOS 內建天氣的 UI，希望臺灣核心氣象資�
 
 ### Apple Watch investigation — 2026-09-20
 
-The user confirmed that Watch Weather recovers when iPhone Tailscale is disabled. The exact failing layer is not yet proven. Current iPhone DNS queries are rewritten to Pi5; no Watch request was identified during two bounded captures. Watch CA trust remains unverified. Do not interpret absence of a transformed response as absence of a network request.
+Initially, Watch Weather recovered only with iPhone Tailscale disabled. iPhone DNS was rewritten to Pi5, but no Watch request was identified during two bounded captures; Watch CA trust was then unverified. The user subsequently installed the CA and confirmed recovery with Tailscale enabled, as detailed below. Do not interpret absence of a transformed response as absence of a network request.
 
 Privacy-limited TLS and HTTP diagnostics are now deployed in `addon.py`, with 22 related tests passing on both Mac and Pi5. `logs/transport-reverse.jsonl` records handshake outcomes and coarse response classifications, not URLs, coordinates, headers, or TLS secrets. The initial `unknown-ca` and successful TLS events are controlled Pi5 probes, **not Watch evidence**. Only the reverse proxy was restarted; CA, DNS, routes, client enrollment, data version 0.3.1, and transport policy 1.0.2 remain unchanged.
 
-The existing `/ca.cer` and `/CWA-Weather.mobileconfig` downloads were verified against the installed CA. Apple QA1948 requires installing a custom CA on both paired devices. iPhone Mirroring initially reported that the phone was in use, then connected. The paired device is Apple Watch Ultra 3. The existing CA was downloaded through Safari, and Other Devices → Apple Watch opened the Watch profile installer for `CWA Weather Bridge Root`. Installation is paused at the Install button pending explicit security-setting confirmation. No Watch installation or Watch UI recovery with Tailscale enabled has been verified. Evidence: [watch diagnostics](evidence/watch-diagnostics-20260920.json). Rollback: Pi5 `backups/watch-diagnostics-20260920-1149/`.
+The existing `/ca.cer` and `/CWA-Weather.mobileconfig` downloads were verified against the installed CA. Apple QA1948 requires installing a custom CA on both paired devices. The user subsequently installed it manually and confirmed Watch Weather recovery with Tailscale enabled. The next server audit identified four successful `nanoweatherd_watchOS` transformed responses. This supports the trust diagnosis without misattributing the earlier controlled `unknown-ca` probe to Watch. The user has left the Mac at home; do not attempt to control their iPhone remotely. Evidence: [watch diagnostics](evidence/watch-diagnostics-20260920.json).
+
+### Cache optimization — 2026-09-20
+
+Proactive dataset refresh, lock-free valid cache hits, removal of the unused warning-summary fetch, and per-stage bridge timings are deployed on Pi5. Existing TTL/stale rules and weather transformations remain unchanged. Mac and Pi5 each passed 104 tests; native Mac Weather displayed values after deployment. See [PERFORMANCE](PERFORMANCE.md) and [latency evidence](evidence/latency-20260920.json). Source rollback is `backups/perf-cache-20260920/`; only API and reverse proxy were restarted. Full Apple responses are not cached, and no end-to-end percentage speedup is claimed.
 
 | 項目 | 狀態與證據 |
 |---|---|

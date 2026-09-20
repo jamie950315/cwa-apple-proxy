@@ -2,6 +2,17 @@
 
 本表描述 0.3.1 既有程式，欄位僅在資料有效／時空覆蓋充分時改寫，缺口保留 Apple。`CWA推估` 的額外模型假設需在診斷資料繼續可見。
 
+## Source audit — 2026-09-20
+
+The proxy starts from an Apple native response; it is not a complete replacement weather provider. Overrides apply only to supported Taiwan requests, valid source times and locations, and complete forecast windows. Availability varies per response, so there is no fixed percentage of CWA versus Apple data.
+
+- Current apparent temperature comes from township forecast points/interpolation, not a direct station observation. Dew point, sea-level pressure, visibility category values, rain intensity, and split-period PoP include local derivation or estimation.
+- The entire minute-by-minute `forecastNextHour` root remains Apple. CWA radar QPF contributes one-hour totals to other fields; it does not generate a minute-by-minute start/stop curve.
+- AQI is originally measured/published by Taiwan MOENV and transported through CWA LinkedAPI. It is not an independently measured CWA AQI. Valid AQI replaces the AQI root; its separate `TAIWAN_AQI` scale endpoint still returns 404 and remains a known UI limitation.
+- Valid CWA warning detail is merged with non-CWA Apple alerts. It does not remove every Apple warning. The unused W-C0033-001 summary download was removed; W-C0033-002 remains authoritative for this integration.
+- Astronomy replaces only the mapped event times. Moon phase/illumination and nautical/astronomical twilight remain Apple. Unknown native roots/slots and source coverage gaps remain Apple.
+- This audit checked the actual mapper and snapshot normalization, rather than assuming every field present in a CWA response is written into the App. See [performance and cache behavior](PERFORMANCE.md) for the independent fetching changes.
+
 | 欄位 | 來源 | 轉換／界線 |
 |---|---|---|
 | 即時氣溫、濕度、風速風向 | O-A0001-001 / O-A0003-001 | 最近有效測站；風 m/s -> km/h、濕度 API fraction -> WK scalar % |

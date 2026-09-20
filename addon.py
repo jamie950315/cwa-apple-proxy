@@ -4,7 +4,7 @@ import os,asyncio,base64,json,logging,logging.handlers,re,time,uuid
 import httpx
 from mitmproxy import http
 ROOT=Path('/home/jamie/cwa-weather-proxy')
-VERSION='0.3.1';MODE=os.getenv('CWA_PROXY_MODE','reverse');DEADLINE=3.5;NTFY_URL='https://ntfy.sh/cwa-apple-proxy'
+VERSION='0.3.2';MODE=os.getenv('CWA_PROXY_MODE','reverse');DEADLINE=3.5;NTFY_URL='https://ntfy.sh/cwa-apple-proxy'
 PATH=re.compile(r'^/api/v2/weather/[^/]+/(-?\d+(?:\.\d+)?)/(-?\d+(?:\.\d+)?)/?$')
 class Bridge:
     def __init__(self):

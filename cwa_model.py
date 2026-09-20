@@ -8,8 +8,9 @@ def number(value,lo=-math.inf,hi=math.inf):
         n=float(value);return n if math.isfinite(n) and lo<=n<=hi else None
     except (ValueError,TypeError):return None
 def precipitation_number(value):
-    if isinstance(value,str) and value.strip().upper()=='T':return 0.05
     return number(value,0,3000)
+def precipitation_trace(value):
+    return isinstance(value,str) and value.strip().upper()=='T'
 def epoch(value):
     try:
         dt=datetime.fromisoformat(value.replace('Z','+00:00'))
@@ -39,7 +40,7 @@ def choose_station(stations,lat,lon,now=None,max_distance=30,max_age=5400):
     return _choose(stations,lat,lon,lambda s:number(s.get('WeatherElement',{}).get('AirTemperature'),-60,65) is not None,now,max_distance,max_age)
 def choose_rain_station(stations,lat,lon,now=None,max_distance=30,max_age=1800):
     now=time.time() if now is None else now
-    return _choose(stations,lat,lon,lambda s:any(precipitation_number(s.get('RainfallElement',{}).get(k,{}).get('Precipitation')) is not None for k in ['Past10Min','Past1hr','Past3hr','Past6Hr','Past12hr','Past24hr']),now,max_distance,max_age)
+    return _choose(stations,lat,lon,lambda s:any(precipitation_number(v) is not None or precipitation_trace(v) for v in (s.get('RainfallElement',{}).get(k,{}).get('Precipitation') for k in ['Past10Min','Past1hr','Past3hr','Past6Hr','Past12hr','Past24hr'])),now,max_distance,max_age)
 def dewpoint_c(temp,rh_fraction):
     if temp is None or rh_fraction is None or not 0<rh_fraction<=1:return None
     a,b=17.625,243.04;g=math.log(rh_fraction)+a*temp/(b+temp)
@@ -61,10 +62,28 @@ def normalize_observation(s,ts):
 def normalize_rain(s,ts):
     r=s.get('RainfallElement',{});out={'observationTime':ts}
     keys={'Past10Min':'past10m','Past1hr':'past1h','Past3hr':'past3h','Past6Hr':'past6h','Past12hr':'past12h','Past24hr':'past24h','Now':'today'}
+    traces=[]
     for src,dst in keys.items():
-        v=precipitation_number(r.get(src,{}).get('Precipitation'))
+        raw=r.get(src,{}).get('Precipitation');v=precipitation_number(raw)
         if v is not None:out[dst]=v
-    if 'past10m' in out:out['intensity']=out['past10m']*6
+        elif precipitation_trace(raw):traces.append(dst)
+    if traces:out['traceFields']=traces
+    return out
+def normalize_daily_extremes(s,ts,current_temperature,now=None):
+    now=time.time() if now is None else now
+    if not isinstance(ts,(int,float)) or not math.isfinite(ts) or not -300<=now-ts<=5400:return None
+    daily=s.get('WeatherElement',{}).get('DailyExtreme',{})
+    high=daily.get('DailyHigh',{}).get('TemperatureInfo',{});low=daily.get('DailyLow',{}).get('TemperatureInfo',{})
+    maximum=number(high.get('AirTemperature'),-60,65);minimum=number(low.get('AirTemperature'),-60,65)
+    current=number(current_temperature,-60,65)
+    maximum_time=epoch(high.get('Occurred_at',{}).get('DateTime'));minimum_time=epoch(low.get('Occurred_at',{}).get('DateTime'))
+    if any(v is None for v in (maximum,minimum,current,maximum_time,minimum_time)):return None
+    observation=datetime.fromtimestamp(ts,TZ);date=observation.date()
+    if datetime.fromtimestamp(maximum_time,TZ).date()!=date or datetime.fromtimestamp(minimum_time,TZ).date()!=date:return None
+    if maximum_time>ts or minimum_time>ts or not minimum<=current<=maximum:return None
+    start=int(datetime.combine(date,datetime.min.time(),TZ).timestamp())
+    out={'date':date.isoformat(),'start':start,'end':start+86400,'observationTime':int(ts),'temperatureMax':maximum,'temperatureMin':minimum,'temperatureMaxTime':maximum_time,'temperatureMinTime':minimum_time,'source':'CWA station DailyExtreme observation'}
+    if s.get('StationId'):out['stationId']=s['StationId']
     return out
 def locations(data):
     rec=data.get('records',{});return [loc for g in rec.get('Locations',rec.get('locations',[])) for loc in g.get('Location',g.get('location',[]))]

@@ -1,18 +1,65 @@
-// Time-window conversions with explicit coverage. Uniform within each source
-// interval is an assumption; no uncovered portion is implicitly treated as zero.
 export function rainWindow(intervals,start,end){
  if(!Number.isFinite(start)||!Number.isFinite(end)||end<=start)return {};
- const rows=(intervals||[]).filter(p=>Number.isFinite(p.start)&&Number.isFinite(p.end)&&p.end>p.start&&p.end>start&&p.start<end&&Number.isFinite(p.amount)&&p.amount>=0&&p.amount<=5000);
- const cuts=[...new Set([start,end,...rows.flatMap(p=>[Math.max(start,p.start),Math.min(end,p.end)])])].sort((a,b)=>a-b);
- let amount=0;const segments=[];
- for(let i=0;i<cuts.length-1;i++){
-  const a=cuts[i],b=cuts[i+1];if(b<=a)continue;
-  const row=rows.filter(p=>p.start<=a&&p.end>=b).sort((a,b)=>(a.end-a.start)-(b.end-b.start))[0];
-  if(!row)return {};
-  const part=row.amount*(b-a)/(row.end-row.start);amount+=part;
-  segments.push({start:a,end:b,amount:part,sourceStart:row.start,sourceEnd:row.end,source:row.source});
+ const rows=(Array.isArray(intervals)?intervals:[]).filter(row=>
+  row&&Number.isFinite(row.start)&&Number.isFinite(row.end)&&row.end>row.start&&
+  row.start>=start&&row.end<=end&&Number.isFinite(row.amount)&&
+  row.amount>=0&&row.amount<=5000
+ );
+ const groups=new Map();
+ for(const row of rows){
+  const family=row.family??row.source??'';
+  const cycle=row.initialTime??'';
+  const key=JSON.stringify([family,cycle]);
+  if(!groups.has(key))groups.set(key,[]);
+  groups.get(key).push(row);
  }
- return {amount,segments,estimated:true,source:'CWA QPF/WRF quantitative precipitation; uniform rate within source windows; full coverage required'};
+
+ const candidates=[];
+ for(const group of groups.values()){
+  const windows=new Map();let conflicting=false;
+  for(const row of group){
+   const key=`${row.start}\u0000${row.end}`;
+   const existing=windows.get(key);
+   if(existing&&existing.amount!==row.amount){conflicting=true;break;}
+   if(!existing)windows.set(key,row);
+  }
+  if(conflicting)return {};
+  const unique=[...windows.values()];
+  const exact=unique.find(row=>row.start===start&&row.end===end);
+  if(exact){candidates.push({rows:[exact],exact:true});continue;}
+
+  const byStart=new Map();
+  for(const row of unique){
+   if(!byStart.has(row.start))byStart.set(row.start,[]);
+   byStart.get(row.start).push(row);
+  }
+  const memo=new Map();
+  function coversFrom(cursor){
+   if(cursor===end)return {count:1,path:[]};
+   if(memo.has(cursor))return memo.get(cursor);
+   let count=0,path;
+   for(const row of byStart.get(cursor)||[]){
+    const suffix=coversFrom(row.end);
+    if(!suffix.count)continue;
+    count=Math.min(2,count+suffix.count);
+    if(!path)path=[row,...suffix.path];
+    if(count>1)break;
+   }
+   const result={count,path};memo.set(cursor,result);return result;
+  }
+  const coverage=coversFrom(start);
+  if(coverage.count>1)return {};
+  if(coverage.count===1)candidates.push({rows:coverage.path,exact:false});
+ }
+ if(!candidates.length)return {};
+ const totals=candidates.map(candidate=>candidate.rows.reduce((sum,row)=>sum+row.amount,0));
+ if(totals.some(total=>total!==totals[0]))return {};
+ const chosen=candidates.find(candidate=>candidate.exact)||candidates[0];
+ const segments=chosen.rows.map(row=>({
+  start:row.start,end:row.end,amount:row.amount,
+  sourceStart:row.start,sourceEnd:row.end,source:row.source
+ }));
+ return {amount:totals[0],segments,estimated:false,source:'CWA quantitative precipitation; exact complete source windows'};
 }
 export function nwpPressure(points,ts){
  const rows=(points||[]).filter(p=>Number.isFinite(p.forecastStart)&&Number.isFinite(p.pressure)&&p.pressure>=850&&p.pressure<=1100).sort((a,b)=>a.forecastStart-b.forecastStart);

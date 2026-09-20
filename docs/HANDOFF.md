@@ -8,6 +8,14 @@ Jamie 偏好 Apple iOS／macOS 內建天氣的 UI，希望臺灣核心氣象資�
 
 ## 現在有效的狀態
 
+### Applied accuracy policy — 0.3.2, 2026-09-20
+
+The user approved the accuracy/coverage proposal. Pi5 now runs 0.3.2: coherent station temperature/RH/dew point, exact official hourly points and probability windows, no fractional rainfall allocation, compatible precipitation companions updated together, trace rain left nonnumeric, and same-calendar-day derived extrema with occurrence times. Grid temperature remains diagnostic-only. Today's derived extrema combine validated station DailyExtreme observations with the remaining exact hourly forecast samples; these are not advertised as official continuous-period extrema.
+
+Unsupported or incomplete groups retain the Apple original. A retained Apple rain-only phase combined with a CWA amount is explicitly mixed-source; no snow-phase splits or quantile bounds are invented. Reports include validated assignments even when bytes did not change, source-kind counts and retention reasons. Existing cache prefetch, TTL/stale limits, 3.5-second fallback, DNS, routing and certificates are unchanged.
+
+Mac and Pi5 each passed 89 Python + 37 Node tests. Final replay of twenty retained native payloads had zero checked consistency violations and 471/471 next-24h temperature slots assigned exact CWA points (the earlier pre-deployment sample was 466/466; the rolling proof set changed). A new native Mac city preview loaded under 0.3.2; observed station extrema and same-calendar-day output were verified. No new phone/Watch UI test was performed. See [acceptance evidence](evidence/accuracy-032.json). Rollback: Pi5 `backups/accuracy-032-20260920/`; affected API, codec, reverse and explicit-forward services were restarted. Prior evidence below retains its original version/date.
+
 ### Apple Watch investigation — 2026-09-20
 
 Initially, Watch Weather recovered only with iPhone Tailscale disabled. iPhone DNS was rewritten to Pi5, but no Watch request was identified during two bounded captures; Watch CA trust was then unverified. The user subsequently installed the CA and confirmed recovery with Tailscale enabled, as detailed below. Do not interpret absence of a transformed response as absence of a network request.
@@ -22,7 +30,7 @@ Proactive dataset refresh, lock-free valid cache hits, removal of the unused war
 
 | 項目 | 狀態與證據 |
 |---|---|
-| CWA 資料轉換 | 正式 0.3.1；程式常數、健康端點與 production manifest 可核對 |
+| CWA 資料轉換 | 正式 0.3.2；即時健康端點與 accuracy-032 驗收紀錄可核對；初始 production manifest 為歷史快照 |
 | 傳輸 | 1.0.2；已完成任意正常 Exit Node 共存的設定與代表節點測試 |
 | CA | 名稱 CWA Weather Bridge Root；限 weatherkit.apple.com；私鑰留 Pi5 |
 | Mac | 100.122.163.78，已啟用、原生 App / Widget 曾成功；出口測試後還原 None |
@@ -45,7 +53,7 @@ Proactive dataset refresh, lock-free valid cache hits, removal of the unused war
 
 ## 接手後的首個具體功能工作
 
-**Priority update, 2026-09-20:** the temperature/precipitation correctness audit failed semantic acceptance. Fixing or disabling unsafe mappings takes priority over the AQI card. See [correctness evidence](evidence/correctness-20260920.json) and KNOWN_ISSUES. The audit was read-only against Pi5; no stricter data policy has been deployed. User agreement is needed on whether unsupported/estimated CWA fields should retain Apple under a strict-source policy. Do not promise zero weather error or treat existing tests as proof of semantic accuracy.
+**Priority update, 2026-09-20:** the earlier 0.3.1 audit failed semantic acceptance; 0.3.2 now corrects or guards the identified mappings under the approved policy above. See the historical [correctness evidence](evidence/correctness-20260920.json) and current KNOWN_ISSUES. Remaining work includes calibrated derived products and the AQI card, not restoring the removed uncalibrated conversions. Do not promise zero weather error or treat tests as proof of forecast skill.
 
 The user then requested research into preserving accuracy and coverage together. [ACCURACY_COVERAGE](ACCURACY_COVERAGE.md) proposes exact-source coverage first, coherent field groups, and independently validated derivations rather than blanket reversion to Apple. The live sample had exact CWA temperatures for all 464 next-24h native slots, and existing station DailyExtreme data can support today's extrema. No new mapper policy or collector was deployed in that research.
 

@@ -2,6 +2,8 @@
 
 Research date: 2026-09-20. No runtime or mapper changes were made. This is a proposal, not an accepted or deployed accuracy guarantee.
 
+**Subsequent implementation:** the user approved applying this proposal. Version 0.3.2 deploys the coherent/exact-source groups and explicitly derived calendar-day extrema; unvalidated disaggregation, shifted day-part windows and +78/+84h extension remain disabled. See [acceptance evidence](evidence/accuracy-032.json). The research findings below retain their original context.
+
 ## Recommendation
 
 Do not equate coverage with the number of overwritten bytes. Track three separate quantities by field, forecast horizon, and location: exact CWA-source coverage, independently validated CWA-derived coverage, and overall display availability (including preserved Apple data). Equal numeric values still count as source coverage when the official value was validated, even if no byte changed.

@@ -43,8 +43,29 @@ def test_nwp_accumulations_same_run_difference_and_missing_intervals():
 
 def test_nwp_never_differences_different_initializations():
     product,initial=model_product([1,10],cycles=[1_789_000_000,1_789_000_100])
+    product['fields']['apcp'][1]['forecastTime']=initial+100+12*3600
     r=normalize_nwp(product,'臺北市','信義區',initial+1000)
     assert r['initialTime']==initial+100 and r['rainIntervals']==[]
+
+@pytest.mark.parametrize('lead,forecast',[
+    (5,1_789_000_000+5*3600),
+    (6.5,1_789_000_000+int(6.5*3600)),
+    (6,1_789_000_000+6*3600+1),
+    (float('nan'),1_789_000_000+6*3600),
+])
+def test_nwp_rejects_incoherent_or_non_six_hour_row_times(lead,forecast):
+    product,initial=model_product([1])
+    product['fields']['apcp'][0].update(leadHours=lead,forecastTime=forecast)
+    assert normalize_nwp(product,'臺北市','信義區',initial+1000) is None
+
+def test_nwp_skips_bad_row_without_breaking_valid_cycle():
+    product,initial=model_product([1,3])
+    bad=dict(product['fields']['apcp'][1],forecastTime=initial+12*3600+1)
+    product['fields']['apcp'][1]=bad
+    product['fields']['pressure']=[bad,{'initialTime':initial,'forecastTime':initial+6*3600,'leadHours':6,'values':[1002],'geometry':'g'}]
+    result=normalize_nwp(product,'臺北市','信義區',initial+1000)
+    assert result['points']==[{'forecastStart':initial+6*3600,'pressure':1002}]
+    assert result['rainIntervals']==[{'start':initial,'end':initial+6*3600,'amount':1.0,'source':'CWA WRF-3km APCP difference, same initialization; 6h water equivalent'}]
 
 def test_store_astronomy_explicit_window_and_linked_aqi_auth(tmp_path,monkeypatch):
     monkeypatch.setattr(cwa_client,'ROOT',tmp_path);(tmp_path/'data').mkdir();(tmp_path/'.env').write_text('CWA_API_KEY=unit-test-secret')

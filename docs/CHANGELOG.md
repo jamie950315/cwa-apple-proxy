@@ -1,5 +1,9 @@
 # 演進紀錄
 
+## 0.3.2 — 2026-09-20: Aligned-source accuracy and coverage policy
+
+Deployed coherent same-station thermodynamics, exact hourly forecast points and PoP windows, validated station DailyExtreme data, and derived calendar-day extrema with synchronized occurrence times. Rainfall requires complete source windows and compatible phase companions; retained Apple phase classification is marked mixed. Removed fractional rain allocation, hazard-based PoP disaggregation, fabricated trace amounts and the grid-only temperature override. Added source assignments (including unchanged values), retention reasons, regression fixtures and stricter NWP lead/time validation. Mac/Pi5: 89 Python + 37 Node tests each; 20 native replays passed checked invariants, and Mac native 0.3.2 preview loaded successfully. Existing cache optimization, transport, CA and fallback remain intact; no calibrated new disaggregation or extended WRF horizon is deployed. See `docs/evidence/accuracy-032.json`.
+
 ## 2026-09-20: Accuracy and coverage research
 
 Measured exact-source compatibility by native forecast horizon, found unused station DailyExtreme values/timestamps, and checked official precipitation products and their temporal limits. Recorded a staged coherent-field/exact-source/validated-derivation proposal in ACCURACY_COVERAGE. No runtime, mapper, dataset cache, or collection schedule changed.

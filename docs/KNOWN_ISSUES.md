@@ -1,16 +1,16 @@
 # 已知問題與待辦
 
-## P1: Temperature and precipitation correctness audit failed (2026-09-20)
+## Corrected/guarded in 0.3.2: temperature and precipitation audit findings
 
-The bridge must not be described as fully correct or as a direct copy of official CWA values. Read [the audit evidence](evidence/correctness-20260920.json) before changing these mappings.
+The bridge must not be described as error-free weather or a complete copy of official CWA values. The [0.3.1 audit evidence](evidence/correctness-20260920.json) is historical; [0.3.2 acceptance](evidence/accuracy-032.json) records the applied corrections.
 
-- Live: 120 daily windows in 20 retained proofs use CWA 06:00–next 06:00 extrema in Apple 00:00–24:00 days. Changed maxima/minima retain Apple's original extrema timestamps (120 of each). The current tests accept the shifted window; passing them is not semantic validation.
-- Reproduced: changing precipitation scalar totals without their ByType companions can leave conflicting values in one native payload. The current 20-proof live sample had zero newly conflicting populated pairs among 114 checked; the bug is demonstrated by an existing native fixture, not asserted as present in that live sample.
-- Reproduced: nested official PoP windows (12h 60%, nested 3h 50%) yield 74.8513% for the full 12h instead of retaining the source's 60%. Choosing the shortest overlapping interval and splicing independent hazards does not preserve official probability constraints.
-- Uncalibrated assumptions: splitting 3h PoP into hourly probabilities, uniformly allocating 6h rainfall, and blending radar/model windows do not have a unique official answer. Trace `T` is mapped to an invented exact 0.05 mm. These must not be represented as exact official values.
-- Conditional temperature inconsistency: replacing station temperature with a newer grid value retains station-derived dew point and station `asOf`; pressure provenance also describes station temperature while using the grid value. A constructed case yields temperature 20 C and dew point 30 C. The sampled live location did not use the grid override.
+- Daily extrema now use a complete 00–24 hourly sample set (plus today's validated observations) and update both occurrence times. Missing coverage retains the entire Apple extrema family. Sampled extrema remain a derived forecast, not exact continuous-time extrema.
+- Rainfall totals update only compatible rain-only companions; unsupported/multiple/snow phases retain Apple. Apple phase classification is explicitly mixed-source rather than falsely attributed to CWA. Tests cover top-level phase conflicts and nonzero snow intensity.
+- PoP only uses an identical, non-conflicting official interval. Unmatched hourly/daily values remain Apple; the 3h/12h hazard model is removed from live conversion.
+- Rainfall is no longer fractionally split or radar/model blended. Trace `T` remains nonnumeric. The next-hour QPF is only usable for its exact source window.
+- Current thermodynamics stay with one station/time; grid analysis is diagnostic-only. Missing/inconsistent thermodynamic groups retain Apple. Hourly temperature-related groups use exact same-time source points, not interpolation.
 
-No mapper, runtime, or data policy changed during this audit. Decide the strictness contract before removing estimates or retaining more Apple fields. The recommended contract is to override only semantically aligned fields with compatible companion metadata; unsupported windows retain Apple rather than fabricate new official-looking values. This cannot guarantee forecast accuracy or exact conditions at the user's position.
+Remaining limits: native coverage is intentionally lower for incompatible precipitation windows and long-horizon temperatures; daily extrema depend on sampled hourly forecasts and spatially representative station/town data; Apple comparisons, summaries and other unmapped fields may still describe Apple's forecast. There is no calibrated new disaggregation model or validated +78/+84h extension. A new physical iPhone/Watch UI check for 0.3.2 remains separate from Mac/replay validation.
 
 ## Resolved: Apple Watch Weather and custom CA trust
 
@@ -24,10 +24,10 @@ Keep existing iPhone/Mac enrollment and routing intact. Installing a certificate
 
 ## P2：氣象語意与地理代表性
 
-- PoP按等事件率與獨立增量拆時窗屬未校準推估；雨量均勻拆分無法知道分鐘起停。需要留來源並進行獨立準確度評估。
-- 06–翌06日夜高低溫與Apple曆日不同；當前观測偶爾超過預報最高、圖示與保留比較摘要可能矛盾，需資料語意一致性設計。
+- 0.3.2 已停用未校準 PoP／雨量拆分；新增衍生模型仍需獨立預報準確度驗證，不能以守恆測試取代。
+- 0.3.2 已修正曆日時段與極值時間；保留 Apple 的其他圖示／歷史比較摘要仍可能與 CWA 資料不同。
 - 最近鄉鎮代表點、水平距離測站配對，邊界與山區需要多邊形/海拔/地形改善。
-- 目前溫度採格點分析時仍可能沿用測站observationTime/asOf，需複核各欄位來源時間的UI語意。
+- 0.3.2 的格點溫度僅供診斷；若未來重新採用，必須先解決完整溫濕度組與時間／空間代表性。
 
 ## P2：運行維護
 

@@ -13,6 +13,12 @@ systemd model／route-status是oneshot，inactive/dead可代表該輪已結束�
 
 ## 原始碼修改與部署
 
+### 0.3.2 aligned-source deployment
+
+The deployed API, codec and both proxy modes report 0.3.2. Original source/test files and package metadata are backed up under Pi5 `backups/accuracy-032-20260920/`. Rollback requires restoring only the changed modules/dashboard/package and the affected tests, then restarting `cwa-weather-api`, `cwa-weather-codec`, `cwa-weather-proxy` and `cwa-weather-forward` after an activity check. Do not restore DNS, certificates, client state or data caches: none changed. `tests/test_snapshot_consistency.py` was newly added and need not be removed to restore service behavior.
+
+Report `assignments` includes source-validated scalar assignments even when values were unchanged; `sourceCoverage` separates official/derived/mixed assignments and is not a percentage. `retainedApple` explains guarded groups. Full original-window CWA PoP and `dailyObservedExtremes` remain accessible through the normalized API. `/source.zip` and the source-catalog `/audit` are historical artifacts, not a current-source release; they were not republished for this deployment.
+
 Mac repo為開發／交接；Pi5仍是正式環境，這次建立repo沒有部署新資料演算法。
 1. 本機修改前讀HANDOFF與KNOWN_ISSUES，跑離線測試。將變更欄位、版本、假設、必要fixtures寫入報告。
 2. 在Pi5唯讀核對目前檔案SHA與 `docs/evidence/production-source-manifest.json`。差異先人工整合，避免覆蓋其他工作。

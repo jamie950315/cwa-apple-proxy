@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse,Response
 import httpx
 from cwa_client import Store,Unavailable,ROOT
 from cwa_snapshot import snapshot
-VERSION='0.3.1'
+VERSION='0.3.2'
 store=None
 request_limit=asyncio.Semaphore(12)
 async def warmup():
@@ -56,7 +56,7 @@ async def status():
         if p.is_relative_to((ROOT/'data/proofs').resolve()):
             report=read_json(p/'report.json',{})
             result['lastProof']={'report':report,'cwa':read_json(p/'cwa.json',{}),'request':read_json(p/'request.json',{})}
-    result['mode']='CWA-first observations, analyzed temperature, rain gauges, radar QPF and township forecast; 3.5s Apple fallback with ntfy alerts'
+    result['mode']='CWA aligned-source observations and exact forecast windows; derived calendar-day extrema; unsupported groups retain Apple; 3.5s fallback'
     return result
 
 @app.get('/v1/cwa/weather')

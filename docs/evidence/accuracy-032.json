@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-20",
+  "dataVersion": "0.3.2",
+  "transportVersion": "1.0.2",
+  "status": "deployed-and-native-mac-verified",
+  "policy": {
+    "currentThermodynamics": "same station and observation time; grid diagnostic only",
+    "hourlyThermodynamics": "exact coherent official points; no interpolation or interval-average substitution",
+    "dailyExtrema": "derived 00-24 sample extrema, including today's observed extrema; values and occurrence times updated together",
+    "precipitationProbability": "exact non-conflicting official interval only",
+    "precipitationAmount": "whole compatible source windows; no fractional allocation or radar/model blending",
+    "precipitationCompanions": "rain-only compatible companions synchronized; retained Apple phase explicitly mixed; snow/multiple/unknown phases retained",
+    "traceRain": "nonnumeric traceFields, no fabricated amount",
+    "coverage": "validated assignments include unchanged values; official, derived and mixed are distinct",
+    "unsupportedGroups": "original Apple group retained"
+  },
+  "tests": {
+    "macPythonPassed": 89,
+    "macNodePassed": 37,
+    "piPythonPassed": 89,
+    "piNodePassed": 37
+  },
+  "finalNativeReplay": {
+    "proofs": 20,
+    "errors": 0,
+    "dailyWindows": 23,
+    "dailyWindowMismatch": 0,
+    "extremaTimeMismatch": 0,
+    "newRainPairMismatch": 0,
+    "unmatchedPopWrites": 0,
+    "thermalViolations": 0,
+    "next24TemperatureSlots": 471,
+    "next24OfficialTemperatureAssignments": 471,
+    "note": "Rolling, correlated native proof sample; not all-Taiwan forecast-skill validation."
+  },
+  "nativeMacVerification": {
+    "test": "unsaved Tainan city preview; original view restored",
+    "version": "0.3.2",
+    "currentTemperatureC": 31.2,
+    "observedDailyMinimumC": 27.9,
+    "observedDailyMaximumC": 32.2,
+    "uiRoundedCurrentC": 31,
+    "uiRoundedDailyMinimumC": 28,
+    "uiRoundedDailyMaximumC": 32,
+    "calendarDaysDerived": 2,
+    "sourceAssignments": {"official": 476, "derived": 73, "mixed": 0},
+    "rainAmountWritesInThisResponse": 0,
+    "probabilityWritesInThisResponse": 0,
+    "note": "Unmatched precipitation retained Apple; phase-companion mutation is verified separately by native fixture tests."
+  },
+  "observedLiveProxyTotalsMs": [638, 240, 176],
+  "observedLiveTranslationMs": [562, 150, 94],
+  "bridgeErrorsAtCheck": 0,
+  "cwaErrorsAtCheck": {},
+  "deployment": {
+    "backupDirectory": "/home/jamie/cwa-weather-proxy/backups/accuracy-032-20260920",
+    "restartedServices": ["cwa-weather-api", "cwa-weather-codec", "cwa-weather-proxy", "cwa-weather-forward"],
+    "dnsRoutesCertificatesClientEnrollmentChanged": false,
+    "cachePolicyChanged": false,
+    "translationDeadlineSeconds": 3.5,
+    "sourceArchiveRepublished": false
+  },
+  "deployedSourceSha256": {
+    "addon.py": "f50c30de66c6500b0d2f9d313a7e6decf63da6a378e701cef00829c47477a892",
+    "api.py": "810e78bbc00c59eb6f4825410e82198981f91451ef2532b7e612c1013a940537",
+    "cwa_model.py": "668eb4c7015e01e2410f5357a92fe4cd41ab2101a0659fa3599cf4d87ce407a5",
+    "cwa_nwp.py": "33295d81f1867f7da35d53ec413a023ea1bb10223827b732e6dcbfac76e94600",
+    "cwa_snapshot.py": "4b6486d95124329e0d7bdca4d3d866205754fce422a74fa98d4e5b0c6a460fad",
+    "mapper.mjs": "1db401a70c2efc77c857830ba93904dcce890526ca6b1b1100cd2feaa47c14c1",
+    "weather_math.mjs": "6fc54a39753698f38869da98705c888660f3a8a831eb367b561b92b21b17d627",
+    "dashboard.html": "d939c877fd1f5fe889d268aeb27117071bf5f9decd4c80c9114b89a6757877fe",
+    "package.json": "9af47e7d66f19e565e5438e0e946252c5a7a37ebd8789f39d1cf581518de525f"
+  },
+  "limitations": [
+    "No new physical iPhone/Watch UI validation was performed for 0.3.2.",
+    "Derived daily sample extrema are not official continuous-period extrema or guaranteed forecast truth.",
+    "Longer horizon and unmatched precipitation fields may remain Apple; unrelated Apple summaries remain unchanged.",
+    "Rain-only classification may be retained from Apple and is explicitly mixed-source.",
+    "No calibrated disaggregation model or +78/+84-hour WRF extension is enabled."
+  ]
+}

@@ -6,7 +6,7 @@
 |---|---|
 | 本機 repo | `/Users/jamie/cwa-apple-proxy` |
 | 正式部署 | Pi5 `/home/jamie/cwa-weather-proxy` |
-| 資料層／傳輸層 | `0.3.1`／`1.0.2` |
+| 資料層／傳輸層 | `0.3.2`／`1.0.2` |
 | 已啟用裝置 | Mac `100.122.163.78`、iPhone 14 Pro `100.123.14.68` |
 | Exit Node | 可选 None、Pi5 或其他正常節點，天氣維持 Pi5 分流 |
 | 診斷頁 | `http://100.78.140.101:18880/`，需 Tailscale |

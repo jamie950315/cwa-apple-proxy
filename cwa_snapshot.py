@@ -1,6 +1,6 @@
 import asyncio,json,math,time
 from cwa_client import Unavailable,ROOT
-from cwa_model import choose_station,choose_rain_station,normalize_observation,normalize_rain,normalize_forecast,distance,visibility_meters,station_coordinates,epoch
+from cwa_model import choose_station,choose_rain_station,normalize_observation,normalize_rain,normalize_daily_extremes,normalize_forecast,distance,visibility_meters,station_coordinates,epoch
 from cwa_products import temperature_analysis,qpf_next_hour
 from cwa_alerts import normalize_alerts
 from cwa_astronomy import normalize_astronomy
@@ -44,8 +44,6 @@ async def snapshot(store,lat,lon,country='TW'):
     dist,s,ts=chosen;geo=s.get('GeoInfo',{});current=normalize_observation(s,ts)
     sources={k:'CWA station observation' for k in current if k!='observationTime'}
     analysis=None if isinstance(temp_data,Exception) else temperature_analysis(temp_data,lat,lon,s,now)
-    if analysis and analysis['time']>=ts and dist>1.5:
-        current['temperature']=analysis['temperature'];sources['temperature']=analysis['source']
     if current.get('dewPoint') is not None:sources['dewPoint']='CWA observed temperature/RH + Magnus derivation'
     # Apple pressure is reduced to mean sea level; CWA AirPressure is station pressure.
     station_pressure=current.pop('pressure',None)
@@ -69,8 +67,10 @@ async def snapshot(store,lat,lon,country='TW'):
         current['visibility']=vis[1];sources['visibility']='CWA visibility category midpoint, or lower bound for an open-ended category; estimate'
     current['_sources']=sources
     result={'source':'CWA','generatedAt':int(now),'requested':{'latitude':lat,'longitude':lon},'location':{'county':county,'forecastTown':place['town'],'forecastDistanceKm':round(forecast_distance,3),'stationCounty':geo.get('CountyName'),'stationTown':geo.get('TownName'),'stationName':s.get('StationName'),'stationId':s.get('StationId'),'stationDistanceKm':round(dist,3),'selection':'nearest fresh CWA station; forecast uses nearest CWA township reference'},'current':current,'shortTerm':{'points':[],'intervals':[]},'weekly':{'points':[],'intervals':[]},'rain':None,'nowcast':None,'weatherAlerts':normalize_alerts(alert_detail_data,county,lat,lon,now) if isinstance(alert_detail_data,dict) else None,'astronomy':normalize_astronomy(sun_data,moon_data,county),'airQuality':normalize_aqi(aqi_data,lat,lon,now),'nwp':normalize_nwp(store.model_product(),county,place['town'],now),'provenance':{'observationTime':ts,'units':{'temperature':'C','windSpeed':'km/h','windGust':'km/h','humidity':'fraction','pressure':'hPa','precipitation':'mm','visibility':'m'},'forecastDatasets':[]}}
+    daily_extremes=normalize_daily_extremes(s,ts,current.get('temperature'),now)
+    if daily_extremes:result['dailyObservedExtremes']=daily_extremes
     if analysis:
-        analysis['usedForCurrent']=current['_sources'].get('temperature')==analysis['source']
+        analysis['usedForCurrent']=False
         result['provenance']['temperatureAnalysis']=analysis
     if vis:result['provenance']['visibilityStation']={'stationId':vis[2].get('StationId'),'stationName':vis[2].get('StationName'),'distanceKm':round(vis[0],3),'observationTime':vis[3]}
     if isinstance(rain_data,dict):

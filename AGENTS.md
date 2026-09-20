@@ -6,7 +6,7 @@
 再讀 `docs/evidence/repo-verification.json`（本 repo 的實測）與 `docs/evidence/production-source-manifest.json`（來源 SHA-256）。
 本 repo 位於 Jamie 的 Mac `/Users/jamie/cwa-apple-proxy`；正式執行環境是 Pi5 `/home/jamie/cwa-weather-proxy`。這次交接建立的是本機 Git repo，GitHub remote／push 尚未建立。
 
-資料翻譯版本 **0.3.1**；網路傳輸版本 **1.0.2**。Mac 與 iPhone 14 Pro 均已加入導流名單，iOS 原生 Weather／Widget 真實回應已驗證。
+資料翻譯版本 **0.3.2**；網路傳輸版本 **1.0.2**。Mac 與 iPhone 14 Pro 均已加入導流名單；0.3.2 已完成 Mac 原生新回應驗證，手機／Watch 的新版 UI 尚未由 agent 操作驗證。
 Exit Node 可選 None、Pi5 或其他正常節點。四條 restricted DNS 的 Use with exit node 已開啟；Pi5 的四條 relay 路由已核准。
 **使用者最新決策：jarvis 主機有問題，略過該節點，維持現況。**
 
@@ -21,7 +21,7 @@ Exit Node 可選 None、Pi5 或其他正常節點。四條 restricted DNS 的 Us
 - 成功封包的 `skippedFields=0` 僅描述本次可映射寫入；整包仍有刻意保留的 Apple 欄位。
 - Watch recovery (2026-09-20): the user installed the CA on Watch and confirmed Weather works with Tailscale enabled; server logs subsequently showed successful watchOS transformations. Do not control the user's iPhone now that they have left the Mac at home. Keep iPhone/Mac enrollment intact. Initial controlled TLS probes are not Watch evidence; AdGuard logs are in `/var/log/adguard/`.
 - Cache optimization (2026-09-20): Pi5 refreshes active dataset caches before expiry, without extending TTL/stale limits. Native bridge logs include Apple/CWA/codec/proof timings; they exclude device DNS/Bluetooth/rendering. See `docs/PERFORMANCE.md`; full Apple responses are not cached.
-- Correctness audit (2026-09-20) failed semantic acceptance for daily temperature windows/companion timestamps and precipitation mappings. See `docs/evidence/correctness-20260920.json` and KNOWN_ISSUES before further mapper work. No corrective data policy has yet been deployed; never describe the current mixed estimates as entirely official or error-free.
+- Version 0.3.2 applies the accuracy/coverage policy: same-station thermodynamics, exact hourly forecast points and PoP windows, whole rainfall windows with compatible phase companions, and explicitly derived 00–24 extrema with occurrence times. Unmatched groups retain Apple; rain-only Apple classification is labeled mixed. See `docs/evidence/accuracy-032.json`. No unvalidated disaggregation or +78/+84h extension is enabled; never claim error-free weather.
 - 氣象推估保留來源、單位、時段、假設。PoP 時間拆分屬尚未校準的推估；時間內插維持現有限制。
 - 保留 3.5 秒翻譯截止期限、Apple 原始位元組及標頭回退、非同步 ntfy 與 300 秒去重。
 - 維持裝置 opt-in。完整信任 CA 後才 enable 新裝置；Mac、iPhone 已完成的啟用狀態不要回復成 pending。

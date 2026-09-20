@@ -18,6 +18,6 @@ def test_qpf_grid_sampling():
 
 def test_rain_and_visibility_derivations():
  s={'RainfallElement':{'Past10Min':{'Precipitation':'0.5'},'Past1hr':{'Precipitation':'T'},'Past6Hr':{'Precipitation':'2.0'},'Past24hr':{'Precipitation':'3.5'}}}
- r=normalize_rain(s,1);assert r['intensity']==3.0;assert r['past1h']==.05;assert r['past24h']==3.5
+ r=normalize_rain(s,1);assert 'intensity' not in r;assert 'past1h' not in r;assert r['traceFields']==['past1h'];assert r['past24h']==3.5
  assert visibility_meters('11-15')==13000;assert visibility_meters('>30')==30000
  assert 20<dewpoint_c(27,.75)<25

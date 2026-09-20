@@ -55,5 +55,6 @@ Accept: application/vnd.apple.flatbuffer;messageType=WK2.Weather
 
 原始 Apple response 先取得，才開始 CWA＋codec 3.5s 計時。代理本身離線、Apple上游連線失敗、TLS錯誤屬另外的故障路徑。
 As of 2026-09-20, active CWA disk/memory entries refresh within 60 seconds of expiry on a 30-second warmup loop. Valid cache hits do not wait on an ongoing refresh lock. Original TTL and stale limits remain unchanged; full Apple responses are not cached. See [PERFORMANCE](PERFORMANCE.md) for measurements and limitations.
+Data version 0.3.2 uses exact official hourly points/probability windows and coherent scalar groups. Calendar-day extrema are explicitly derived from fully covered hourly samples and today's observed extrema, including occurrence times. Rainfall is never fractionally allocated; only compatible single-rain companions can be updated with the total, with retained Apple phase classification labeled mixed. Other groups remain Apple. The grid temperature product is diagnostic-only. See DATA_SOURCES and `docs/evidence/accuracy-032.json`.
 未知欄位維持 Apple，合法零值與省略欄位是兩種情況；省略 scalar 的擴充已有回歸測試。
 變更 root 後應重新解碼驗證。報告中的 offset 可能屬擴充前階段，請以最終 getter 值與來源做核對。

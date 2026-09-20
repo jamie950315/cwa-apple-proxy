@@ -4,13 +4,20 @@ Rain accumulations are differenced only within one initialization cycle.
 """
 import math
 
+def _valid_row_time(row):
+    initial=row.get('initialTime');lead=row.get('leadHours');forecast=row.get('forecastTime')
+    return (not isinstance(initial,bool) and isinstance(initial,(int,float)) and math.isfinite(initial)
+            and not isinstance(lead,bool) and isinstance(lead,(int,float)) and math.isfinite(lead) and lead==int(lead) and lead>=0 and int(lead)%6==0
+            and not isinstance(forecast,bool) and isinstance(forecast,(int,float)) and math.isfinite(forecast)
+            and forecast==initial+int(lead)*3600)
+
 def normalize_nwp(product, county, town, now):
     if not isinstance(product, dict) or product.get('version') != 1:
         return None
     try:
         index = next(i for i, item in enumerate(product['towns'])
                      if item.get('county') == county and item.get('town') == town)
-        all_rows = [row for rows in product['fields'].values() for row in rows]
+        all_rows = [row for rows in product['fields'].values() for row in rows if isinstance(row,dict) and _valid_row_time(row)]
         cycles = {row['initialTime'] for row in all_rows
                   if isinstance(row.get('initialTime'), (int, float))
                   and math.isfinite(row['initialTime']) and -300 <= now-row['initialTime'] <= 86400}
@@ -19,13 +26,13 @@ def normalize_nwp(product, county, town, now):
         cycle = max(cycles)
         pressure = []
         for row in product['fields'].get('pressure', []):
-            if row.get('initialTime') != cycle:
+            if not isinstance(row,dict) or not _valid_row_time(row) or row.get('initialTime') != cycle:
                 continue
             value = row['values'][index]
             if isinstance(value, (int, float)) and math.isfinite(value) and 850 <= value <= 1100:
                 pressure.append({'forecastStart': row['forecastTime'], 'pressure': value})
         rain = []
-        rows = sorted((row for row in product['fields'].get('apcp', []) if row.get('initialTime') == cycle),
+        rows = sorted((row for row in product['fields'].get('apcp', []) if isinstance(row,dict) and _valid_row_time(row) and row.get('initialTime') == cycle),
                       key=lambda row: row['leadHours'])
         previous_time, previous_lead, previous_value = cycle, 0, 0.0
         for row in rows:

@@ -1,7 +1,7 @@
 import {rainWindow,nwpPressure} from './weather_math.mjs';
 import {expandScalars} from './flatbuffer_expand.mjs';
 import {Weather,WeatherKit2,ByteBuffer,ConditionCode} from './vendor/weatherkit-codec.full.mjs';
-export const VERSION='0.3.1';
+export const VERSION='0.3.2';
 const TYPES={Int8:[1,-128,127],Uint8:[1,0,255],Int16:[2,-32768,32767],Uint16:[2,0,65535],Int32:[4,-2147483648,2147483647],Uint32:[4,0,4294967295],Float32:[4,-3.4e38,3.4e38],Float64:[8,-Number.MAX_VALUE,Number.MAX_VALUE]};
 const NUMERIC=['temperature','temperatureApparent','dewPoint','humidity','windSpeed'];
 export function condition(text){
@@ -23,44 +23,41 @@ export function intervalFields(intervals,ts){const out={};for(const p of interva
 export function hourFields(points,ts){
  const out={},sources={};
  for(const field of [...NUMERIC,'windDirection']){
-  const series=points.filter(p=>Number.isFinite(p[field])).sort((a,b)=>a.forecastStart-b.forecastStart);
-  const exact=series.find(p=>p.forecastStart===ts);
-  if(exact){out[field]=exact[field];sources[field]='CWA forecast point';continue;}
-  let a,b;for(const p of series){if(p.forecastStart<ts)a=p;else {b=p;break;}}
-  if(!a||!b||b.forecastStart-a.forecastStart>10800)continue;
-  if(field==='windDirection')continue;
-  const ratio=(ts-a.forecastStart)/(b.forecastStart-a.forecastStart);out[field]=a[field]+ratio*(b[field]-a[field]);sources[field]='CWA linear interpolation <=3h';
+  const exact=points.filter(p=>p.forecastStart===ts&&Number.isFinite(p[field]));
+  if(exact.length&&exact.every(p=>p[field]===exact[0][field])){out[field]=exact[0][field];sources[field]='CWA official exact forecast point';}
  }
+ if(!(Number.isFinite(out.temperature)&&Number.isFinite(out.humidity)&&Number.isFinite(out.dewPoint)&&out.temperature>=-60&&out.temperature<=65&&out.humidity>=0&&out.humidity<=1&&out.dewPoint<=out.temperature+1e-6))
+  for(const k of ['temperature','humidity','dewPoint','temperatureApparent']){delete out[k];delete sources[k];}
  return {...out,_sources:sources};
 }
-// Estimates require equal precipitation-event hazard over each source interval.
-// Probability resolution conversion adds a model assumption; provenance states it.
+// Only the source's exact event window is an official probability. Marginals
+// cannot identify hourly probabilities or the union of correlated rain events.
 export function probabilityWindow(intervals,start,end){
  if(!Number.isFinite(start)||!Number.isFinite(end)||end<=start)return {};
- const rows=(intervals||[]).filter(p=>Number.isFinite(p.start)&&Number.isFinite(p.end)&&p.end>p.start&&p.end>start&&p.start<end&&Number.isFinite(p.precipitationChance)&&p.precipitationChance>=0&&p.precipitationChance<=1);
- const cuts=[...new Set([start,end,...rows.flatMap(p=>[Math.max(start,p.start),Math.min(end,p.end)])])].sort((a,b)=>a-b);
- let logSurvival=0;const selected=[];
- for(let i=0;i<cuts.length-1;i++){
-  const a=cuts[i],b=cuts[i+1];if(b<=a)continue;
-  const p=rows.filter(p=>p.start<=a&&p.end>=b).sort((a,b)=>(a.end-a.start)-(b.end-b.start))[0];
-  if(!p)return {};
-  logSurvival+=Math.log1p(-p.precipitationChance)*(b-a)/(p.end-p.start);
-  selected.push({sourceStart:p.start,sourceEnd:p.end,sourceProbability:p.precipitationChance,start:a,end:b});
- }
- return {value:-Math.expm1(logSurvival),source:'CWA-derived probability estimate; equal hazard and independent increments assumed; uncalibrated',sourceIntervals:selected,estimated:true};
+ const rows=(intervals||[]).filter(p=>p.start===start&&p.end===end&&Number.isFinite(p.precipitationChance)&&p.precipitationChance>=0&&p.precipitationChance<=1);
+ if(!rows.length||rows.some(p=>p.precipitationChance!==rows[0].precipitationChance))return {};
+ return {value:rows[0].precipitationChance,source:'CWA official matching precipitation interval',sourceIntervals:[{start,end,sourceProbability:rows[0].precipitationChance}],estimated:false};
 }
 export function hourlyProbability(intervals,ts){return probabilityWindow(intervals,ts,ts+3600);}
 function dayProbability(intervals,start,end){return probabilityWindow(intervals,start,end);}
-function paired(intervals,key,field){
- const rows=intervals.filter(p=>dayKey(p.start)===key&&Number.isFinite(p[field])).sort((a,b)=>a.start-b.start);
- const unique=rows.filter((p,i)=>i===0||p.start!==rows[i-1].start||p.end!==rows[i-1].end);
- if(unique.length!==2||unique[0].end!==unique[1].start||unique[0].end-unique[0].start!==43200||unique[1].end-unique[1].start!==43200)return null;
- return unique;
-}
-function overlapAmount(qpf,start,end){
- if(!qpf||!Number.isFinite(qpf.amount)||!Number.isFinite(qpf.start)||!Number.isFinite(qpf.end)||qpf.end<=qpf.start)return undefined;
- const seconds=Math.max(0,Math.min(end,qpf.end)-Math.max(start,qpf.start));
- return seconds>0?qpf.amount*seconds/(qpf.end-qpf.start):undefined;
+export function dailyTemperature(points,observed,start,end,now){
+ if(!Number.isFinite(start)||!Number.isFinite(end)||end-start!==86400||(start+28800)%86400!==0||end<=now)return null;
+ const rows=[];let first=start;let usesObserved=false;
+ if(start<now){
+  if(!observed||observed.start!==start||observed.end!==end||observed.date!==dayKey(start)||!Number.isFinite(observed.observationTime)||observed.observationTime>now||now-observed.observationTime>5400)return null;
+  const {temperatureMin:lo,temperatureMax:hi,temperatureMinTime:lt,temperatureMaxTime:ht}=observed;
+  if(![lo,hi,lt,ht].every(Number.isFinite)||lo>hi||lo<-60||hi>65||lt<start||ht<start||lt>observed.observationTime||ht>observed.observationTime)return null;
+  rows.push({temperature:lo,time:lt},{temperature:hi,time:ht});first=Math.floor(observed.observationTime/3600)*3600+3600;usesObserved=true;
+ }
+ for(let t=first;t<end;t+=3600){
+  const candidates=(points||[]).filter(p=>p.forecastStart===t&&Number.isFinite(p.temperature)&&p.temperature>=-60&&p.temperature<=65);
+  if(!candidates.length||candidates.some(p=>p.temperature!==candidates[0].temperature))return null;
+  const p=candidates[0];if(Number.isFinite(p.dewPoint)&&p.dewPoint>p.temperature+1e-6)return null;
+  rows.push({temperature:p.temperature,time:t});
+ }
+ if(!rows.length)return null;
+ const low=rows.reduce((a,b)=>b.temperature<a.temperature?b:a),high=rows.reduce((a,b)=>b.temperature>a.temperature?b:a);
+ return {temperatureMin:low.temperature,temperatureMax:high.temperature,temperatureMinTime:low.time,temperatureMaxTime:high.time,start,end,estimated:true,source:usesObserved?'CWA observed daily extremes + remaining exact hourly forecast samples; derived calendar-day extrema':'CWA exact hourly forecast samples; derived calendar-day extrema'};
 }
 export function transform(original,snapshot,now=Math.floor(Date.now()/1000)){
  if(!(original instanceof Uint8Array)||original.length<12||original.length>4000000)throw Error('Invalid FlatBuffer size');
@@ -68,7 +65,8 @@ export function transform(original,snapshot,now=Math.floor(Date.now()/1000)){
  if(now-snapshot.current.observationTime>5400||snapshot.current.observationTime-now>300)throw Error('Stale observation');
  const bytes=Uint8Array.from(original),bb=new ByteBuffer(bytes),view=new DataView(bytes.buffer);
  const rp=view.getUint32(0,true);if(rp<4||rp>=bytes.length-4)throw Error('Invalid root offset');
- const root=Weather.getRootAsWeather(bb),changes=[],skipped=[],pending=new Map(),coverage={currentFields:0,hoursMapped:0,daysMapped:0,interpolatedFields:0,precipitationFields:0};
+ const root=Weather.getRootAsWeather(bb),changes=[],skipped=[],pending=new Map(),assignments=[],retainedApple=[],coverage={currentFields:0,hoursMapped:0,daysMapped:0,interpolatedFields:0,precipitationFields:0};
+ const retain=(field,reason)=>retainedApple.push({field,reason});
  function validateTable(table){
   if(!table||!Number.isInteger(table.bb_pos)||table.bb_pos<4||table.bb_pos+4>bytes.length)throw Error('Invalid table position');
   const vt=table.bb_pos-view.getInt32(table.bb_pos,true);if(vt<4||vt+4>bytes.length)throw Error('Invalid vtable position');
@@ -80,6 +78,7 @@ export function transform(original,snapshot,now=Math.floor(Date.now()/1000)){
   const layout=validateTable(table),getter=table[field].toString(),match=getter.match(/__offset\(this\.bb_pos,(\d+)\)/),type=getter.match(/\.read(Uint8|Int8|Uint16|Int16|Uint32|Int32|Float32|Float64)\(/)?.[1];
   if(!match||!TYPES[type])throw Error('Unsupported scalar '+field);
   const [size,lo,hi]=TYPES[type];if(value<lo||value>hi)throw Error('Out of range '+field);if(!type.startsWith('Float'))value=Math.round(value);
+  assignments.push({field:label+'.'+field,source,kind:source.includes('Apple')?'mixed':/derived|derivation|estimate|interpolation/i.test(source)?'derived':'official'});
   const before=table[field]();if(before===value)return;
   const index=Number(match[1]),offset=index<layout.len?view.getUint16(layout.vt+index,true):0;
   if(!offset){pending.set(table.bb_pos+':'+index,{tablePos:table.bb_pos,index,type,value,before,field:label+'.'+field,source});return;}
@@ -90,27 +89,58 @@ export function transform(original,snapshot,now=Math.floor(Date.now()/1000)){
  }
  function fields(table,values,label){
   const source=k=>values._sources?.[k]||'CWA';
-  for(const k of ['temperature','temperatureApparent','windSpeed','windDirection','windGust','uvIndex','visibility','pressure'])set(table,k,values[k],label,source(k));
-  set(table,'humidity',values.humidity===undefined?undefined:values.humidity*100,label,source('humidity'));set(table,'temperatureDewPoint',values.dewPoint,label,source('dewPoint'));set(table,'conditionCode',condition(values.weatherText),label,values.conditionSource||source('weatherText'));
+  const coherent=Number.isFinite(values.temperature)&&Number.isFinite(values.humidity)&&Number.isFinite(values.dewPoint)&&values.temperature>=-60&&values.temperature<=65&&values.humidity>=0&&values.humidity<=1&&values.dewPoint<=values.temperature+1e-6;
+  if(coherent){
+   for(const k of ['temperature','temperatureApparent'])set(table,k,values[k],label,source(k));
+   set(table,'humidity',values.humidity*100,label,source('humidity'));set(table,'temperatureDewPoint',values.dewPoint,label,source('dewPoint'));
+  }else retain(label+'.thermodynamicGroup','no complete coherent same-time CWA group');
+  for(const k of ['windSpeed','windDirection','windGust','uvIndex','visibility','pressure'])set(table,k,values[k],label,source(k));
+  set(table,'conditionCode',condition(values.weatherText),label,values.conditionSource||source('weatherText'));
+  return coherent;
+ }
+ function rainGroup(table,field,amount,label,source,vectorName=field+'ByType',hourly=false){
+  if(!Number.isFinite(amount))return false;
+  if(amount<0||amount>5000||typeof table?.[field]!=='function')return false;
+  const snow=field.replace('precipitation','snowfall');
+  if(typeof table[snow]==='function'&&table[snow]()!==0){retain(label+'.'+field,'Apple snow companion has no CWA phase equivalent');return false;}
+  if(typeof table.precipitationType==='function'&&table.precipitationType()!==1){retain(label+'.'+field,'top-level Apple phase is not rain-only');return false;}
+  if(hourly){
+   // RAIN=1 in the pinned native codec. Retain its classification; do not infer
+   // a new phase from temperature or manufacture snow/distribution bounds.
+   if(table.precipitationType?.()!==1||table.snowfallIntensity?.()!==0){retain(label+'.'+field,'no existing Apple rain-only phase or nonzero snow intensity');return false;}
+  }else{
+   const count=table[vectorName+'Length']?.();
+   if(count===0&&amount===0&&table[field]()===0){set(table,field,amount,label,source);return true;}
+   if(count!==1){retain(label+'.'+field,'missing or multi-phase Apple companion; no fabricated phase split');return false;}
+   const type=table[vectorName](0);validateTable(type);
+   if(type.precipitationType?.()!==1||['expectedSnow','maximumSnow','minimumSnow'].some(k=>typeof type[k]!=='function'||type[k]()!==0)){
+    retain(label+'.'+field,'unsupported Apple phase or snow distribution');return false;
+   }
+   set(type,'expected',amount,label+'.'+vectorName+'[0]',source+'; retained Apple rain-only phase');
+  }
+  set(table,field,amount,label,source+'; retained Apple rain-only phase');
+  if(hourly)set(table,'precipitationIntensity',amount,label,source+'; derived mean rate over the exact one-hour forecast window; retained Apple rain-only phase');
+  return true;
  }
  const points=snapshot.shortTerm?.points||[],shortIntervals=snapshot.shortTerm?.intervals||[],weekly=snapshot.weekly?.intervals||[],rain=snapshot.rain||{},qpf=snapshot.nowcast||null;
- const nwp=snapshot.nwp||{},nwpPoints=nwp.points||[],rainRows=[...(nwp.rainIntervals||[]),...(qpf?[qpf]:[])],precipitationPeriods=[];
+ const nwp=snapshot.nwp||{},nwpPoints=nwp.points||[],rainRows=[...(nwp.rainIntervals||[]).map(p=>({...p,family:'wrf',initialTime:nwp.initialTime})),...(qpf?[{...qpf,family:'qpf',initialTime:qpf.start}]:[])],precipitationPeriods=[];
  const current=root.currentWeather();
  if(current){
   validateTable(current);if(!Number.isFinite(current.temperature())||Math.abs(current.temperature())>100)throw Error('Unknown current weather layout');
-  const forecast=hourFields(points,now),values={...snapshot.current,_sources:{...(snapshot.current._sources||{})}};
-  if(Number.isFinite(forecast.temperatureApparent)){values.temperatureApparent=forecast.temperatureApparent;values._sources.temperatureApparent=forecast._sources.temperatureApparent;}
-  if(!Number.isFinite(values.dewPoint)&&Number.isFinite(forecast.dewPoint)){values.dewPoint=forecast.dewPoint;values._sources.dewPoint=forecast._sources.dewPoint;}
+  const values={...snapshot.current,_sources:{...(snapshot.current._sources||{})}};
   if(!values.weatherText){values.weatherText=intervalFields(shortIntervals,now).weatherText;values.conditionSource='CWA forecast interval';}
-  fields(current,values,'current');set(current,'asOf',snapshot.current.observationTime,'current','CWA observation time');
-  set(current,'precipitationAmount1h',rain.past1h,'current','CWA O-A0002-001 rain gauge Past1hr');
-  set(current,'precipitationAmount6h',rain.past6h,'current','CWA O-A0002-001 rain gauge Past6Hr');
-  set(current,'precipitationAmount24h',rain.past24h,'current','CWA O-A0002-001 rain gauge Past24hr');
-  set(current,'precipitationIntensity',rain.intensity,'current','CWA rain gauge Past10Min × 6 hourly-rate estimate');
+  const coherent=fields(current,values,'current');if(coherent)set(current,'asOf',snapshot.current.observationTime,'current','CWA observation time');
+  const anchor=coherent?snapshot.current.observationTime:current.asOf();
   for(const hours of [1,6,24]){
-   const result=rainWindow(rainRows,now,now+hours*3600);
-   set(current,'precipitationAmountNext'+hours+'h',result.amount,'current',result.source||'CWA');
-   if(Number.isFinite(result.amount))precipitationPeriods.push({field:'current.precipitationAmountNext'+hours+'h',start:now,end:now+hours*3600,segments:result.segments});
+   const field='precipitationAmount'+hours+'h';
+   if(rain.observationTime===anchor)rainGroup(current,field,rain['past'+hours+'h'],'current','CWA rain gauge exact trailing '+hours+'h window','precipitationAmountPrevious'+hours+'hByType');
+   else if(Number.isFinite(rain['past'+hours+'h']))retain('current.'+field,'rain observation time differs from current asOf');
+  }
+  retain('current.precipitationIntensity','ten-minute average is not instantaneous intensity');
+  for(const hours of [1,6,24]){
+   const result=rainWindow(rainRows,anchor,anchor+hours*3600),field='precipitationAmountNext'+hours+'h';
+   if(rainGroup(current,field,result.amount,'current',result.source||'CWA'))precipitationPeriods.push({field:'current.'+field,start:anchor,end:anchor+hours*3600,segments:result.segments});
+   else if(!Number.isFinite(result.amount))retain('current.'+field,'no exact complete CWA source window');
   }
   coverage.currentFields=changes.length;
  }
@@ -119,12 +149,12 @@ export function transform(original,snapshot,now=Math.floor(Date.now()/1000)){
   validateTable(hourly);const count=hourly.hoursLength();if(count>1000)throw Error('Unknown hourly layout');
   for(let i=0;i<count;i++){
    const hour=hourly.hours(i);validateTable(hour);const ts=hour.forecastStart();if(ts<now-3600)continue;const before=changes.length;
-   fields(hour,{...intervalFields(shortIntervals,ts),...hourFields(points,ts)},`hour[${i}]`);
+   fields(hour,{weatherText:intervalFields(shortIntervals,ts).weatherText,...hourFields(points,ts)},`hour[${i}]`);
    const pop2=hourlyProbability([...shortIntervals,...weekly],ts);
-   set(hour,'precipitationChance',Number.isFinite(pop2.value)?pop2.value*100:undefined,`hour[${i}]`,pop2.source||'CWA');
+   if(Number.isFinite(pop2.value))set(hour,'precipitationChance',pop2.value*100,`hour[${i}]`,pop2.source);
+   else retain(`hour[${i}].precipitationChance`,'no exact official CWA probability window');
    const amount=rainWindow(rainRows,ts,ts+3600);
-   set(hour,'precipitationAmount',amount.amount,`hour[${i}]`,amount.source||'CWA');
-   set(hour,'precipitationIntensity',amount.amount,`hour[${i}]`,'CWA uniform hourly average precipitation rate estimate');
+   rainGroup(hour,'precipitationAmount',amount.amount,`hour[${i}]`,amount.source||'CWA',undefined,true);
    set(hour,'pressure',nwpPressure(nwpPoints,ts),`hour[${i}]`,'CWA WRF-3km sea-level pressure, <=6h linear interpolation');
    if(changes.length>before)coverage.hoursMapped++;
   }
@@ -136,24 +166,28 @@ export function transform(original,snapshot,now=Math.floor(Date.now()/1000)){
    const day=daily.days(i);validateTable(day);const key=dayKey(day.forecastStart());if(day.forecastEnd()<now)continue;
    const astro=snapshot.astronomy?.days?.find(p=>p.date===key);
    if(astro)for(const k of ['sunrise','sunset','solarNoon','sunriseCivil','sunsetCivil','moonrise','moonset'])set(day,k,astro[k],`day[${i}]`,astro._sources?.[k]||'CWA calendar astronomy');
-   const before=changes.length,selected=weekly.filter(p=>dayKey(p.start)===key),highs=paired(weekly,key,'temperatureMax'),lows=paired(weekly,key,'temperatureMin');
-   if(highs&&lows&&highs[0].start===lows[0].start&&highs[1].end===lows[1].end){
-    const max=Math.max(...highs.map(p=>p.temperatureMax)),min=Math.min(...lows.map(p=>p.temperatureMin));if(min<=max){set(day,'temperatureMax',max,`day[${i}]`,'CWA complete day/night maximum');set(day,'temperatureMin',min,`day[${i}]`,'CWA complete day/night minimum');dailyPeriods.push({date:key,start:highs[0].start,end:highs[1].end,appleStart:day.forecastStart(),appleEnd:day.forecastEnd()});}
+   const before=changes.length,selected=weekly.filter(p=>dayKey(p.start)===key),extremes=dailyTemperature(points,snapshot.dailyObservedExtremes,day.forecastStart(),day.forecastEnd(),now);
+   if(extremes&&['temperatureMax','temperatureMin','temperatureMaxTime','temperatureMinTime'].every(k=>typeof day[k]==='function')){
+    for(const k of ['temperatureMax','temperatureMin','temperatureMaxTime','temperatureMinTime'])set(day,k,extremes[k],`day[${i}]`,extremes.source);
+    dailyPeriods.push({date:key,start:extremes.start,end:extremes.end,appleStart:day.forecastStart(),appleEnd:day.forecastEnd(),estimated:true,source:extremes.source});
+   }else{
+    retain(`day[${i}].temperatureExtrema`,'no full same-calendar-day hourly coverage and observed extrema with occurrence times');
    }
    const uv=selected.filter(p=>Number.isFinite(p.uvIndex));if(uv.length)set(day,'maxUvIndex',Math.max(...uv.map(p=>p.uvIndex)),`day[${i}]`,'CWA daytime UV forecast');
    const daytime=selected.find(p=>p.weatherText&&new Date((p.start+28800)*1000).getUTCHours()===6);if(daytime)set(day,'conditionCode',condition(daytime.weatherText),`day[${i}]`,'CWA daytime weather forecast');
-   const dp2=dayProbability([...shortIntervals,...weekly],day.forecastStart(),day.forecastEnd());set(day,'precipitationChance',Number.isFinite(dp2.value)?dp2.value*100:undefined,`day[${i}]`,dp2.source||'CWA');
-   let quantitative=rainWindow(rainRows,day.forecastStart(),day.forecastEnd());
-   if(Number.isFinite(rain.today)&&Number.isFinite(rain.observationTime)&&dayKey(rain.observationTime)===key&&rain.observationTime>day.forecastStart()&&rain.observationTime<day.forecastEnd()){
-    const remainder=rainWindow(rainRows,rain.observationTime,day.forecastEnd());
-    if(Number.isFinite(remainder.amount))quantitative={...remainder,amount:rain.today+remainder.amount,source:'CWA observed rain since midnight + QPF/WRF forecast remainder; estimate'};
-   }
-   set(day,'precipitationAmount',quantitative.amount,`day[${i}]`,quantitative.source||'CWA');
-   if(Number.isFinite(quantitative.amount))precipitationPeriods.push({field:`day[${i}].precipitationAmount`,start:day.forecastStart(),end:day.forecastEnd(),source:quantitative.source});
+   const dp2=dayProbability([...shortIntervals,...weekly],day.forecastStart(),day.forecastEnd());
+   if(Number.isFinite(dp2.value))set(day,'precipitationChance',dp2.value*100,`day[${i}]`,dp2.source);
+   else retain(`day[${i}].precipitationChance`,'no exact official CWA probability window');
+   const quantitative=rainWindow(rainRows,day.forecastStart(),day.forecastEnd());
+   if(rainGroup(day,'precipitationAmount',quantitative.amount,`day[${i}]`,quantitative.source||'CWA'))precipitationPeriods.push({field:`day[${i}].precipitationAmount`,start:day.forecastStart(),end:day.forecastEnd(),source:quantitative.source,segments:quantitative.segments});
    const winds=selected.filter(p=>Number.isFinite(p.windSpeed));if(winds.length)set(day,'windSpeedAvg',winds.reduce((s,p)=>s+p.windSpeed,0)/winds.length,`day[${i}]`,'CWA mean of available day/night wind forecasts');
    for(const name of ['daytimeForecast','overnightForecast','restOfDayForecast']){
     const part=day[name]?.();if(!part)continue;validateTable(part);const matches=weekly.filter(p=>p.start===part.forecastStart()&&p.end===part.forecastEnd());if(!matches.length)continue;
-    const v=Object.assign({},...matches),label=`day[${i}].${name}`;fields(part,v,label);for(const k of ['temperatureMin','temperatureMax','temperatureApparentMin','temperatureApparentMax'])set(part,k,v[k],label,'CWA matching forecast interval');set(part,'precipitationChance',v.precipitationChance===undefined?undefined:v.precipitationChance*100,label,'CWA official matching precipitation interval');
+    const v=Object.assign({},...matches),label=`day[${i}].${name}`;fields(part,v,label);
+    // CWA period extrema do not supply occurrence times. Retain the complete
+    // Apple extrema family instead of mixing CWA values with Apple's times.
+    const pop=probabilityWindow(matches,part.forecastStart(),part.forecastEnd());
+    if(Number.isFinite(pop.value))set(part,'precipitationChance',pop.value*100,label,pop.source);
    }
    if(changes.length>before)coverage.daysMapped++;
   }
@@ -185,5 +219,6 @@ export function transform(original,snapshot,now=Math.floor(Date.now()/1000)){
   if(!verify||verify.alerts.length!==obj.alerts.length)throw Error('WeatherAlerts root verification failed');
   rebuiltRoots.push({root:'weatherAlerts',items:obj.alerts.length,source:'CWA W-C0033-002'});
  }
- return {bytes:output,report:{version:VERSION,modifiedFields:changes.length,skippedFields:skipped.length,changes,skipped,coverage,dailyPeriods,precipitationPeriods,rebuiltRoots,bufferBytesBefore:original.length,bufferBytesAfter:output.length,observation:snapshot.location,observationTime:snapshot.current.observationTime,policy:'CWA-first: observations + analyzed temperature + rain gauges + 1h radar QPF + township forecast + CWA alerts; probabilities are time-resolution-aware derivations where Apple and CWA windows differ',preserved:['cloud-cover percentages where no current public operational grid is integrated','forecast visibility/gust, and pressure beyond validated CWA model coverage','quantitative precipitation beyond valid QPF/WRF coverage; missing phase-specific distribution vectors','air-quality auxiliary comparisons without corresponding CWA observations','moon phase/illumination and nautical/astronomical twilight where CWA time tables contain no equivalent','Apple-specific news/historical-comparison/change products','unknown FlatBuffers slots']}};
+ const sourceCoverage={official:0,derived:0,mixed:0};for(const a of assignments)sourceCoverage[a.kind]++;
+ return {bytes:output,report:{version:VERSION,modifiedFields:changes.length,skippedFields:skipped.length,changes,skipped,coverage,sourceCoverage,assignments,retainedApple,dailyPeriods,precipitationPeriods,rebuiltRoots,bufferBytesBefore:original.length,bufferBytesAfter:output.length,observation:snapshot.location,observationTime:snapshot.current.observationTime,policy:'CWA aligned-source policy: coherent station thermodynamics, exact hourly points and probability windows, complete rainfall windows with compatible companions, and explicitly derived calendar-day extrema with occurrence times; unsupported groups retain Apple',preserved:['unmatched hourly/daily precipitation probabilities and fractional rainfall windows','rainfall with missing or incompatible Apple phase companions','incomplete calendar-day extrema or thermodynamic groups','cloud-cover percentages where no current public operational grid is integrated','forecast visibility/gust, and pressure beyond validated CWA model coverage','air-quality auxiliary comparisons without corresponding CWA observations','moon phase/illumination and nautical/astronomical twilight where CWA time tables contain no equivalent','Apple-specific news/historical-comparison/change products','unknown FlatBuffers slots']}};
 }

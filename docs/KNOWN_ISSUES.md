@@ -12,7 +12,7 @@ CWA LinkedAPI delivers Taiwan MOENV AQI data, and the mapper writes `scale=TAIWA
 
 The proxy now serves the correct Taiwan descriptor locally using the observed native JSON schema and official MOENV categories. AQI values and attribution remain unchanged. Mac cards rendered AQI 77/Moderate and AQI 47/Good; the latter matches a freshly decoded final response and its CWA snapshot. See [loading evidence](evidence/latency-aqi-20260930.json).
 
-The descriptor supports the observed `zh-Hant-TW` and `en-US` locales. Other locale requests still use Apple and may encounter the former delay. Optional health recommendations are omitted. The user later confirmed fast, normal iPhone loading, and fresh served iOS AQI/pollutants match official LinkedAPI observations. Precise iPhone launch timing, physical iPhone/Watch AQI-card rendering, advanced AQI details, and every cold/network condition remain unverified; sub-second readiness samples are not a universal launch-time guarantee.
+The descriptor supports the observed `zh-Hant-TW` and `en-US` locales. Other locale requests still use Apple and may encounter the former delay. Optional health recommendations are omitted. The user later confirmed iPhone loading within one second, and fresh served iOS AQI/pollutants match official LinkedAPI observations. Instrumented iPhone launch timing, physical iPhone/Watch AQI-card rendering, advanced AQI details, and every cold/network condition remain unverified; sub-second readiness samples are not a universal launch-time guarantee.
 
 ## Mapping limits after 0.3.2
 

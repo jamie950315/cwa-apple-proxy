@@ -87,6 +87,8 @@
     "iphoneLaunchTimingMeasured": false,
     "servedIphoneAqiSourceVerified": true,
     "physicalIphoneUiAcceptanceScope": "AQI-card/detail rendering remains separate from the user-accepted loading.",
-    "publishedEvidenceCommit": "e00f7946e23dd75f9602ec39860654bd36d208b2"
+    "publishedEvidenceCommit": "e00f7946e23dd75f9602ec39860654bd36d208b2",
+    "iphoneUserConfirmedWithinOneSecond": true,
+    "iphoneTimingEvidenceType": "Physical user confirmation; no instrumented launch duration"
   }
 }

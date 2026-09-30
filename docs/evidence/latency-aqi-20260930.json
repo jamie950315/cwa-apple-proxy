@@ -82,7 +82,7 @@
     "officialIndexRecomputed": false
   },
   "privateEvidenceCommitted": false,
-  "verificationStatus": "Deployed repair; native Mac data readiness and AQI rendering accepted. User reports fast, normal iPhone loading; iOS served AQI values verified against CWA LinkedAPI observations. No precise iPhone launch timing or physical AQI-card observation.",
+  "verificationStatus": "Deployed and published repair; Mac subsequent process launch reached data readiness in 0.548 seconds. User explicitly confirms physical iPhone loading within one second. iOS served AQI values/pollutants match CWA LinkedAPI observations. Instrumented iPhone timing and physical AQI-card rendering remain separate.",
   "sourceCommit": "662eed9bfd7345d398a307bdfd2c9514ace0cfbb",
   "implementation": {
     "nativeSchemaObserved": true,
@@ -264,7 +264,12 @@
         "decodedPollutantTypesUnitsAndAmountsMatch": true,
         "proxyTotalMs": 190
       }
-    ]
+    ],
+    "userConfirmedWithinOneSecond": true,
+    "timingEvidenceType": "Physical user confirmation of launch-to-visible-data timing",
+    "timingConfirmation": "User explicitly answered the one-second launch-to-data question affirmatively.",
+    "instrumentedTimingAvailable": false,
+    "userTimingConfirmationRecordedAt": "2026-09-30T21:25:55.037936+08:00"
   },
   "limits": [
     "Data propagation timestamps establish native data readiness, not frame-accurate first visible pixels.",
@@ -290,5 +295,16 @@
     "verifiedRemoteHead": "e00f7946e23dd75f9602ec39860654bd36d208b2",
     "verification": "Successful git push followed by git ls-remote origin refs/heads/main; source and follow-up evidence are ancestors of the verified remote head.",
     "runtimeChangedByPublication": false
+  },
+  "completionRuntimeCheck": {
+    "verifiedAt": "2026-09-30T21:24:34.970576+08:00",
+    "deployedRepairHashesMatch": true,
+    "servicesActive": [
+      "cwa-weather-proxy",
+      "cwa-weather-forward",
+      "cwa-weather-api",
+      "cwa-weather-codec"
+    ],
+    "runtimeChangedForFinalAcceptance": false
   }
 }

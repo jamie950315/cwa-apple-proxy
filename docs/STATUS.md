@@ -14,7 +14,7 @@ This repository is the maintained public source checkout. It is not a pending ha
 |---|---|
 | Translation | Version 0.3.2 is deployed |
 | Transport | Version 1.0.2 is deployed |
-| Source revision | Review `1b4c958` is published; later AQI loading repair `662eed9` is locally committed and deployed on the Pi 5 |
+| Source revision | Review `1b4c958` is published; later AQI loading repair `662eed9` is published and deployed on the Pi 5 |
 | Runtime | Pi 5 at `/home/jamie/cwa-weather-proxy` |
 | Mac | Enrolled; native Weather and Widget transformations have been verified |
 | iPhone 14 Pro | Enrolled; native Weather and Widget transformed responses have been verified |

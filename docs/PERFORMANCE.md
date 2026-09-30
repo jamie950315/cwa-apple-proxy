@@ -4,7 +4,7 @@
 
 The main observed delay was a missing AQI descriptor, not CWA normalization. Native WeatherService waited for `TAIWAN_AQI` requests to exhaust their 404 retries before publishing the entire weather tuple. The baseline cold launch took 5.382 seconds from its first foreground fetch to first data propagation; two weather-plus-scale calls took 4.270 and 4.309 seconds while the proxy took 150-187 ms.
 
-The locally committed and deployed repair (`662eed9`) serves the native Taiwan scale JSON before upstream access. Official AQI values, weather-data TTLs, translation fallback, and routing are unchanged. Fixed descriptor metadata may be privately cached for one day.
+The published and deployed repair (`662eed9`) serves the native Taiwan scale JSON before upstream access. Official AQI values, weather-data TTLs, translation fallback, and routing are unchanged. Fixed descriptor metadata may be privately cached for one day.
 
 | Native Mac measurement | After repair | Scope |
 |---|---:|---|

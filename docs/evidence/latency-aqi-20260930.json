@@ -132,7 +132,7 @@
     "codecHealthHttp": 200,
     "systemdUnitsChanged": false,
     "dnsRoutesEnrollmentCertificatesChanged": false,
-    "githubPublished": false
+    "githubPublished": true
   },
   "endpointSmoke": [
     {
@@ -281,5 +281,14 @@
     "Private packet metadata and unified logs remain in an ignored mode-restricted directory. No DNS or QUIC remedy was necessary for the measured AQI-scale cause.",
     "Follow-up AQI verification changed no runtime source: both fresh iOS final modified responses match their encoded candidates, official LinkedAPI indexes/categories, and decoded pollutant types/units/amounts. A secondary official website fetch through ccsearch returned HTTP403; no independent MOENV website live-value comparison is claimed. Native Mac UI reacquisition failed at computer-use pipe startup; existing Mac AQI-card evidence remains dated and valid for its sample."
   ],
-  "verifiedAt": "2026-09-30T20:47:22.398226+08:00"
+  "verifiedAt": "2026-09-30T20:47:22.398226+08:00",
+  "publication": {
+    "verifiedAt": "2026-09-30T21:04:27.366250+08:00",
+    "repository": "https://github.com/jamie950315/cwa-apple-proxy",
+    "branch": "main",
+    "sourceCommit": "662eed9bfd7345d398a307bdfd2c9514ace0cfbb",
+    "verifiedRemoteHead": "e00f7946e23dd75f9602ec39860654bd36d208b2",
+    "verification": "Successful git push followed by git ls-remote origin refs/heads/main; source and follow-up evidence are ancestors of the verified remote head.",
+    "runtimeChangedByPublication": false
+  }
 }

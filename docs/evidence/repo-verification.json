@@ -77,7 +77,7 @@
     "sourceCommit": "662eed9bfd7345d398a307bdfd2c9514ace0cfbb",
     "evidence": "docs/evidence/latency-aqi-20260930.json",
     "deployed": true,
-    "published": false,
+    "published": true,
     "macAffectedTestsPassed": 44,
     "piAffectedTestsPassed": 44,
     "nativeMacAqiRendered": true,
@@ -86,6 +86,7 @@
     "physicalIphoneLoadingAccepted": true,
     "iphoneLaunchTimingMeasured": false,
     "servedIphoneAqiSourceVerified": true,
-    "physicalIphoneUiAcceptanceScope": "AQI-card/detail rendering remains separate from the user-accepted loading."
+    "physicalIphoneUiAcceptanceScope": "AQI-card/detail rendering remains separate from the user-accepted loading.",
+    "publishedEvidenceCommit": "e00f7946e23dd75f9602ec39860654bd36d208b2"
   }
 }

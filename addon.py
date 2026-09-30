@@ -3,9 +3,11 @@ from pathlib import Path
 import os,asyncio,base64,json,logging,logging.handlers,re,time,uuid
 import httpx
 from mitmproxy import http
+from cwa_aqi_scale import taiwan_aqi_scale
 ROOT=Path('/home/jamie/cwa-weather-proxy')
 VERSION='0.3.2';MODE=os.getenv('CWA_PROXY_MODE','reverse');DEADLINE=3.5;NTFY_URL='https://ntfy.sh/cwa-apple-proxy'
 PATH=re.compile(r'^/api/v2/weather/[^/]+/(-?\d+(?:\.\d+)?)/(-?\d+(?:\.\d+)?)/?$')
+SCALE_PATH=re.compile(r'^/api/v1/airQualityScale/([^/]+)/([^/]+)$')
 class Bridge:
     def __init__(self):
         self.client=None;self.ntfy=None;self.started=int(time.time());self.notify_tasks=set();self.last_notify={};self.proof_task=None
@@ -46,6 +48,17 @@ class Bridge:
         lat,lon=map(float,match.groups());return (lat,lon) if 20<=lat<=27 and 117<=lon<=124 else None
     def request(self,flow):
         if flow.request.host!='weatherkit.apple.com':flow.response=http.Response.make(403,b'Weather-only proxy');return
+        if flow.request.method=='GET' and (match:=SCALE_PATH.fullmatch(flow.request.path.split('?',1)[0])):
+            scale=taiwan_aqi_scale(*match.groups())
+            if scale is not None:
+                # Native Weather waits for this descriptor before publishing the
+                # whole weather tuple. The custom Taiwan scale is not on Apple.
+                flow.response=http.Response.make(200,json.dumps(scale,ensure_ascii=False).encode(),{
+                    'Content-Type':'application/json; charset=utf-8',
+                    'Cache-Control':'private, max-age=86400',
+                    'X-CWA-Bridge':VERSION+'; taiwan-aqi-scale',
+                })
+                return
         if self.target(flow):
             for name in ['If-None-Match','If-Modified-Since']:flow.request.headers.pop(name,None)
     def record(self,event):

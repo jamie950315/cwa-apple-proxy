@@ -32,6 +32,24 @@ def test_cache_validators_only_removed_for_target(bridge):
  f=flow();f.request.headers['If-None-Match']='abc';bridge.request(f);assert 'If-None-Match' not in f.request.headers
  f=flow('JP');f.request.headers['If-None-Match']='abc';bridge.request(f);assert f.request.headers['If-None-Match']=='abc'
 
+def test_taiwan_aqi_scale_is_served_without_upstream_or_translation(bridge):
+ import json
+ f=SimpleNamespace(request=http.Request.make('GET','https://weatherkit.apple.com/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI'),response=None)
+ bridge.request(f)
+ assert f.response.status_code==200
+ assert f.response.headers['content-type'].startswith('application/json')
+ assert f.response.headers['cache-control']=='private, max-age=86400'
+ scale=json.loads(f.response.content)
+ assert scale['name']=='TAIWAN_AQI' and scale['language']=='zh-TW'
+ assert [category['categoryNumber'] for category in scale['aqi']['categories']]==[1,2,3,4,5,6]
+ asyncio.run(bridge.response(f))
+ assert bridge.stats['errors']==0 and bridge.stats['passthrough']==1
+
+@pytest.mark.parametrize('method,path',[('GET','/api/v1/airQualityScale/zh-Hant-TW/EPA_NowCast.2604'),('POST','/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI'),('GET','/unrelated/TAIWAN_AQI')])
+def test_other_scale_and_nonmatching_requests_keep_upstream_path(bridge,method,path):
+ f=SimpleNamespace(request=http.Request.make(method,'https://weatherkit.apple.com'+path),response=None)
+ bridge.request(f);assert f.response is None
+
 @pytest.mark.parametrize('failure',['cwa503','codec422','malformed_base64','wrong_length','timeout'])
 def test_all_translation_errors_preserve_bytes_and_headers(bridge,failure):
  import base64

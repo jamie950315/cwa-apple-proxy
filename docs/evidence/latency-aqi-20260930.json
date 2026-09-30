@@ -1,0 +1,239 @@
+{
+  "date": "2026-09-30",
+  "timezone": "Asia/Taipei",
+  "objective": "Remove the observed native Weather 4-5 second loading delay and measure progress toward sub-second data loading.",
+  "baselineSourceCommit": "1b4c95800701e64c5ee6a13640db29698b318df4",
+  "cause": {
+    "nativeScale": "TAIWAN_AQI",
+    "upstreamHttpStatus": 404,
+    "nativeBehavior": "WeatherService waits for weather data and its corresponding AQI scale before publishing the entire weather tuple. Failed scale requests are raced/retried before the remaining products are built.",
+    "confirmedBy": "macOS unified WeatherService logs aligned with final Pi bridge and transport events",
+    "observedWeatherPlusScaleSeconds": [
+      4.26978,
+      4.309106
+    ],
+    "afterFailedScale": "Cannot build air quality due to missing scale; returning temporarily unavailable"
+  },
+  "baselineMacColdLaunch": {
+    "firstForegroundFetch": "2026-09-30T20:32:21.965282+08:00",
+    "firstWeatherDataPropagation": "2026-09-30T20:32:27.347519+08:00",
+    "foregroundFetchToFirstDataSeconds": 5.382237,
+    "firstAxObservation": "Not loaded; -- at 2.152 seconds after getApp began.",
+    "secondAxObservation": "Still not loaded at 5.634 seconds after getApp began.",
+    "finalBridgeProxyTotalMs": [
+      160,
+      150,
+      187
+    ],
+    "note": "Computer-use acquisition and observation overhead is not a frame-accurate app launch measurement."
+  },
+  "apiInvestigation": {
+    "piReadOnlyDiskReplayMs": {
+      "cold": 156.823,
+      "warmMedian": 27.608,
+      "warmRange": [
+        27.456,
+        27.94
+      ]
+    },
+    "piLiveWarmApiMs": {
+      "first": 88.484,
+      "remainingRange": [
+        34.169,
+        35.18
+      ]
+    },
+    "liveRequests": 8,
+    "httpStatus": 200,
+    "fetchCountBefore": 31,
+    "fetchCountAfter": 31,
+    "sourceErrors": {},
+    "snapshotCacheAdded": false
+  },
+  "scaleReference": {
+    "nativeSchema": "Successful JSON AQI scale responses retained in the local macOS Weather HTTP cache.",
+    "officialTaiwanCategories": "https://airtw.moenv.gov.tw/CHT/Information/Standard/AirQualityIndicatorNew.aspx",
+    "categoryRanges": [
+      [
+        0,
+        50
+      ],
+      [
+        51,
+        100
+      ],
+      [
+        101,
+        150
+      ],
+      [
+        151,
+        200
+      ],
+      [
+        201,
+        300
+      ],
+      [
+        301,
+        500
+      ]
+    ],
+    "officialIndexRecomputed": false
+  },
+  "privateEvidenceCommitted": false,
+  "verificationStatus": "Deployed repair; native Mac data readiness and AQI rendering accepted. Physical iPhone result pending.",
+  "sourceCommit": "662eed9bfd7345d398a307bdfd2c9514ace0cfbb",
+  "implementation": {
+    "nativeSchemaObserved": true,
+    "module": "cwa_aqi_scale.py",
+    "requestHook": "addon.py Bridge.request",
+    "languages": [
+      "zh-Hant-TW",
+      "en-US"
+    ],
+    "localDescriptorCacheSeconds": 86400,
+    "weatherTtlsChanged": false,
+    "aqiValuesRecomputed": false,
+    "wholeAppleResponseCacheAdded": false,
+    "translationDeadlineChanged": false
+  },
+  "tests": {
+    "mac": {
+      "addonPassed": 30,
+      "scalePassed": 14,
+      "totalPassed": 44,
+      "failed": 0
+    },
+    "pi": {
+      "command": ".venv/bin/python -m pytest tests/test_addon.py tests/test_aqi_scale.py -q --tb=short",
+      "passed": 44,
+      "failed": 0
+    }
+  },
+  "deployment": {
+    "sourceCommit": "662eed9bfd7345d398a307bdfd2c9514ace0cfbb",
+    "installedHashes": {
+      "addon.py": "274c8edd79017e821b076abb1f41667abc3cb3393086f856b3ddf68da4fc03e9",
+      "cwa_aqi_scale.py": "6c7b8a109f623c412b52c7c69f9f8851ceec45864643ac63674b1f022d5f53c9",
+      "tests/test_addon.py": "cfac6b6043949d94d7e2c22766e8b767ff61ea0c0bb733e65c1d5fa0d7113865",
+      "tests/test_aqi_scale.py": "f62ffab2c1492908b037a4a206624da761296c35340fdd99c2648a45e373be55"
+    },
+    "backup": "backups/latency-aqi-20260930-baseline",
+    "installedAt": "2026-09-30T20:40:24.640189+08:00",
+    "protectedFiles": 17,
+    "protectedContentsAndModesUnchanged": true,
+    "restartedServices": [
+      "cwa-weather-proxy",
+      "cwa-weather-forward"
+    ],
+    "restartAt": "2026-09-30T20:40:33+08:00",
+    "apiHealthHttp": 200,
+    "codecHealthHttp": 200,
+    "systemdUnitsChanged": false,
+    "dnsRoutesEnrollmentCertificatesChanged": false,
+    "githubPublished": false
+  },
+  "endpointSmoke": [
+    {
+      "pathLanguage": "zh-Hant-TW",
+      "httpStatus": 200,
+      "responseMs": 107.082,
+      "name": "TAIWAN_AQI",
+      "categoryCount": 6,
+      "contentType": "application/json; charset=utf-8",
+      "bridge": "0.3.2; taiwan-aqi-scale"
+    },
+    {
+      "pathLanguage": "en-US",
+      "httpStatus": 200,
+      "responseMs": 2.298,
+      "name": "TAIWAN_AQI",
+      "categoryCount": 6,
+      "contentType": "application/json; charset=utf-8",
+      "bridge": "0.3.2; taiwan-aqi-scale"
+    }
+  ],
+  "nativeMac": {
+    "firstFixedLaunch": {
+      "launchDispatchEpochMs": 1790772056971,
+      "foregroundFetch": "2026-09-30T20:40:57.383429+08:00",
+      "firstDataPropagation": "2026-09-30T20:40:58.057207+08:00",
+      "foregroundToFirstDataSeconds": 0.673778,
+      "dispatchToFirstDataSeconds": 1.086207,
+      "taiwanWeatherPlusNewScaleSeconds": [
+        0.29118,
+        0.317206
+      ],
+      "aqiCard": {
+        "index": 77,
+        "category": "Moderate",
+        "scaleLabel": "AQI (TW)",
+        "valueCategoryAndGradientRendered": true
+      },
+      "firstComputerUseObservationMs": 2247
+    },
+    "subsequentProcessLaunch": {
+      "launchDispatchEpochMs": 1790772217959,
+      "foregroundFetch": "2026-09-30T20:43:38.163432+08:00",
+      "firstDataPropagation": "2026-09-30T20:43:38.506838+08:00",
+      "foregroundToFirstDataSeconds": 0.343406,
+      "dispatchToFirstDataSeconds": 0.547838,
+      "descriptorAlreadyCached": true,
+      "weatherPlusScaleSeconds": [
+        0.01609,
+        0.006037,
+        0.009042,
+        0.007002,
+        0.006064,
+        0.319528,
+        0.449418
+      ],
+      "firstComputerUseObservationMs": 1615
+    },
+    "freshUnsavedCity": {
+      "city": "Chiayi",
+      "weatherFetch": "2026-09-30T20:42:15.379059+08:00",
+      "weatherPlusScaleSeconds": 0.538789,
+      "firstDataPropagation": "2026-09-30T20:42:15.931535+08:00",
+      "weatherFetchToDataSeconds": 0.552476,
+      "proxyTotalMs": 290,
+      "cwaMs": 178,
+      "codecMs": 30,
+      "requestId": "c8a8c60537c4498caf01a642da3860f4",
+      "finalStatus": "modified",
+      "candidateMatchedFinalEvent": true,
+      "decodedAqi": 47,
+      "decodedCategory": 1,
+      "decodedScale": "TAIWAN_AQI",
+      "sourceMatches": true,
+      "nativeUiAqi": 47,
+      "nativeUiCategory": "Good",
+      "temperatureC": 29,
+      "savedLocationsChanged": false
+    },
+    "scaleHttpStatus": 200,
+    "newTaiwanScale404Observed": false
+  },
+  "iphone": {
+    "repairAppliedToSharedProxy": true,
+    "newNativeTrafficObservedAtLastCheck": false,
+    "physicalUiAcceptance": false,
+    "userTestRequested": true
+  },
+  "limits": [
+    "Data propagation timestamps establish native data readiness, not frame-accurate first visible pixels.",
+    "The first repaired launch, including initial scale acquisition and app startup, took 1.086 seconds from dispatch to first propagation; the subsequent process launch took 0.548 seconds.",
+    "No universal sub-second guarantee for Apple/network delay, source-cache misses, system scheduling, or unsupported locales.",
+    "Native Taiwan scale serves zh-Hant-TW and en-US only; other locales retain the upstream path.",
+    "Optional health recommendations are omitted; advanced AQI detail screens and physical iPhone/Watch UI are not yet accepted.",
+    "The unauthenticated original Apple scale probe returned HTTP401; the implementation uses successful local native scale JSON schema, not an assumed Taiwan Apple scale identifier."
+  ],
+  "validationNotes": [
+    "An immediate quit/relaunch raced macOS process teardown and getApp failed once; a subsequent launch succeeded. No app data was cleared.",
+    "One addon assertion initially expected URL locale zh-Hant-TW in the response language field; corrected it to observed native JSON zh-TW.",
+    "ccsearch found the official MOENV page but its text fetch failed; the page was then read through the in-app browser.",
+    "Private packet metadata and unified logs remain in an ignored mode-restricted directory. No DNS or QUIC remedy was necessary for the measured AQI-scale cause."
+  ],
+  "verifiedAt": "2026-09-30T20:47:22.398226+08:00"
+}

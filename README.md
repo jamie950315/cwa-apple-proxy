@@ -15,7 +15,7 @@ CWA Apple Proxy keeps the native Apple Weather interface while replacing support
 | Apple Watch | Working after installing the custom CA on the Watch; successful watchOS transformations were observed |
 | Exit nodes | None, the Pi 5, or another working exit node; WeatherKit traffic remains split through the Pi 5 |
 | Diagnostics | `http://100.78.140.101:18880/` from the tailnet |
-| Main known limitation | The native `TAIWAN_AQI` scale endpoint returns 404, so the complete AQI card is not yet compatible |
+| Native AQI and loading | Taiwan scale is served locally; Mac AQI cards render and the observed four-second scale retry delay is removed |
 
 Version 0.3.2 prioritizes source accuracy over overwrite count. It uses coherent station thermodynamics, exact hourly forecast points and probability windows, complete precipitation windows, and explicitly derived calendar-day extrema. Unsupported or incompatible groups remain Apple data. The project does not claim that forecasts are error-free or that every visible field comes from CWA.
 

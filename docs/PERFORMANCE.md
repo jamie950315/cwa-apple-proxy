@@ -1,5 +1,20 @@
 # Latency and cache behavior
 
+## Native loading delay repaired - 2026-09-30
+
+The main observed delay was a missing AQI descriptor, not CWA normalization. Native WeatherService waited for `TAIWAN_AQI` requests to exhaust their 404 retries before publishing the entire weather tuple. The baseline cold launch took 5.382 seconds from its first foreground fetch to first data propagation; two weather-plus-scale calls took 4.270 and 4.309 seconds while the proxy took 150-187 ms.
+
+The locally committed and deployed repair (`662eed9`) serves the native Taiwan scale JSON before upstream access. Official AQI values, weather-data TTLs, translation fallback, and routing are unchanged. Fixed descriptor metadata may be privately cached for one day.
+
+| Native Mac measurement | After repair | Scope |
+|---|---:|---|
+| First launch, weather plus new scale | 0.291-0.317 seconds | Native WeatherService calls for Taiwan locations |
+| First launch, foreground fetch to first data propagation | 0.674 seconds | First local scale acquisition; from `getApp` dispatch to propagation was 1.086 seconds |
+| Subsequent process launch, dispatch to first data propagation | 0.548 seconds | Descriptor already cached; native foreground event to propagation was 0.343 seconds |
+| Fresh unsaved Chiayi preview, weather plus cached scale | 0.539 seconds | Fresh transformed response; proxy total 290 ms; city lookup/action overhead excluded |
+
+Mac AQI cards rendered the matching official categories (77/Moderate and 47/Good). The new city's decoded AQI, category, and scale match its CWA snapshot and final `modified` event. This establishes removal of the measured retry delay and sub-second data readiness in these samples. It is not frame-accurate first-pixel timing or an under-one-second guarantee for every launch, Apple request, source-cache miss, or network condition. Physical iPhone acceptance remains separate. See [loading evidence](evidence/latency-aqi-20260930.json).
+
 ## Performance review and deployment - 2026-09-30
 
 The reviewed source (`1b4c958`) is published and deployed. Controlled Mac workload evidence is recorded in [review evidence](evidence/code-review-20260930.json); Pi tests, runtime health, and native Mac acceptance are recorded separately in [deployment evidence](evidence/deployment-20260930.json).

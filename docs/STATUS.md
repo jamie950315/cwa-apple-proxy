@@ -14,7 +14,7 @@ This repository is the maintained public source checkout. It is not a pending ha
 |---|---|
 | Translation | Version 0.3.2 is deployed |
 | Transport | Version 1.0.2 is deployed |
-| Source revision | Performance/logic review `1b4c958` is published on GitHub `main` and deployed on the Pi 5 |
+| Source revision | Review `1b4c958` is published; later AQI loading repair `662eed9` is locally committed and deployed on the Pi 5 |
 | Runtime | Pi 5 at `/home/jamie/cwa-weather-proxy` |
 | Mac | Enrolled; native Weather and Widget transformations have been verified |
 | iPhone 14 Pro | Enrolled; native Weather and Widget transformed responses have been verified |
@@ -40,6 +40,8 @@ This repository is the maintained public source checkout. It is not a pending ha
 The final 0.3.2 acceptance replay covered 20 retained native responses with no checked consistency violations and 471/471 exact CWA assignments for the sampled next-24-hour temperature slots. This is correlated payload evidence, not an all-Taiwan forecast-skill guarantee. See [accuracy evidence](evidence/accuracy-032.json).
 
 ## Performance and cache state
+
+The later AQI loading repair serves the missing native Taiwan scale locally. The confirmed 404 retry wait took 4.27-4.31 seconds and delayed all weather products. After repair, Mac Weather plus scale requests took 0.291-0.539 seconds; a subsequent process launch reached first data propagation 0.548 seconds after launch dispatch. AQI cards render and a fresh Chiayi response's AQI/category/scale match its source. The first fixed launch including initial scale acquisition reached first propagation after 1.086 seconds from dispatch. These are dated data-readiness samples, not a universal or frame-accurate launch guarantee. See [loading evidence](evidence/latency-aqi-20260930.json).
 
 The Pi 5 returns valid cache entries without waiting for a refresh lock and checks active datasets every 30 seconds, refreshing them within 60 seconds of expiry. Dataset TTLs, stale limits, retry behavior, and four-download concurrency are unchanged. Full Apple responses are not cached.
 
@@ -71,9 +73,9 @@ A fresh native Mac Taichung preview displayed 29°C, derived high/low 35°C/26°
 - New physical iPhone and Watch UI acceptance specifically for 0.3.2 has not been performed. Do not infer it from server tests.
 - The 2026-09-30 review has fresh Pi and native Mac acceptance; new physical iPhone/Watch acceptance and power/temperature measurements remain separate.
 
-## Active limitation
+## Current acceptance boundary
 
-The main confirmed compatibility issue is the `TAIWAN_AQI` scale endpoint. The AQI root can contain Taiwan MOENV values delivered through CWA LinkedAPI, but the native app subsequently requests `/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI`, which currently returns 404. Scalar decoding does not prove complete AQI-card rendering.
+The `TAIWAN_AQI` descriptor is now served locally for `zh-Hant-TW` and `en-US`; the Mac displays the AQI value, category, and gradient. Physical iPhone/Watch loading and card acceptance, advanced AQI details, unsupported locales, and every network condition still need separate evidence.
 
 Other limitations are documented in [Known issues](KNOWN_ISSUES.md). Historical reports in `docs/history/` retain the facts and limitations of their dates; statements that routes, iPhone enrollment, or Watch trust were pending are superseded by this status.
 
@@ -86,5 +88,6 @@ Other limitations are documented in [Known issues](KNOWN_ISSUES.md). Historical 
 - `docs/evidence/repo-verification.json`: repository verification at the recorded date.
 - `docs/evidence/code-review-20260930.json`: local performance/logic review, regressions, microbenchmark, and dated claim boundaries.
 - `docs/evidence/deployment-20260930.json`: published/deployed source, Pi tests, protected-file checks, service/model health, fallback, and correlated native Mac acceptance.
+- `docs/evidence/latency-aqi-20260930.json`: missing-scale root cause, separate repair deployment, Mac loading measurements and rendered AQI/source correlation.
 - `infra/snapshots/`: dated service, routing, DNS, and dependency snapshots.
 - `.private/`: excluded raw captures, precise location evidence, and private runtime material.

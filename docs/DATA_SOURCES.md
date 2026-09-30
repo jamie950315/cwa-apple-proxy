@@ -23,7 +23,7 @@ The proxy begins with an Apple native response. It is a selective Taiwan overrid
 | Probability of precipitation | Exactly matching CWA interval | No splitting or synthesis; conflicting duplicates retain Apple |
 | Pressure | Station observation plus elevation, or WRF sea-level pressure | Station and sea-level pressure remain distinct; derived values are labeled |
 | Current gust/visibility | Fresh station | Gust approximately 30 minutes; visibility approximately 90 minutes and category values are representative bounds |
-| AQI and pollutants | Taiwan MOENV data delivered through CWA LinkedAPI | Taiwan AQI; CO ppm becomes ppb; the separate native scale endpoint remains incompatible |
+| AQI and pollutants | Taiwan MOENV data delivered through CWA LinkedAPI | Official Taiwan AQI is unchanged; CO ppm becomes ppb; local native scale metadata supports six official categories |
 | Warnings | CWA W-C0033-002 | Active-time and region filtering; merged with non-CWA Apple alerts |
 | Sunrise, sunset, transit, civil twilight, moonrise/moonset | CWA A-B0062-001 / A-B0063-001 | Current-year query and local-date match at a county representative point |
 

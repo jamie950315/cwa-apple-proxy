@@ -40,6 +40,7 @@ Use `infra/live-systemd/` and `infra/snapshots/tailscale-serve.json` to compare 
 | File | Responsibility |
 |---|---|
 | `addon.py` | Request/MIME filtering, 3.5-second budget, CWA and codec calls, original-response fallback, notification, transport timing |
+| `cwa_aqi_scale.py` | Local native JSON descriptor for Taiwan MOENV AQI categories, labels, colors, and gradient |
 | `api.py` | FastAPI health, diagnostics, normalized weather endpoint, CA/profile downloads, cache warmup |
 | `cwa_client.py` | Allowlisted CWA APIs, authentication, four-download concurrency, locks, TTL, bounded stale use, retry backoff |
 | `cwa_snapshot.py` | Combines station, township, rain, AQI, grid, NWP, warning, and astronomy data with provenance |
@@ -59,6 +60,8 @@ Use `infra/live-systemd/` and `infra/snapshots/tailscale-serve.json` to compare 
 ## Runtime constraints
 
 The Apple response is obtained before the 3.5-second CWA/codec deadline begins. Pi 5 outages, Apple upstream failures, and TLS failures are transport failures outside that translation fallback.
+
+`GET /api/v1/airQualityScale/{language}/TAIWAN_AQI` is answered locally before an Apple request for the two validated locales, `zh-Hant-TW` and `en-US`. Native Weather waits for this descriptor before publishing the weather tuple. Its private one-day cache lifetime applies only to fixed scale metadata, not observations or forecasts. Other identifiers, methods, and locales retain their upstream path.
 
 Active CWA cache entries refresh shortly before expiry. A valid cache hit does not wait for a concurrent refresh. TTL and stale limits are unchanged, and complete Apple responses are never cached.
 

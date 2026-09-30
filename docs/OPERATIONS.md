@@ -14,7 +14,7 @@ Model and route-status systemd units are oneshot jobs, so `inactive (dead)` can 
 
 ## Safe source deployment
 
-The live API, codec, reverse proxy, and explicit proxy report translation version 0.3.2. The current deployed source is review commit `1b4c958`. Its scoped rollback backup is `backups/performance-logic-20260930-1b4c958/` on the Pi 5; the earlier 0.3.2 mapping backup remains `backups/accuracy-032-20260920/`.
+The live API, codec, reverse proxy, and explicit proxy report translation version 0.3.2. The review baseline is `1b4c958`, with the AQI loading repair `662eed9` subsequently deployed. The review rollback backup is `backups/performance-logic-20260930-1b4c958/` on the Pi 5; the earlier 0.3.2 mapping backup remains `backups/accuracy-032-20260920/`.
 
 1. Read [Status](STATUS.md) and [Known issues](KNOWN_ISSUES.md). Run affected offline tests.
 2. Compare live Pi 5 hashes with the relevant evidence or current Git source. Integrate differences instead of overwriting unrelated work.
@@ -27,6 +27,8 @@ The live API, codec, reverse proxy, and explicit proxy report translation versio
 For a 0.3.2 source rollback, restore the changed modules/dashboard/package and restart `cwa-weather-api`, `cwa-weather-codec`, `cwa-weather-proxy`, and `cwa-weather-forward` after checking activity. Do not restore DNS, certificates, enrollment, or caches; those were not part of the deployment.
 
 For the 2026-09-30 review rollback, use the backup manifest to restore existing affected files with their recorded modes. Newly introduced test paths are recorded with `existed=false`; remove only those paths if a complete source rollback is required. Restart the same five affected services: `cwa-weather-api`, `cwa-weather-codec`, `cwa-weather-proxy`, `cwa-weather-forward`, and `cwa-weather-sni`. No units, DNS, routes, certificates, enrollment, or environment settings changed. The backup manifest also records protected-file hashes and service state; keep it private.
+
+For the later AQI loading repair, `backups/latency-aqi-20260930-baseline/installation.json` records the four installed paths and prior existence/modes. Restore its backed-up `addon.py` and test file; remove only the new helper/test paths recorded with `existed=false`. Restart only `cwa-weather-proxy` and `cwa-weather-forward`. The 17 protected files remain unchanged. A rollback reintroduces the known AQI-scale delay once the native descriptor cache expires. The repaired source is locally committed and deployed; GitHub publication is a separate action.
 
 Mapper `assignments` counts source-validated writes even when the numeric value was unchanged. `sourceCoverage` classifies official/derived/mixed assignments and is not a percentage. `retainedApple` records guarded groups. The published `/source.zip` and source-catalog `/audit` are historical artifacts, not a current source release.
 

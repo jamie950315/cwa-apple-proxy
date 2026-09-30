@@ -6,13 +6,13 @@ The checkout now guards fragmented/malformed ClientHello messages, proof-write d
 
 The review also removes redundant codec work, restores LRU behavior to the existing grid cache, and skips GRIB subset rewrites/hashes when the ETag is unchanged. Source `1b4c958` is published and deployed, with 130 Python and 40 Node tests on the Pi 5, successful model generation, preserved configuration, and correlated native Mac acceptance. See [review evidence](evidence/code-review-20260930.json) and [deployment evidence](evidence/deployment-20260930.json).
 
-## P1: native Taiwan AQI scale
+## Resolved: Taiwan AQI scale loading delay - 2026-09-30
 
-CWA LinkedAPI delivers Taiwan MOENV AQI data, and the mapper writes `scale=TAIWAN_AQI`. The native app then requests `/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI`, which currently returns 404. Successful root/scalar decoding proves the payload value but not complete AQI-card rendering.
+CWA LinkedAPI delivers Taiwan MOENV AQI data, and the mapper writes `scale=TAIWAN_AQI`. Apple returned 404 for its descriptor. Mac WeatherService logs confirmed that native Weather waited 4.27-4.31 seconds for failed scale requests before publishing all weather products. The proxy itself took only 150-187 ms during that launch.
 
-Fresh macOS traffic after the 2026-09-30 deployment still returned 404 for air-quality-scale requests. Native Taichung weather values rendered successfully; complete AQI-card acceptance remains unresolved.
+The proxy now serves the correct Taiwan descriptor locally using the observed native JSON schema and official MOENV categories. AQI values and attribution remain unchanged. Mac cards rendered AQI 77/Moderate and AQI 47/Good; the latter matches a freshly decoded final response and its CWA snapshot. See [loading evidence](evidence/latency-aqi-20260930.json).
 
-A correct fix requires capturing a supported scale response, understanding the private classification/color/range schema, implementing the Taiwan scale endpoint, adding mapping tests, and validating the native Mac and iPhone UI. Relabeling Taiwan values as another country's scale is not acceptable.
+The descriptor supports the observed `zh-Hant-TW` and `en-US` locales. Other locale requests still use Apple and may encounter the former delay. Optional health recommendations are omitted. New physical iPhone/Watch UI acceptance, advanced AQI details, and every cold/network condition remain unverified; sub-second readiness samples are not a universal launch-time guarantee.
 
 ## Mapping limits after 0.3.2
 

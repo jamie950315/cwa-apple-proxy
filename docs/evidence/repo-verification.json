@@ -65,12 +65,23 @@
     "powerTemperatureMeasured": false
   },
   "latestRepositoryCheck": {
-    "verifiedAt": "2026-09-30T20:26:58.304532+08:00",
+    "verifiedAt": "2026-09-30T20:47:56.500801+08:00",
     "status": "passed",
-    "scannedFiles": 250,
+    "scannedFiles": 253,
     "productionFilesMatchingInitialSnapshot": 148,
-    "documentationLinksChecked": 38,
+    "documentationLinksChecked": 43,
     "errors": [],
-    "note": "Post-deployment documentation check; source-hash deviations from the initial snapshot are expected."
+    "note": "AQI loading repair source and documentation; dated initial-snapshot hash deviations are expected."
+  },
+  "latencyRepair": {
+    "sourceCommit": "662eed9bfd7345d398a307bdfd2c9514ace0cfbb",
+    "evidence": "docs/evidence/latency-aqi-20260930.json",
+    "deployed": true,
+    "published": false,
+    "macAffectedTestsPassed": 44,
+    "piAffectedTestsPassed": 44,
+    "nativeMacAqiRendered": true,
+    "macSubsequentLaunchDataReadySeconds": 0.547838,
+    "physicalIphoneUiAccepted": false
   }
 }

@@ -14,12 +14,15 @@
 | 2026-09-30 deployment | All 27 installed hashes match `1b4c958`; 17 protected files unchanged; 130 Python and 40 Node tests on Pi; five services running; real model-worker success | Every future refresh or long-running reliability |
 | 2026-09-30 native Mac acceptance | Taichung preview rendered; final event/candidate correlated; 540 final getter changes and 286 current/hourly source assignments verified | Complete AQI card, new physical iPhone/Watch acceptance, or measured energy/temperature reduction |
 | 2026-09-30 deployed fallback isolation | Actual 3.5-second budget; 3.5051-second return; compressed original body and all headers preserved | Live outage acceptance or subscribed-device ntfy delivery |
+| 2026-09-30 AQI loading repair | 44 affected Python tests on Mac and Pi; local scale HTTP 200; native Mac AQI cards; fresh final AQI/source match; subsequent launch dispatch to data propagation 0.548 seconds | Frame-accurate first-pixel timing, every cold/network condition, or physical iPhone/Watch UI acceptance |
 
 Dated compact evidence is under `docs/evidence/`. Raw native material is excluded in `.private/native-evidence.tar.gz` and retained production report directories.
 
 The latest local source evidence is [code-review-20260930.json](evidence/code-review-20260930.json). The final Python total combines a 128-test integration run and two API regressions added after the serving-outcome integration check; all unaffected evidence was reused. Candidate proof files alone cannot establish delivery; use the final bridge event with the matching `requestId`.
 
 The corresponding deployment evidence is [deployment-20260930.json](evidence/deployment-20260930.json). The Pi ran the complete 130-test Python and 40-test Node suites before the affected services restarted. Native daily vectors can include a preceding day; the accepted high/low values were selected by Taiwan calendar date, not vector index zero.
+
+The later [AQI loading evidence](evidence/latency-aqi-20260930.json) records a separate deployed repair and narrow verification. It supersedes the earlier missing-scale limitation for the validated Mac locales. Timing definitions distinguish native data readiness, proxy work, and computer-use observation overhead.
 
 ## Evidence to retain for a new native acceptance run
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## Native AQI loading repair deployed - 2026-09-30
+
+Confirmed that native Weather waits for the missing `TAIWAN_AQI` descriptor: Apple 404 retries added about four seconds before weather data was published. Added a local native JSON descriptor for Taiwan's official six categories in `zh-Hant-TW` and `en-US`; AQI values and source attribution remain unchanged.
+
+Locally committed source `662eed9` is deployed with a four-file rollback manifest. Mac and Pi each passed 44 affected Python tests; only reverse and forward proxies restarted. All 17 protected files retain their contents/modes. Native Mac AQI cards rendered 77/Moderate and 47/Good; the fresh city's decoded AQI/category/scale match its CWA source and final event.
+
+Mac weather-plus-scale requests took 0.291-0.539 seconds, and a subsequent process launch reached first data propagation 0.548 seconds after dispatch. Initial scale acquisition plus app startup took 1.086 seconds; this is not a blanket sub-second guarantee. New physical iPhone/Watch acceptance remains separate. This repair has not been published to GitHub. See [loading evidence](evidence/latency-aqi-20260930.json).
+
 ## Performance and logic review deployed - 2026-09-30
 
 Published source commit `1b4c958` on GitHub `main` and installed 27 reviewed source/test files on the Pi 5 after baseline verification and a scoped backup. All installed hashes match; 17 protected environment, certificate, enrollment, and configuration files retain their contents and modes.

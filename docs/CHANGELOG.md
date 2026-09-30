@@ -1,5 +1,13 @@
 # Changelog
 
+## Performance and logic review deployed - 2026-09-30
+
+Published source commit `1b4c958` on GitHub `main` and installed 27 reviewed source/test files on the Pi 5 after baseline verification and a scoped backup. All installed hashes match; 17 protected environment, certificate, enrollment, and configuration files retain their contents and modes.
+
+Pi verification passed 130 Python and 40 Node tests. Restarted the five affected services; API/codec health is HTTP 200. The real model worker completed with 12 APCP and 12 pressure records, no errors, and zero download bytes. Isolated deployed-bridge fallback preserved compressed Apple bytes and headers after 3.5051 seconds.
+
+Fresh native Mac Taichung acceptance rendered 29°C and derived high/low 35°C/26°C. The correlated final response passed 540 getter-change checks and 286 current/hourly source checks. The existing native AQI-scale 404 remains; no new physical iPhone/Watch acceptance or power/temperature measurement was performed. Translation/transport compatibility versions remain 0.3.2/1.0.2. See [deployment evidence](evidence/deployment-20260930.json).
+
 ## Local performance and logic review - 2026-09-30
 
 Reviewed runtime modules and fixed confirmed source/transport/operational defects. Removed redundant codec scans, sorts, schema introspection, root rebuilds and buffer copies; restored the existing grid cache's LRU behavior; skipped writes/hashes for unchanged GRIB subsets.
@@ -8,7 +16,7 @@ Guarded conflicting forecast/model values, malformed grid/visibility inputs, nul
 
 Fixed fragmented ClientHello handling and declared-message bounds, proof writes outside the deadline, first-notification suppression during early uptime, and incomplete AdGuard/enrollment rollback. Candidate proof artifacts now correlate with final serving events; status diagnostics exclude proofs for fallback responses.
 
-Verification: 130 Python and 40 Node tests, loopback HTTP codec flow, real cached GRIB replay, repository checks, and controlled local benchmarks. No deployment or GitHub publication; no measured power/temperature reduction. See [review evidence](evidence/code-review-20260930.json).
+Verification at the review milestone: 130 Python and 40 Node tests, loopback HTTP codec flow, real cached GRIB replay, repository checks, and controlled local benchmarks. Deployment/publication followed in the separate milestone above; no measured power/temperature reduction. See [review evidence](evidence/code-review-20260930.json).
 
 ## Documentation refresh - 2026-09-20
 

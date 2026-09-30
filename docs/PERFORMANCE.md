@@ -1,8 +1,8 @@
 # Latency and cache behavior
 
-## Local source review - 2026-09-30
+## Performance review and deployment - 2026-09-30
 
-These changes are verified in the Mac checkout and have not been deployed. Source and read-only runtime evidence are recorded separately in [review evidence](evidence/code-review-20260930.json).
+The reviewed source (`1b4c958`) is published and deployed. Controlled Mac workload evidence is recorded in [review evidence](evidence/code-review-20260930.json); Pi tests, runtime health, and native Mac acceptance are recorded separately in [deployment evidence](evidence/deployment-20260930.json).
 
 | Controlled workload | Before | After | Measurement |
 |---|---:|---:|---|
@@ -18,6 +18,8 @@ The grid cache keeps its existing four-entry capacity and updates recency on a h
 Proof file work runs off the event loop with at most one in-flight worker per bridge. Waiting uses the existing translation deadline. A worker finishing after fallback records an encoded candidate; final serving status comes from the bridge event. `/status` exposes proof changes only for a modified response.
 
 The codec benchmark uses a 40,844-byte retained native fixture, 50 warmup calls, Node v23.11.0, and the same synthetic snapshot before/after. Raw batch results and fixture/module hashes are in the review evidence. Local reductions of approximately 53% and 60% cannot be converted into Pi power, temperature, end-to-end speed, or device UI claims. Dataset TTLs, stale-data policy, refresh schedule, download concurrency, and the 3.5-second deadline are preserved.
+
+The actual post-deployment Pi model run generated 12 APCP and 12 pressure records with no errors and zero download bytes. A native Mac Taichung response took 491 ms for translation (420 ms CWA, 65 ms codec, 5 ms proof); its 540 reported changes matched final getters. This request was not matched against a pre-deployment request and does not establish a percentage speedup or power/temperature reduction.
 
 ## 2026-09-20 optimization
 

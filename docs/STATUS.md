@@ -14,6 +14,7 @@ This repository is the maintained public source checkout. It is not a pending ha
 |---|---|
 | Translation | Version 0.3.2 is deployed |
 | Transport | Version 1.0.2 is deployed |
+| Source revision | Performance/logic review `1b4c958` is published on GitHub `main` and deployed on the Pi 5 |
 | Runtime | Pi 5 at `/home/jamie/cwa-weather-proxy` |
 | Mac | Enrolled; native Weather and Widget transformations have been verified |
 | iPhone 14 Pro | Enrolled; native Weather and Widget transformed responses have been verified |
@@ -44,9 +45,9 @@ The Pi 5 returns valid cache entries without waiting for a refresh lock and chec
 
 Before optimization, 55 native translations had a 284 ms median and 1,295 ms p95. Initial post-deployment Mac requests had proxy totals of 308, 156, and 140 ms, but the samples are not matched and do not establish a percentage speedup. See [Performance](PERFORMANCE.md).
 
-## Reviewed checkout changes - 2026-09-30
+## Deployed performance and logic fixes - 2026-09-30
 
-The local checkout includes performance and logic fixes that have not been deployed or published. A read-only Pi 5 inspection confirmed healthy services, two enrolled clients, a successful model worker, and matching baseline hashes for 19 runtime modules before editing.
+The reviewed source (`1b4c958`) is published on GitHub `main` and deployed on the Pi 5. Before installation, all affected live files matched the checkout baseline. A scoped backup preserves the prior files and service state; all 27 installed source/test hashes match the reviewed commit, and 17 protected environment, certificate, enrollment, and configuration files retain their contents and modes.
 
 - Codec work now indexes forecast points, sorts pressure points once, reuses getter/schema layouts, combines AQI/warning root rebuilds, and avoids two HTTP buffer copies. Float32 writes compare stored values; warning rebuilds verify final content.
 - The existing four-entry grid cache now retains recently used entries. Unchanged GRIB subsets are validated without rewriting or rehashing them; independent fields survive a sibling download failure, and Range reads stop at their size limit.
@@ -56,6 +57,10 @@ The local checkout includes performance and logic fixes that have not been deplo
 
 Mac verification passed 130 Python tests (128 integration tests plus two API tests after the final integration fix) and 40 Node tests. Loopback codec HTTP smoke and a replay of real cached GRIB precipitation/pressure both passed. Local codec batch means improved by about 53-60%; each unchanged full worker run avoids rewriting about 56.1 MB of existing subsets. These are work/latency measurements, not measured power or temperature reductions. See [review evidence](evidence/code-review-20260930.json).
 
+Pi 5 verification passed all 130 Python and 40 Node tests. API, codec, reverse proxy, forward proxy, and SNI services are running; API/codec health returned HTTP 200. A real model-worker run completed successfully with 12 precipitation and 12 pressure records, no errors, and zero download bytes. An isolated deployed-bridge timeout returned the unchanged compressed Apple bytes and headers after 3.5051 seconds.
+
+A fresh native Mac Taichung preview displayed 29°C, derived high/low 35°C/26°C, humidity 78%, and dew point 24°C. Its final `modified` event matches the candidate proof: all 540 reported changes match final decoded getters, and 286 current/hourly source assignments match the snapshot. Translation took 491 ms. This single sample does not establish an end-to-end speedup. See [deployment evidence](evidence/deployment-20260930.json).
+
 ## Validation summary
 
 - Mac and Pi 5 each passed 89 Python and 37 Node tests for version 0.3.2.
@@ -64,6 +69,7 @@ Mac verification passed 130 Python tests (128 integration tests plus two API tes
 - Earlier native iPhone evidence includes two Weather responses and one Widget response with 2,160 mapped fields verified.
 - The Watch recovery is supported by the user's device confirmation and subsequent successful `nanoweatherd_watchOS` transformations.
 - New physical iPhone and Watch UI acceptance specifically for 0.3.2 has not been performed. Do not infer it from server tests.
+- The 2026-09-30 review has fresh Pi and native Mac acceptance; new physical iPhone/Watch acceptance and power/temperature measurements remain separate.
 
 ## Active limitation
 
@@ -78,6 +84,7 @@ Other limitations are documented in [Known issues](KNOWN_ISSUES.md). Historical 
 - `docs/evidence/watch-diagnostics-20260920.json`: Watch investigation and recovery evidence.
 - `docs/evidence/production-source-manifest.json`: hashes of the initial production source extraction.
 - `docs/evidence/repo-verification.json`: repository verification at the recorded date.
-- `docs/evidence/code-review-20260930.json`: local performance/logic review, regressions, microbenchmark, and deployment boundary.
+- `docs/evidence/code-review-20260930.json`: local performance/logic review, regressions, microbenchmark, and dated claim boundaries.
+- `docs/evidence/deployment-20260930.json`: published/deployed source, Pi tests, protected-file checks, service/model health, fallback, and correlated native Mac acceptance.
 - `infra/snapshots/`: dated service, routing, DNS, and dependency snapshots.
 - `.private/`: excluded raw captures, precise location evidence, and private runtime material.

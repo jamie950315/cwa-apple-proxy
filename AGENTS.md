@@ -8,7 +8,7 @@ The development checkout is `/Users/jamie/cwa-apple-proxy`. The deployed runtime
 
 Current versions are data translation **0.3.2** and network transport **1.0.2**. The Mac and iPhone are enrolled. Apple Watch Weather works after the Watch received the custom CA, and successful watchOS transformations have been observed. Exit nodes may be None, the Pi 5, or another working node. The `jarvis` host is intentionally outside the project scope.
 
-The 2026-09-30 performance and logic review changes are local source changes. Read `docs/evidence/code-review-20260930.json` for their verification. They have not been deployed or published; the earlier Pi/device acceptance applies to the deployed source. Proof artifacts now identify an encoded candidate with `requestId`; use the corresponding final bridge event to establish the served outcome.
+The 2026-09-30 performance and logic review source (`1b4c958`) is published on GitHub `main` and deployed on the Pi 5. Read `docs/evidence/code-review-20260930.json` for local verification and `docs/evidence/deployment-20260930.json` for Pi tests, service health, model-worker success, and correlated native Mac acceptance. New physical iPhone/Watch acceptance and power/temperature measurements were not performed. Proof artifacts identify an encoded candidate with `requestId`; use the corresponding final bridge event to establish the served outcome.
 
 ## Working rules
 

@@ -19,7 +19,7 @@
       "total": 126,
       "failed": 0
     },
-    "note": "Historical 2026-09-20 deployed 0.3.2 acceptance. See checkoutReview for current local source verification."
+    "note": "Historical 2026-09-20 deployed 0.3.2 acceptance. See checkoutReview and deployment for current source/runtime verification."
   },
   "structureCheck": {
     "status": "passed",
@@ -49,7 +49,28 @@
     "evidence": "docs/evidence/code-review-20260930.json",
     "pythonPassed": 130,
     "javascriptPassed": 40,
-    "deployed": false,
-    "published": false
+    "deployed": true,
+    "published": true,
+    "sourceCommit": "1b4c95800701e64c5ee6a13640db29698b318df4",
+    "deploymentEvidence": "docs/evidence/deployment-20260930.json"
+  },
+  "deployment": {
+    "verifiedAt": "2026-09-30T20:24:05.604000+08:00",
+    "evidence": "docs/evidence/deployment-20260930.json",
+    "sourceCommit": "1b4c95800701e64c5ee6a13640db29698b318df4",
+    "piPythonPassed": 130,
+    "piJavascriptPassed": 40,
+    "nativeMacAccepted": true,
+    "newPhysicalIphoneWatchAccepted": false,
+    "powerTemperatureMeasured": false
+  },
+  "latestRepositoryCheck": {
+    "verifiedAt": "2026-09-30T20:26:58.304532+08:00",
+    "status": "passed",
+    "scannedFiles": 250,
+    "productionFilesMatchingInitialSnapshot": 148,
+    "documentationLinksChecked": 38,
+    "errors": [],
+    "note": "Post-deployment documentation check; source-hash deviations from the initial snapshot are expected."
   }
 }

@@ -14,7 +14,7 @@ Model and route-status systemd units are oneshot jobs, so `inactive (dead)` can 
 
 ## Safe source deployment
 
-The live API, codec, reverse proxy, and explicit proxy report translation version 0.3.2. Its rollback backup is `backups/accuracy-032-20260920/` on the Pi 5.
+The live API, codec, reverse proxy, and explicit proxy report translation version 0.3.2. The current deployed source is review commit `1b4c958`. Its scoped rollback backup is `backups/performance-logic-20260930-1b4c958/` on the Pi 5; the earlier 0.3.2 mapping backup remains `backups/accuracy-032-20260920/`.
 
 1. Read [Status](STATUS.md) and [Known issues](KNOWN_ISSUES.md). Run affected offline tests.
 2. Compare live Pi 5 hashes with the relevant evidence or current Git source. Integrate differences instead of overwriting unrelated work.
@@ -26,9 +26,11 @@ The live API, codec, reverse proxy, and explicit proxy report translation versio
 
 For a 0.3.2 source rollback, restore the changed modules/dashboard/package and restart `cwa-weather-api`, `cwa-weather-codec`, `cwa-weather-proxy`, and `cwa-weather-forward` after checking activity. Do not restore DNS, certificates, enrollment, or caches; those were not part of the deployment.
 
+For the 2026-09-30 review rollback, use the backup manifest to restore existing affected files with their recorded modes. Newly introduced test paths are recorded with `existed=false`; remove only those paths if a complete source rollback is required. Restart the same five affected services: `cwa-weather-api`, `cwa-weather-codec`, `cwa-weather-proxy`, `cwa-weather-forward`, and `cwa-weather-sni`. No units, DNS, routes, certificates, enrollment, or environment settings changed. The backup manifest also records protected-file hashes and service state; keep it private.
+
 Mapper `assignments` counts source-validated writes even when the numeric value was unchanged. `sourceCoverage` classifies official/derived/mixed assignments and is not a percentage. `retainedApple` records guarded groups. The published `/source.zip` and source-catalog `/audit` are historical artifacts, not a current source release.
 
-The 2026-09-30 checkout fixes remain local. When reviewing their proof files, `request.json` records `status=encoded-candidate` and `servingOutcomeSource=bridge-log`; match `requestId` with the final bridge event to determine whether the modified response was served or Apple fallback was used. One disk worker may finish after fallback. `/status` exposes a proof only when the final event is `modified`. Offline review tests do not authorize deploying these changes or prove native UI acceptance.
+The 2026-09-30 fixes are deployed and have fresh Pi and native Mac verification in [deployment evidence](evidence/deployment-20260930.json). In proof files, `request.json` records `status=encoded-candidate` and `servingOutcomeSource=bridge-log`; match `requestId` with the final bridge event to determine whether the modified response was served or Apple fallback was used. One disk worker may finish after fallback. `/status` exposes a proof only when the final event is `modified`. Native iPhone/Watch acceptance remains separate.
 
 ## Common Pi 5 commands
 

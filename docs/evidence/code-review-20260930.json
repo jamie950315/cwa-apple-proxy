@@ -5,7 +5,7 @@
   "versions": {
     "translation": "0.3.2",
     "transport": "1.0.2",
-    "note": "Compatibility versions unchanged; reviewed checkout fixes are not a deployed release."
+    "note": "Compatibility versions unchanged. The review was local at its recorded milestone; subsequent publication and deployment are documented separately."
   },
   "reviewedRuntimeModules": [
     "addon.py",
@@ -474,11 +474,18 @@
     "WRF +72-hour limit"
   ],
   "limits": [
-    "No deployment or GitHub publication.",
-    "No new native Mac/iPhone/Watch UI acceptance.",
+    "No deployment or GitHub publication at the recorded review milestone; subsequent deployment is documented in deployment-20260930.json.",
+    "No new native UI acceptance at the recorded review milestone; subsequent native Mac acceptance is documented separately. No new physical iPhone/Watch acceptance.",
     "No Pi power or temperature measurement; local codec benchmark cannot establish energy savings.",
     "Cached model decoding and nearest-grid lookup remain per-run validation work.",
     "A single timed-out proof worker can finish an encoded candidate; final bridge event establishes serving outcome.",
     "The existing native TAIWAN_AQI scale endpoint limitation remains."
-  ]
+  ],
+  "subsequentDeployment": {
+    "evidence": "docs/evidence/deployment-20260930.json",
+    "sourceCommit": "1b4c95800701e64c5ee6a13640db29698b318df4",
+    "deployed": true,
+    "published": true,
+    "verifiedAt": "2026-09-30T20:24:05.604000+08:00"
+  }
 }

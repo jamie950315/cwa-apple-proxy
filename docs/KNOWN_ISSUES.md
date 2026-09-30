@@ -1,14 +1,16 @@
 # Known issues and future work
 
-## Local source fixes awaiting deployment - 2026-09-30
+## Deployed review fixes - 2026-09-30
 
 The checkout now guards fragmented/malformed ClientHello messages, proof-write deadline overruns, early-uptime notification suppression, conflicting forecast/model values, invalid grids/visibility, missing humidity, county/hazard mismatches, and warning compilation that leaves old content unchanged. Cache stale limits apply consistently during retry backoff and after slow failures. Enrollment rollback restarts AdGuard after backup/read failure and restores managed-rule metadata.
 
-The review also removes redundant codec work, restores LRU behavior to the existing grid cache, and skips GRIB subset rewrites/hashes when the ETag is unchanged. These fixes have local test and replay evidence only; the deployed Pi 5 remains on the earlier source. See [review evidence](evidence/code-review-20260930.json).
+The review also removes redundant codec work, restores LRU behavior to the existing grid cache, and skips GRIB subset rewrites/hashes when the ETag is unchanged. Source `1b4c958` is published and deployed, with 130 Python and 40 Node tests on the Pi 5, successful model generation, preserved configuration, and correlated native Mac acceptance. See [review evidence](evidence/code-review-20260930.json) and [deployment evidence](evidence/deployment-20260930.json).
 
 ## P1: native Taiwan AQI scale
 
 CWA LinkedAPI delivers Taiwan MOENV AQI data, and the mapper writes `scale=TAIWAN_AQI`. The native app then requests `/api/v1/airQualityScale/zh-Hant-TW/TAIWAN_AQI`, which currently returns 404. Successful root/scalar decoding proves the payload value but not complete AQI-card rendering.
+
+Fresh macOS traffic after the 2026-09-30 deployment still returned 404 for air-quality-scale requests. Native Taichung weather values rendered successfully; complete AQI-card acceptance remains unresolved.
 
 A correct fix requires capturing a supported scale response, understanding the private classification/color/range schema, implementing the Taiwan scale endpoint, adding mapping tests, and validating the native Mac and iPhone UI. Relabeling Taiwan values as another country's scale is not acceptable.
 
@@ -38,7 +40,7 @@ Nearest representative township points and horizontal station distance are imper
 - `configurationReady` covers current route/DNS conditions, but the exit-DNS flag is a recorded snapshot rather than continuously queried live state.
 - Linux units, host addresses, and some paths are deployment-specific and are not yet parameterized for a second host.
 - Physical iPhone/Watch UI acceptance specifically for 0.3.2 remains separate from server replay and Mac UI evidence.
-- No Pi 5 power, CPU-temperature, or new device/UI acceptance measurement exists for the 2026-09-30 checkout changes. The model worker still validates/decodes cached GRIB messages on every run; only redundant subset writes/hashes were removed.
+- No Pi 5 power or CPU-temperature measurement exists for the 2026-09-30 deployment. Native Mac acceptance passed; new physical iPhone/Watch acceptance was not performed. The model worker still validates/decodes cached GRIB messages on every run; only redundant subset writes/hashes were removed.
 - A timed-out proof disk worker may finish one encoded-candidate artifact. Its `requestId` must be matched to the final bridge event before making a served-response claim.
 
 ## Resolved Watch issue

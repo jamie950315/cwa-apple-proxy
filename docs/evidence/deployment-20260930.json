@@ -1,0 +1,196 @@
+{
+  "verifiedAt": "2026-09-30T20:24:05.604000+08:00",
+  "sourceCommit": "1b4c95800701e64c5ee6a13640db29698b318df4",
+  "baselineCommit": "582bc3ce2c601060ed23da134a4082e8d541d079",
+  "versions": {
+    "translation": "0.3.2",
+    "transport": "1.0.2"
+  },
+  "backup": "backups/performance-logic-20260930-1b4c958",
+  "installedFiles": {
+    "addon.py": "d8927533fd21f7bf5a09e5538bbaf131a872bac3481ba58116fbe7f69b6d22d3",
+    "api.py": "ee50f8774ec00d0e9b8c71970d67e5a3e77badc1facce705b56142abb2888bc1",
+    "bridgectl.py": "18c96a0da10443fade48f537b54b2be429c73f1859b26b1f691aed103fdf2bcb",
+    "codec_server.mjs": "febae7ecd76c0703c35059f3858a1547e2cea9a962f8755f143106243cc7d978",
+    "cwa_alerts.py": "28196d9949e96a0f4a83f791b5609487d320c5a8ff693be76b174ee67d3081aa",
+    "cwa_client.py": "7b7ece807f9d423e05eb3dd3bf7f3dc35d8d49ed4ae5a3f2ec78cd9f5eca320a",
+    "cwa_model.py": "99cf451307724734dd9e38cbf687bfdb46df83c88cd1b6dc392b6b02eb3341ba",
+    "cwa_nwp.py": "3fc741d33bd038b6a6d0a763f0dc54dd731ebd522516582e61f34cac1fbb6d84",
+    "cwa_products.py": "45dc8e62a28ff784976cbfbdb4fd8ee5166ed4125a74c663f0359a911efaa11c",
+    "cwa_snapshot.py": "874324eee643c132956372f7dd84b41ee80990e7958edd36fb0d4fbed9e5599e",
+    "flatbuffer_expand.mjs": "6d59c768af0dfd6d9cc80b33f171b14f3566e724a93f960dd4b4e9a3b56e10db",
+    "mapper.mjs": "e14ce30482938eef85f99bb5fbe0398af35ac82fb240ed532dcbc96cc08af3b6",
+    "model_worker.py": "388b0fd461d8b69d4033ef58c96541c417e9a9d5918170382e4c58fc80d650d0",
+    "sni_router.py": "8f755ff5d1c3afb218ba948a1d904419c227cf0490204dfc569ac5b1ad73faf6",
+    "tests/mapper.test.mjs": "6af9ac7a40dd78057dba53929503d64b6a5d1f975028503a4688cbec7fa592d9",
+    "tests/test_addon.py": "f79724fdb44eacf7c861d6226cfc9911e23326f798cad0cbd4a831bcb0799936",
+    "tests/test_alerts.py": "bfce5e85f264d4b88c2c07e3d7e9d0e08d96aa95774df03cf95fe6d9c60ff2d5",
+    "tests/test_api.py": "a279a7ca4eb0ffc9d77340858405c14ea2afcf614801fc8f99233a003441177a",
+    "tests/test_bridgectl.py": "b4e4c76ad3790e77301b93e481149e111ea6db044c0d088e30fe731c87968182",
+    "tests/test_client.py": "94d172b78ce7e798884c806384843b580174517fa1e2fdb0eb9965308ac4407a",
+    "tests/test_model.py": "1c5eecdec00f12d7f6821dfb6ed5a8a2f75344c47c6606f0b2a9fd6bd7443a81",
+    "tests/test_model_worker.py": "759df6ccc4a5c9a397ff4c854e198a158f0965395e3be06a27496651de86b493",
+    "tests/test_nwp_validation.py": "c06520599bd7b0fe64e8ebcec935cdd38402ac395f681aba32829009d7ff79fd",
+    "tests/test_products.py": "9c8965152ed6a4d91280558d37c544982ef7758ec8bf50f3e5ed69729d6a693a",
+    "tests/test_snapshot_consistency.py": "8970cd9ef20e2de7ba018da52c948ad9cbad7832d1ffe473bb0a7423da68bc10",
+    "tests/test_sni.py": "8f134c6a48bf311e43192a449b25cbabfdf5d4cab203ae62bac1bcde2c28311b",
+    "weather_math.mjs": "7685d98bef7f4c2383aed3bc4fdf30d9fbe5d7cf5e871861994a7df4920f43c8"
+  },
+  "installedFileCount": 27,
+  "allInstalledHashesMatched": true,
+  "protectedFileCount": 17,
+  "allProtectedContentsAndModesUnchanged": true,
+  "services": {
+    "cwa-weather-api": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "ActiveEnterTimestamp": "Wed 2026-09-30 20:12:28 CST"
+    },
+    "cwa-weather-codec": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "ActiveEnterTimestamp": "Wed 2026-09-30 20:12:28 CST"
+    },
+    "cwa-weather-proxy": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "ActiveEnterTimestamp": "Wed 2026-09-30 20:12:28 CST"
+    },
+    "cwa-weather-forward": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "ActiveEnterTimestamp": "Wed 2026-09-30 20:12:28 CST"
+    },
+    "cwa-weather-sni": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "ActiveEnterTimestamp": "Wed 2026-09-30 20:12:26 CST"
+    }
+  },
+  "health": {
+    "api": {
+      "httpStatus": 200,
+      "version": "0.3.2",
+      "sourceErrors": {}
+    },
+    "codec": {
+      "httpStatus": 200,
+      "version": "0.3.2"
+    }
+  },
+  "modelWorker": {
+    "systemd": {
+      "Result": "success",
+      "ExecMainExitTimestamp": "Wed 2026-09-30 20:16:26 CST",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive"
+    },
+    "generatedAt": 1790770400,
+    "fields": {
+      "apcp": 12,
+      "pressure": 12
+    },
+    "errors": {},
+    "downloadBytes": 0
+  },
+  "nativeVerification": {
+    "city": "Taichung",
+    "platform": "macOS Weather",
+    "time": 1790770461,
+    "requestId": "a0ea532c67914ef6b6708fa3cd41c6c9",
+    "finalStatus": "modified",
+    "candidateMatchedFinalEvent": true,
+    "modifiedFields": 540,
+    "skippedFields": 0,
+    "finalGetterChangesChecked": 540,
+    "exactSourceAssignmentsChecked": 286,
+    "mismatches": 0,
+    "aqiRootMatchesSource": true,
+    "cwaAlertsChecked": 0,
+    "elapsedMs": 491,
+    "cwaMs": 420,
+    "codecMs": 65,
+    "proofMs": 5,
+    "nativeUi": {
+      "city": "Taichung",
+      "date": "2026-09-30",
+      "temperatureC": 29,
+      "highC": 35,
+      "lowC": 26,
+      "humidityPercent": 78,
+      "dewPointC": 24,
+      "pressureHpa": 1013,
+      "hourlyForecastVisible": true,
+      "savedLocationsChanged": false
+    },
+    "mappedBytes": 40320
+  },
+  "fallbackVerification": {
+    "scope": "Isolated deployed Python bridge with slow mocked CWA request; no live service fault or ntfy message",
+    "deadlineSeconds": 3.5,
+    "elapsedSeconds": 3.5051,
+    "compressedOriginalBytesPreserved": true,
+    "allOriginalHeadersPreserved": true,
+    "finalStatus": "passthrough",
+    "reason": "timeout-3.5s",
+    "realNotificationSent": false,
+    "productionFilesWritten": false
+  },
+  "environment": {
+    "python": "Python 3.13.5",
+    "node": "v25.8.1"
+  },
+  "knownAqiScale": {
+    "status": 404,
+    "platform": "macos",
+    "responseCount": 29,
+    "firstResponseTime": 1790770433,
+    "lastResponseTime": 1790771042,
+    "completeCardAccepted": false
+  },
+  "repository": {
+    "url": "https://github.com/jamie950315/cwa-apple-proxy",
+    "branch": "main",
+    "publishedSourceCommit": "1b4c95800701e64c5ee6a13640db29698b318df4",
+    "sourcePublished": true
+  },
+  "sourceInstalledAt": "2026-09-30T20:10:27+08:00",
+  "tests": {
+    "platform": "Pi 5/Linux",
+    "python": {
+      "passed": 130,
+      "failed": 0,
+      "command": ".venv/bin/python -m pytest tests -q --tb=short"
+    },
+    "javascript": {
+      "passed": 40,
+      "failed": 0,
+      "command": "/home/linuxbrew/.linuxbrew/bin/node --test tests/*.test.mjs"
+    },
+    "totalPassed": 170,
+    "completedBeforeServiceRestart": true
+  },
+  "deploymentScope": {
+    "runtimeAndTestFiles": 27,
+    "systemdUnitsChanged": false,
+    "dnsChanged": false,
+    "routesChanged": false,
+    "certificatesChanged": false,
+    "enrollmentChanged": false,
+    "environmentChanged": false,
+    "rawRuntimeDataPublished": false
+  },
+  "limits": [
+    "No Pi power or CPU-temperature measurement; the Mac codec microbenchmark does not establish energy savings.",
+    "No new physical iPhone/Watch UI acceptance.",
+    "The native TAIWAN_AQI scale endpoint still returns 404; successful scalar/root decoding does not prove complete AQI-card rendering.",
+    "Native Mac timing is one unmatched post-deployment sample, not a percentage speedup.",
+    "Fallback was exercised with an isolated deployed bridge and a mocked slow CWA request; no live outage or real ntfy notification was induced.",
+    "Cached GRIB decoding/validation remains per-run work."
+  ],
+  "validationNotes": [
+    "An immediate API readiness probe after restart was refused before startup completed; subsequent API/codec health checks returned HTTP 200.",
+    "The native daily vector includes the preceding date; UI extrema were matched using the Taiwan calendar date.",
+    "Private backup manifests and native payloads remain on the Pi; this evidence contains public source hashes and a sanitized city-level summary."
+  ]
+}

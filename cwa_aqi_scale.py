@@ -26,7 +26,7 @@ def taiwan_aqi_scale(language, scale):
          'categoryName': label, 'glyph': glyph}
         for i, (band, color, label, glyph) in enumerate(zip(_BANDS, _COLORS, labels, _GLYPHS))
     ]
-    # Native scales use category midpoint stops, with both endpoint colors held.
+    # Preserve the observed native gradient stop layout and endpoint colors.
     stops = [(0, _COLORS[0]), *zip((25, 75, 125, 175, 250, 350), _COLORS), (500, _COLORS[-1])]
     return {
         'name': SCALE_NAME, 'displayName': 'AQI (TW)', 'shortDisplayName': 'AQI',

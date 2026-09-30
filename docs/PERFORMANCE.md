@@ -13,7 +13,7 @@ The locally committed and deployed repair (`662eed9`) serves the native Taiwan s
 | Subsequent process launch, dispatch to first data propagation | 0.548 seconds | Descriptor already cached; native foreground event to propagation was 0.343 seconds |
 | Fresh unsaved Chiayi preview, weather plus cached scale | 0.539 seconds | Fresh transformed response; proxy total 290 ms; city lookup/action overhead excluded |
 
-Mac AQI cards rendered the matching official categories (77/Moderate and 47/Good). The new city's decoded AQI, category, and scale match its CWA snapshot and final `modified` event. This establishes removal of the measured retry delay and sub-second data readiness in these samples. It is not frame-accurate first-pixel timing or an under-one-second guarantee for every launch, Apple request, source-cache miss, or network condition. Physical iPhone acceptance remains separate. See [loading evidence](evidence/latency-aqi-20260930.json).
+Mac AQI cards rendered the matching official categories (77/Moderate and 47/Good). The new city's decoded AQI, category, and scale match its CWA snapshot and final `modified` event. This establishes removal of the measured retry delay and sub-second data readiness in these samples. It is not frame-accurate first-pixel timing or an under-one-second guarantee for every launch, Apple request, source-cache miss, or network condition. The user later reported fast, normal iPhone loading. Fresh iOS weather and scale requests returned HTTP 200; served AQI/pollutants match official LinkedAPI observations. Precise iPhone launch timing and physical AQI-card rendering remain separate. See [loading evidence](evidence/latency-aqi-20260930.json).
 
 ## Performance review and deployment - 2026-09-30
 

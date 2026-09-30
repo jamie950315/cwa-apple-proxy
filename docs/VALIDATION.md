@@ -14,7 +14,8 @@
 | 2026-09-30 deployment | All 27 installed hashes match `1b4c958`; 17 protected files unchanged; 130 Python and 40 Node tests on Pi; five services running; real model-worker success | Every future refresh or long-running reliability |
 | 2026-09-30 native Mac acceptance | Taichung preview rendered; final event/candidate correlated; 540 final getter changes and 286 current/hourly source assignments verified | Complete AQI card, new physical iPhone/Watch acceptance, or measured energy/temperature reduction |
 | 2026-09-30 deployed fallback isolation | Actual 3.5-second budget; 3.5051-second return; compressed original body and all headers preserved | Live outage acceptance or subscribed-device ntfy delivery |
-| 2026-09-30 AQI loading repair | 44 affected Python tests on Mac and Pi; local scale HTTP 200; native Mac AQI cards; fresh final AQI/source match; subsequent launch dispatch to data propagation 0.548 seconds | Frame-accurate first-pixel timing, every cold/network condition, or physical iPhone/Watch UI acceptance |
+| 2026-09-30 AQI loading repair | 44 affected Python tests on Mac and Pi; local scale HTTP 200; native Mac AQI cards; fresh final AQI/source match; subsequent launch dispatch to data propagation 0.548 seconds | Frame-accurate first-pixel timing, every cold/network condition, or physical iPhone/Watch AQI-card acceptance |
+| 2026-09-30 iPhone follow-up | User reports fast, normal loading; four weather and two scale HTTP 200 responses; two final served AQI/pollutant payloads match official LinkedAPI observations | Precise sub-second iPhone timing, physical AQI-card/detail rendering, or an independent MOENV website comparison |
 
 Dated compact evidence is under `docs/evidence/`. Raw native material is excluded in `.private/native-evidence.tar.gz` and retained production report directories.
 

@@ -65,13 +65,13 @@
     "powerTemperatureMeasured": false
   },
   "latestRepositoryCheck": {
-    "verifiedAt": "2026-09-30T20:47:56.500801+08:00",
+    "verifiedAt": "2026-09-30T20:59:41.000989+08:00",
     "status": "passed",
     "scannedFiles": 253,
     "productionFilesMatchingInitialSnapshot": 148,
     "documentationLinksChecked": 43,
     "errors": [],
-    "note": "AQI loading repair source and documentation; dated initial-snapshot hash deviations are expected."
+    "note": "AQI loading repair with user-confirmed iPhone loading and fresh served iOS AQI/source verification; dated initial-snapshot hash deviations are expected."
   },
   "latencyRepair": {
     "sourceCommit": "662eed9bfd7345d398a307bdfd2c9514ace0cfbb",
@@ -82,6 +82,10 @@
     "piAffectedTestsPassed": 44,
     "nativeMacAqiRendered": true,
     "macSubsequentLaunchDataReadySeconds": 0.547838,
-    "physicalIphoneUiAccepted": false
+    "physicalIphoneUiAccepted": false,
+    "physicalIphoneLoadingAccepted": true,
+    "iphoneLaunchTimingMeasured": false,
+    "servedIphoneAqiSourceVerified": true,
+    "physicalIphoneUiAcceptanceScope": "AQI-card/detail rendering remains separate from the user-accepted loading."
   }
 }

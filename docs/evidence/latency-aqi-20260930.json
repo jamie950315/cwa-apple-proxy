@@ -82,7 +82,7 @@
     "officialIndexRecomputed": false
   },
   "privateEvidenceCommitted": false,
-  "verificationStatus": "Deployed repair; native Mac data readiness and AQI rendering accepted. Physical iPhone result pending.",
+  "verificationStatus": "Deployed repair; native Mac data readiness and AQI rendering accepted. User reports fast, normal iPhone loading; iOS served AQI values verified against CWA LinkedAPI observations. No precise iPhone launch timing or physical AQI-card observation.",
   "sourceCommit": "662eed9bfd7345d398a307bdfd2c9514ace0cfbb",
   "implementation": {
     "nativeSchemaObserved": true,
@@ -217,23 +217,69 @@
   },
   "iphone": {
     "repairAppliedToSharedProxy": true,
-    "newNativeTrafficObservedAtLastCheck": false,
+    "newNativeTrafficObservedAtLastCheck": true,
     "physicalUiAcceptance": false,
-    "userTestRequested": true
+    "userTestRequested": true,
+    "verifiedAt": "2026-09-30T20:59:14.506005+08:00",
+    "physicalLoadingAcceptance": true,
+    "physicalLoadingAcceptanceSource": "User reported that data arrived quickly and Weather behaved normally after the requested iPhone test.",
+    "preciseLaunchSeconds": null,
+    "physicalUiAcceptanceScope": "AQI card and detail rendering remain unobserved; loading acceptance is recorded separately.",
+    "nativeTransport": {
+      "from": "2026-09-30T20:54:45+08:00",
+      "to": "2026-09-30T20:54:49+08:00",
+      "weatherV2Http200": 4,
+      "airQualityScaleHttp200": 2
+    },
+    "servedAqiChecks": [
+      {
+        "requestId": "6220682ed09e47a6975817a3f8ea7f3b",
+        "time": "2026-09-30T20:54:45+08:00",
+        "platform": "ios",
+        "finalStatus": "modified",
+        "candidateMatchesFinal": true,
+        "index": 77,
+        "categoryIndex": 2,
+        "category": "Moderate",
+        "scale": "TAIWAN_AQI",
+        "sourcePublishedAt": "2026-09-30T20:00:00+08:00",
+        "sourceIndexAndStatusMatch": true,
+        "decodedIndexCategoryScalePrimaryPollutantMatch": true,
+        "decodedPollutantTypesUnitsAndAmountsMatch": true,
+        "proxyTotalMs": 151
+      },
+      {
+        "requestId": "9b6d1246ceb34df3adfe77384350643a",
+        "time": "2026-09-30T20:54:46+08:00",
+        "platform": "ios",
+        "finalStatus": "modified",
+        "candidateMatchesFinal": true,
+        "index": 75,
+        "categoryIndex": 2,
+        "category": "Moderate",
+        "scale": "TAIWAN_AQI",
+        "sourcePublishedAt": "2026-09-30T20:00:00+08:00",
+        "sourceIndexAndStatusMatch": true,
+        "decodedIndexCategoryScalePrimaryPollutantMatch": true,
+        "decodedPollutantTypesUnitsAndAmountsMatch": true,
+        "proxyTotalMs": 190
+      }
+    ]
   },
   "limits": [
     "Data propagation timestamps establish native data readiness, not frame-accurate first visible pixels.",
     "The first repaired launch, including initial scale acquisition and app startup, took 1.086 seconds from dispatch to first propagation; the subsequent process launch took 0.548 seconds.",
     "No universal sub-second guarantee for Apple/network delay, source-cache misses, system scheduling, or unsupported locales.",
     "Native Taiwan scale serves zh-Hant-TW and en-US only; other locales retain the upstream path.",
-    "Optional health recommendations are omitted; advanced AQI detail screens and physical iPhone/Watch UI are not yet accepted.",
+    "Optional health recommendations are omitted; advanced AQI detail screens and physical iPhone/Watch AQI-card UI are not yet accepted.",
     "The unauthenticated original Apple scale probe returned HTTP401; the implementation uses successful local native scale JSON schema, not an assumed Taiwan Apple scale identifier."
   ],
   "validationNotes": [
     "An immediate quit/relaunch raced macOS process teardown and getApp failed once; a subsequent launch succeeded. No app data was cleared.",
     "One addon assertion initially expected URL locale zh-Hant-TW in the response language field; corrected it to observed native JSON zh-TW.",
     "ccsearch found the official MOENV page but its text fetch failed; the page was then read through the in-app browser.",
-    "Private packet metadata and unified logs remain in an ignored mode-restricted directory. No DNS or QUIC remedy was necessary for the measured AQI-scale cause."
+    "Private packet metadata and unified logs remain in an ignored mode-restricted directory. No DNS or QUIC remedy was necessary for the measured AQI-scale cause.",
+    "Follow-up AQI verification changed no runtime source: both fresh iOS final modified responses match their encoded candidates, official LinkedAPI indexes/categories, and decoded pollutant types/units/amounts. A secondary official website fetch through ccsearch returned HTTP403; no independent MOENV website live-value comparison is claimed. Native Mac UI reacquisition failed at computer-use pipe startup; existing Mac AQI-card evidence remains dated and valid for its sample."
   ],
   "verifiedAt": "2026-09-30T20:47:22.398226+08:00"
 }

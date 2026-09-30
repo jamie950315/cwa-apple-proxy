@@ -1,0 +1,484 @@
+{
+  "reviewedAt": "2026-09-30T19:22:38+08:00",
+  "scope": "Local performance/logic source review and verified repairs",
+  "baselineCommit": "582bc3ce2c601060ed23da134a4082e8d541d079",
+  "versions": {
+    "translation": "0.3.2",
+    "transport": "1.0.2",
+    "note": "Compatibility versions unchanged; reviewed checkout fixes are not a deployed release."
+  },
+  "reviewedRuntimeModules": [
+    "addon.py",
+    "api.py",
+    "cwa_client.py",
+    "cwa_nwp.py",
+    "model_worker.py",
+    "mapper.mjs",
+    "flatbuffer_expand.mjs",
+    "weather_math.mjs",
+    "codec_server.mjs",
+    "cwa_model.py",
+    "cwa_snapshot.py",
+    "cwa_products.py",
+    "cwa_alerts.py",
+    "cwa_aqi.py",
+    "cwa_astronomy.py",
+    "sni_router.py",
+    "bridgectl.py",
+    "network_rules.py",
+    "split_routes.py",
+    "dashboard.html"
+  ],
+  "currentSourceSha256": {
+    "addon.py": "d8927533fd21f7bf5a09e5538bbaf131a872bac3481ba58116fbe7f69b6d22d3",
+    "api.py": "ee50f8774ec00d0e9b8c71970d67e5a3e77badc1facce705b56142abb2888bc1",
+    "cwa_client.py": "7b7ece807f9d423e05eb3dd3bf7f3dc35d8d49ed4ae5a3f2ec78cd9f5eca320a",
+    "cwa_nwp.py": "3fc741d33bd038b6a6d0a763f0dc54dd731ebd522516582e61f34cac1fbb6d84",
+    "model_worker.py": "388b0fd461d8b69d4033ef58c96541c417e9a9d5918170382e4c58fc80d650d0",
+    "mapper.mjs": "e14ce30482938eef85f99bb5fbe0398af35ac82fb240ed532dcbc96cc08af3b6",
+    "flatbuffer_expand.mjs": "6d59c768af0dfd6d9cc80b33f171b14f3566e724a93f960dd4b4e9a3b56e10db",
+    "weather_math.mjs": "7685d98bef7f4c2383aed3bc4fdf30d9fbe5d7cf5e871861994a7df4920f43c8",
+    "codec_server.mjs": "febae7ecd76c0703c35059f3858a1547e2cea9a962f8755f143106243cc7d978",
+    "cwa_model.py": "99cf451307724734dd9e38cbf687bfdb46df83c88cd1b6dc392b6b02eb3341ba",
+    "cwa_snapshot.py": "874324eee643c132956372f7dd84b41ee80990e7958edd36fb0d4fbed9e5599e",
+    "cwa_products.py": "45dc8e62a28ff784976cbfbdb4fd8ee5166ed4125a74c663f0359a911efaa11c",
+    "cwa_alerts.py": "28196d9949e96a0f4a83f791b5609487d320c5a8ff693be76b174ee67d3081aa",
+    "cwa_aqi.py": "e562f9e3312042422e94c3f9a857bd021d07c8a10e6faac0b91857d6193d6d98",
+    "cwa_astronomy.py": "b5fae3239fb4ee85e1fbc52f570648bb93e580b820789b5db892965f11e7d50b",
+    "sni_router.py": "8f755ff5d1c3afb218ba948a1d904419c227cf0490204dfc569ac5b1ad73faf6",
+    "bridgectl.py": "18c96a0da10443fade48f537b54b2be429c73f1859b26b1f691aed103fdf2bcb",
+    "network_rules.py": "fa19b6f056e311da05ef2c14d767e712bf286d8574f9243444d83a62752afeaf",
+    "split_routes.py": "2a1883a64c60d164c1bbb8dffafcb9406338a390ca973e94609bb1f244a79bf9"
+  },
+  "findings": [
+    {
+      "id": "codec-work",
+      "priority": "P3",
+      "files": [
+        "mapper.mjs",
+        "flatbuffer_expand.mjs",
+        "weather_math.mjs",
+        "codec_server.mjs"
+      ],
+      "reproduction": "Repeated forecast scans, pressure sorts, getter/schema introspection, root rebuilds, and binary copies.",
+      "fix": "Reuse response indexes/layouts; combine root patches; use buffer views.",
+      "verification": "Controlled before/after codec benchmark and opaque-root regression.",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "float32-idempotence",
+      "priority": "P2",
+      "files": [
+        "mapper.mjs"
+      ],
+      "reproduction": "Repeating the same snapshot produced identical bytes but reported scalar modifications due to Float32 rounding.",
+      "fix": "Compare values at stored Float32 precision; preserve assignment counts.",
+      "verification": "test Float32 rounding does not report or rewrite unchanged stored values",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "warning-content",
+      "priority": "P2",
+      "files": [
+        "mapper.mjs"
+      ],
+      "reproduction": "The vendor swallowed a warning compilation failure; the same old item count falsely passed verification.",
+      "fix": "Validate responses and compare final decoded alert content.",
+      "verification": "test failed warning compilation cannot pass verification merely by matching the old count",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "grid-lru",
+      "priority": "P3",
+      "files": [
+        "cwa_products.py"
+      ],
+      "reproduction": "A hit did not update recency in the existing four-entry cache, reparsing a frequently sampled temperature grid.",
+      "fix": "Move cache hits to the most-recent position; retain capacity.",
+      "verification": "test_grid_cache_keeps_frequently_sampled_temperature_grid",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "forecast-conflicts",
+      "priority": "P2",
+      "files": [
+        "cwa_model.py"
+      ],
+      "reproduction": "Duplicate conflicting values were overwritten before the mapper could detect ambiguity.",
+      "fix": "Remove each conflicting point field permanently for that normalization pass.",
+      "verification": "test_forecast_duplicate_conflicts_stay_missing_without_losing_other_fields",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "null-wind",
+      "priority": "P2",
+      "files": [
+        "cwa_model.py"
+      ],
+      "reproduction": "WindDirection=None raised AttributeError and lost otherwise valid forecast fields.",
+      "fix": "Read direction only when it is a string.",
+      "verification": "test_forecast_null_direction_keeps_valid_temperature",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "invalid-visibility",
+      "priority": "P2",
+      "files": [
+        "cwa_model.py"
+      ],
+      "reproduction": "Nonfinite and reversed visibility ranges yielded invalid or invented numeric results.",
+      "fix": "Require finite, ordered values within the existing bounds.",
+      "verification": "test_visibility_rejects_nonfinite_reversed_or_invalid_ranges",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "invalid-grid",
+      "priority": "P2",
+      "files": [
+        "cwa_products.py"
+      ],
+      "reproduction": "Zero QPF resolution and infinite temperature-grid bounds raised errors.",
+      "fix": "Validate dimensions, resolution and coordinate bounds before sampling.",
+      "verification": "test_qpf_invalid_resolution_is_unavailable_without_raising; test_temperature_grid_nonfinite_bounds_are_unavailable_without_raising",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "county-warning",
+      "priority": "P2",
+      "files": [
+        "cwa_alerts.py"
+      ],
+      "reproduction": "All affected counties were paired with the first hazard, giving another county the wrong warning category.",
+      "fix": "Match each county to its hazard; deduplicate stable identities including significance; reject empty windows.",
+      "verification": "test_alert_hazard_and_significance_follow_its_own_affected_county; test_alert_duplicate_hazards_have_one_stable_identity_and_reject_empty_window",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "missing-pressure-humidity",
+      "priority": "P2",
+      "files": [
+        "cwa_snapshot.py"
+      ],
+      "reproduction": "Missing humidity was treated as zero while claiming a pressure derivation using observed P/T/RH.",
+      "fix": "Require actual humidity and preserve station-pressure provenance.",
+      "verification": "test_snapshot_sea_level_pressure_requires_observed_humidity",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "backoff-stale-limits",
+      "priority": "P2",
+      "files": [
+        "cwa_client.py"
+      ],
+      "reproduction": "Backoff used 3600 seconds for all sources, violating the 1800-second QPF limit and rejecting valid file-source stale use. Slow failures used the pre-download age.",
+      "fix": "Apply the existing dataset-specific stale limit consistently and recheck age after failure.",
+      "verification": "test_retry_backoff_uses_the_dataset_stale_limit; test_slow_failure_does_not_return_data_past_stale_limit",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "environment-only-key",
+      "priority": "P2",
+      "files": [
+        "cwa_client.py"
+      ],
+      "reproduction": "A valid environment key still required a .env file.",
+      "fix": "Read .env only when an environment key was not provided.",
+      "verification": "test_environment_key_does_not_require_dotenv",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "model-ambiguity",
+      "priority": "P2",
+      "files": [
+        "cwa_nwp.py"
+      ],
+      "reproduction": "Conflicting cumulative duplicates and boolean values could produce numeric rain intervals.",
+      "fix": "Reject conflicting lead rows and boolean numeric values; preserve valid identical duplicates.",
+      "verification": "tests/test_nwp_validation.py",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "unchanged-grib-writes",
+      "priority": "P3",
+      "files": [
+        "model_worker.py"
+      ],
+      "reproduction": "An unchanged ETag still rewrote and rehashed all cached subsets.",
+      "fix": "Retain validation and skip subset writes/hashes on a cache hit.",
+      "verification": "test_cached_subsets_are_validated_without_rewriting_or_hashing; real cached GRIB replay",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "independent-model-fields",
+      "priority": "P2",
+      "files": [
+        "model_worker.py"
+      ],
+      "reproduction": "An APCP failure prevented pressure processing for the same lead.",
+      "fix": "Isolate field failures while retaining the existing two-download concurrency.",
+      "verification": "test_failed_apcp_does_not_discard_independent_pressure",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "range-consumption",
+      "priority": "P2",
+      "files": [
+        "model_worker.py"
+      ],
+      "reproduction": "A Range response was fully buffered before checking its size.",
+      "fix": "Stop streamed consumption as soon as it exceeds the expected range length.",
+      "verification": "test_oversized_range_stops_reading_at_the_bound",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "sni-header-fragments",
+      "priority": "P2",
+      "files": [
+        "sni_router.py"
+      ],
+      "reproduction": "A ClientHello header split into 1/2/3-byte fragments was treated as no SNI and routed to the wrong upstream.",
+      "fix": "Wait for the complete handshake header.",
+      "verification": "tests/test_sni.py fragmented ClientHello regressions",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "sni-declared-bounds",
+      "priority": "P2",
+      "files": [
+        "sni_router.py"
+      ],
+      "reproduction": "SNI parsing accepted bytes outside the declared handshake/extension boundaries.",
+      "fix": "Check handshake, extension and SNI-list bounds.",
+      "verification": "tests/test_sni.py malformed length regressions",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "proof-deadline",
+      "priority": "P2",
+      "files": [
+        "addon.py",
+        "api.py"
+      ],
+      "reproduction": "Synchronous proof writes blocked the event loop outside the translation timeout; a completed candidate could be confused with a served response.",
+      "fix": "Use one shielded disk worker within the deadline; correlate encoded candidates with final events; expose proofs only for modified responses.",
+      "verification": "tests/test_addon.py slow proof and late worker failure; tests/test_api.py serving-outcome visibility",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "early-notification",
+      "priority": "P2",
+      "files": [
+        "addon.py"
+      ],
+      "reproduction": "The first notification during monotonic uptime below 300 seconds was incorrectly deduplicated.",
+      "fix": "Apply deduplication only when an earlier notification exists.",
+      "verification": "tests/test_addon.py early-uptime notification regression",
+      "status": "fixed-in-checkout"
+    },
+    {
+      "id": "enrollment-rollback",
+      "priority": "P2",
+      "files": [
+        "bridgectl.py"
+      ],
+      "reproduction": "Read/backup failure after stopping AdGuard left it stopped; partial managed-rule metadata was not restored.",
+      "fix": "Include read/backup in recovery scope, restart AdGuard, and restore changed metadata.",
+      "verification": "tests/test_bridgectl.py; mocked services only",
+      "status": "fixed-in-checkout"
+    }
+  ],
+  "tests": {
+    "platform": "macOS arm64",
+    "pythonVersion": "3.13.5",
+    "nodeVersion": "v23.11.0",
+    "python": {
+      "fullSuitePassed": 128,
+      "additionalApiRegressionsPassed": 2,
+      "totalPassed": 130,
+      "failed": 0,
+      "commands": [
+        ".venv/bin/python -m pytest tests -q --tb=short",
+        ".venv/bin/python -m pytest tests/test_api.py -q"
+      ],
+      "note": "The two API regressions followed the final serving-outcome integration fix; unchanged 128-test evidence was reused."
+    },
+    "javascript": {
+      "passed": 40,
+      "failed": 0,
+      "command": "node --test tests/*.test.mjs"
+    }
+  },
+  "httpSmoke": {
+    "scope": "Ephemeral loopback codec service, normalized synthetic station, retained native binary",
+    "passed": true,
+    "firstModifiedFields": 5,
+    "repeatModifiedFields": 0,
+    "repeatBytesIdentical": true,
+    "malformedRequestStatus": 422,
+    "healthyAfterError": true,
+    "outputBytes": 40844
+  },
+  "realGribReplay": {
+    "scope": "Two copied current +6-hour cached subsets; local ecCodes and modified worker; mocked HEAD only",
+    "passed": true,
+    "validTownValuesPerField": {
+      "apcp": 368,
+      "pressure": 368
+    },
+    "headRequests": 1,
+    "getRequests": 0,
+    "subsetFilesRewritten": 0,
+    "downloadBytes": 0,
+    "elapsedSeconds": 38.758,
+    "normalizedPressurePoints": 1,
+    "normalizedRainWindows": 1
+  },
+  "performance": {
+    "codec": {
+      "fixture": "research/apple-1789067343103901835.bin",
+      "fixtureSha256": "26394b1feec72272310705fd2a710aead3fa75df6068595c7ec449687f21e64e",
+      "fixtureBytes": 40844,
+      "snapshot": "274 exact hourly thermodynamic/wind samples, 3-hour NWP pressure points; second variant adds Taiwan AQI=20 and empty CWA alerts",
+      "snapshotTime": 1789067343,
+      "warmupPerVariant": 50,
+      "batchesPerVariant": 9,
+      "transformsPerBatch": 100,
+      "measurement": "performance.now elapsed batch wall time divided by 100, ms; retained baseline and first post-change raw batch means sorted by value",
+      "before": [
+        {
+          "name": "scalar",
+          "medianMilliseconds": 2.06877708,
+          "sortedBatchMeanMs": [
+            1.9715775000000002,
+            2.023574160000001,
+            2.0475866599999994,
+            2.0540537500000005,
+            2.06877708,
+            2.07855958,
+            2.106544999999999,
+            2.1727425,
+            2.316683330000003
+          ],
+          "outputBytes": 40844
+        },
+        {
+          "name": "rebuilt",
+          "medianMilliseconds": 2.57800792,
+          "sortedBatchMeanMs": [
+            2.518710409999999,
+            2.54022958,
+            2.549180000000001,
+            2.5508441700000004,
+            2.57800792,
+            2.5897691699999994,
+            2.606751250000002,
+            2.6620633299999965,
+            2.9107054199999993
+          ],
+          "outputBytes": 41304
+        }
+      ],
+      "after": [
+        {
+          "name": "scalar",
+          "medianMilliseconds": 0.9632808300000002,
+          "sortedBatchMeanMs": [
+            0.9574770799999999,
+            0.9590262499999994,
+            0.9602445799999998,
+            0.9608808399999998,
+            0.9632808300000002,
+            0.9786733399999997,
+            0.9866804100000002,
+            0.9958375,
+            1.05955917
+          ],
+          "outputBytes": 40844
+        },
+        {
+          "name": "rebuilt",
+          "medianMilliseconds": 1.0269516700000008,
+          "sortedBatchMeanMs": [
+            1.0148316599999998,
+            1.0153916700000014,
+            1.0203137500000004,
+            1.0218620799999985,
+            1.0269516700000008,
+            1.032802919999999,
+            1.0336937499999999,
+            1.0444624999999996,
+            1.1759070799999995
+          ],
+          "outputBytes": 41224
+        }
+      ],
+      "nodeVersion": "v23.11.0",
+      "beforeCommit": "582bc3ce2c601060ed23da134a4082e8d541d079",
+      "moduleHashes": {
+        "before": {
+          "mapper.mjs": "1db401a70c2efc77c857830ba93904dcce890526ca6b1b1100cd2feaa47c14c1",
+          "flatbuffer_expand.mjs": "e402286c3619a9598867f3025618aa0c23cc874585f98ad2d0a1905d1c2a8b9d",
+          "weather_math.mjs": "6fc54a39753698f38869da98705c888660f3a8a831eb367b561b92b21b17d627"
+        },
+        "after": {
+          "mapper.mjs": "e14ce30482938eef85f99bb5fbe0398af35ac82fb240ed532dcbc96cc08af3b6",
+          "flatbuffer_expand.mjs": "6d59c768af0dfd6d9cc80b33f171b14f3566e724a93f960dd4b4e9a3b56e10db",
+          "weather_math.mjs": "7685d98bef7f4c2383aed3bc4fdf30d9fbe5d7cf5e871861994a7df4920f43c8",
+          "codec_server.mjs": "febae7ecd76c0703c35059f3858a1547e2cea9a962f8755f143106243cc7d978"
+        }
+      },
+      "limitations": [
+        "Mac microbenchmark only; not Pi energy, CPU temperature, end-to-end latency, or device UI acceptance.",
+        "The post-change batch run preceded stricter alert-content verification and zero-copy HTTP buffer changes; the benchmark has zero alerts and calls transform directly, so neither later edit changes its code path."
+      ]
+    },
+    "gridCache": {
+      "capacityBefore": 4,
+      "capacityAfter": 4,
+      "cellsPerGrid": 100000,
+      "distinctQpfGenerations": 4,
+      "temperatureParsesBefore": 2,
+      "temperatureParsesAfter": 1,
+      "qpfParsesBefore": 4,
+      "qpfParsesAfter": 4
+    },
+    "unchangedWorkerRun": {
+      "piCachedBinarySubsets": 24,
+      "piCachedBinaryBytes": 56116848,
+      "binarySubsetRewritesAfter": 0,
+      "note": "This is the work avoided on an unchanged ETag run, not measured storage/power use per day."
+    }
+  },
+  "readOnlyProductionInspection": {
+    "checkedAt": "2026-09-30T19:00:12+08:00",
+    "apiVersion": "0.3.2",
+    "services": "API, codec, reverse proxy, forward proxy and SNI running; routing active/exited; both timers waiting",
+    "modelLastResult": "success",
+    "modelLastExitStatus": 0,
+    "enrolledClientCount": 2,
+    "pendingClientCount": 0,
+    "baselineRuntimeHashesChecked": 19,
+    "allMatchedCheckoutBaseline": true,
+    "modifiedServices": false,
+    "deployedChanges": false
+  },
+  "preservedContracts": [
+    "3.5-second translation deadline",
+    "original Apple body/header fallback",
+    "asynchronous ntfy and 300-second deduplication",
+    "dataset TTLs and existing stale-data limits",
+    "refresh schedule and download concurrency",
+    "device opt-in and CA trust",
+    "exact/coherent mapping and whole precipitation windows",
+    "unknown FlatBuffers slots",
+    "WRF +72-hour limit"
+  ],
+  "limits": [
+    "No deployment or GitHub publication.",
+    "No new native Mac/iPhone/Watch UI acceptance.",
+    "No Pi power or temperature measurement; local codec benchmark cannot establish energy savings.",
+    "Cached model decoding and nearest-grid lookup remain per-run validation work.",
+    "A single timed-out proof worker can finish an encoded candidate; final bridge event establishes serving outcome.",
+    "The existing native TAIWAN_AQI scale endpoint limitation remains."
+  ]
+}

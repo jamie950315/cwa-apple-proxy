@@ -20,7 +20,9 @@ def twd67_coordinates(lat,lon,station=None):
 def _values(key,text):
     key=(*key,hash(text))
     cached=_GRID_CACHE.get(key)
-    if cached is not None:return cached
+    if cached is not None:
+        _GRID_CACHE.move_to_end(key)
+        return cached
     vals=[]
     for token in text.replace('\n',',').split(','):
         token=token.strip()
@@ -46,6 +48,7 @@ def temperature_analysis(product,lat,lon,station=None,now=None):
         now=time.time() if now is None else now
         if dt is None or not -300<=now-dt<=7200:return None
         left,bottom,right,top=map(float,[geo['BottomLeftLongitude'],geo['BottomLeftLatitude'],geo['TopRightLongitude'],geo['TopRightLatitude']])
+        if not (-180<=left<=right<=180 and -90<=bottom<=top<=90):return None
         nx=round((right-left)/res)+1;ny=round((top-bottom)/res)+1
         text=d['Resource']['Content'];vals=_values(('temp',dt,len(text)),text)
         if len(vals)!=nx*ny:return None
@@ -62,6 +65,7 @@ def qpf_next_hour(product,lat,lon,station=None,now=None):
         if start is None or not -300<=now-start<=2400:return None
         nx,ny=int(meta['GridDimensionX']),int(meta['GridDimensionY']);res=float(meta['GridResolution'])
         left,bottom=float(meta['StartPointLongitude']),float(meta['StartPointLatitude'])
+        if nx<=0 or ny<=0 or not math.isfinite(res) or res<=0 or not (-180<=left<=180 and -90<=bottom<=90):return None
         origin='parameterSet'
         desc=d['contents'].get('contentDescription','')
         match=re.search(r'東經[為\s]*([0-9.]+).*?北緯[為\s]*([0-9.]+)',desc)

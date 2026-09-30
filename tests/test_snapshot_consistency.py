@@ -1,4 +1,5 @@
 import asyncio
+import pytest
 
 import cwa_snapshot
 from cwa_model import dewpoint_c,epoch
@@ -53,3 +54,22 @@ def test_snapshot_keeps_station_thermodynamic_bundle_and_grid_in_provenance(monk
     del station['WeatherElement']['DailyExtreme']['DailyLow']['TemperatureInfo']['AirTemperature']
     incomplete=asyncio.run(cwa_snapshot.snapshot(FakeStore(station),24.753707,121.745083))
     assert 'dailyObservedExtremes' not in incomplete
+
+@pytest.mark.parametrize('humidity',[None,'-99','50'])
+def test_snapshot_sea_level_pressure_requires_observed_humidity(monkeypatch,humidity):
+    now=epoch('2026-09-20T14:00:00+08:00')
+    station={
+        'StationId':'C0TEST','ObsTime':{'DateTime':'2026-09-20T13:59:00+08:00'},
+        'GeoInfo':{'StationAltitude':'200','Coordinates':[{'CoordinateName':'WGS84','StationLatitude':24.73,'StationLongitude':121.745083}]},
+        'WeatherElement':{'AirTemperature':'30','AirPressure':'990','RelativeHumidity':humidity},
+    }
+    monkeypatch.setattr(cwa_snapshot.time,'time',lambda:now)
+    result=asyncio.run(cwa_snapshot.snapshot(FakeStore(station),24.753707,121.745083))
+    current=result['current']
+    assert current['stationPressure']==990
+    assert current['_sources']['stationPressure']=='CWA station observation'
+    if humidity=='50':
+        assert 990<current['pressure']<1100
+        assert 'P/T/RH/height' in current['_sources']['pressure']
+    else:
+        assert 'pressure' not in current and 'pressure' not in current['_sources']

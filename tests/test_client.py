@@ -90,3 +90,41 @@ def test_cold_cache_misses_still_coalesce(tmp_path,monkeypatch):
   assert results==[{'ok':True}]*20 and calls==1
   await s.close()
  asyncio.run(go())
+
+def test_environment_key_does_not_require_dotenv(tmp_path,monkeypatch):
+ monkeypatch.setattr(cwa_client,'ROOT',tmp_path)
+ monkeypatch.setenv('CWA_API_KEY','environment-test-key')
+ async def go():
+  store=Store()
+  assert store.key=='environment-test-key'
+  await store.close()
+ asyncio.run(go())
+
+@pytest.mark.parametrize('key,age,allowed',[
+ ('file:F-B0046-001',1801,False),
+ ('file:O-A0038-003',4000,True),
+ ('O-A0003-001',3601,False),
+])
+def test_retry_backoff_uses_the_dataset_stale_limit(tmp_path,monkeypatch,key,age,allowed):
+ monkeypatch.setattr(cwa_client,'ROOT',tmp_path)
+ (tmp_path/'.env').write_text('CWA_API_KEY=test-key')
+ async def go():
+  store=Store();now=time.time();data={'old':True}
+  store.cache[key]=(now-age,data);store.errors[key]={'time':now,'type':'HTTPError'}
+  async def unexpected():raise AssertionError('Backoff must not download')
+  if allowed:assert await store._cached(key,unexpected)==data
+  else:
+   with pytest.raises(Unavailable):await store._cached(key,unexpected)
+  await store.close()
+ asyncio.run(go())
+
+def test_slow_failure_does_not_return_data_past_stale_limit(tmp_path,monkeypatch):
+ monkeypatch.setattr(cwa_client,'ROOT',tmp_path)
+ (tmp_path/'.env').write_text('CWA_API_KEY=test-key')
+ async def go():
+  store=Store();clock=[10000.0];monkeypatch.setattr(cwa_client.time,'time',lambda:clock[0])
+  store.cache['file:F-B0046-001']=(clock[0]-1790,{'old':True})
+  async def failing():clock[0]+=20;raise httpx.ConnectError('failure')
+  with pytest.raises(Unavailable):await store._cached('file:F-B0046-001',failing)
+  await store.close()
+ asyncio.run(go())

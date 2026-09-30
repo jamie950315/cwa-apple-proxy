@@ -1,4 +1,7 @@
 import time,math
+from collections import OrderedDict
+import pytest
+import cwa_products
 from cwa_products import temperature_analysis,qpf_next_hour
 from cwa_model import normalize_rain,dewpoint_c,visibility_meters
 
@@ -21,3 +24,29 @@ def test_rain_and_visibility_derivations():
  r=normalize_rain(s,1);assert 'intensity' not in r;assert 'past1h' not in r;assert r['traceFields']==['past1h'];assert r['past24h']==3.5
  assert visibility_meters('11-15')==13000;assert visibility_meters('>30')==30000
  assert 20<dewpoint_c(27,.75)<25
+
+@pytest.mark.parametrize('value',['NaN-15','11-inf','15-11','-1-2','11-101'])
+def test_visibility_rejects_nonfinite_reversed_or_invalid_ranges(value):
+ assert visibility_meters(value) is None
+
+def test_grid_cache_keeps_frequently_sampled_temperature_grid(monkeypatch):
+ monkeypatch.setattr(cwa_products,'_GRID_CACHE',OrderedDict())
+ text='20,21,22,23'
+ original=cwa_products._values(('temp',1),text)
+ for generation in range(1,5):
+  cwa_products._values(('qpf',generation),text)
+  assert cwa_products._values(('temp',1),text) is original
+ assert len(cwa_products._GRID_CACHE)==4
+
+@pytest.mark.parametrize('resolution',['0','-0.01','inf'])
+def test_qpf_invalid_resolution_is_unavailable_without_raising(resolution):
+ from datetime import datetime,timezone
+ now=time.time();ts=datetime.fromtimestamp(now,timezone.utc).isoformat()
+ p={'cwaopendata':{'dataset':{'datasetInfo':{'parameterSet':{'DateTime':ts,'GridDimensionX':'2','GridDimensionY':'2','GridResolution':resolution,'StartPointLongitude':'121','StartPointLatitude':'25'}},'contents':{'content':'0.1,0.2,0.3,4.5'}}}}
+ assert qpf_next_hour(p,25,121,station(),now) is None
+
+def test_temperature_grid_nonfinite_bounds_are_unavailable_without_raising():
+ from datetime import datetime,timezone
+ now=time.time();ts=datetime.fromtimestamp(now,timezone.utc).isoformat()
+ p={'cwaopendata':{'dataset':{'DataTime':{'DateTime':ts},'GeoInfo':{'BottomLeftLongitude':'121','BottomLeftLatitude':'25','TopRightLongitude':'inf','TopRightLatitude':'25.03'},'Resource':{'Content':'20,21,22,23'}}}}
+ assert temperature_analysis(p,25,121,station(),now) is None

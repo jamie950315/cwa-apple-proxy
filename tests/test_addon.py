@@ -92,3 +92,67 @@ def test_ntfy_notification_is_throttled_and_has_no_coordinates(bridge):
  bridge.ntfy=Ntfy();event={'elapsedMs':3501,'latitude':25.1,'longitude':121.5}
  async def go():await bridge._notify('timeout-3.5s',event);await bridge._notify('timeout-3.5s',event)
  asyncio.run(go());assert len(sent)==1;assert sent[0][0]=='https://ntfy.sh/cwa-apple-proxy';assert '25.1' not in sent[0][1] and '121.5' not in sent[0][1]
+
+def test_first_ntfy_notification_is_sent_during_first_five_minutes(bridge,monkeypatch):
+ sent=[]
+ class Reply:
+  def raise_for_status(self):pass
+ class Ntfy:
+  async def post(self,*args,**kwargs):sent.append(kwargs);return Reply()
+ bridge.ntfy=Ntfy();monkeypatch.setattr(addon.time,'monotonic',lambda:10)
+ asyncio.run(bridge._notify('timeout-3.5s',{'elapsedMs':3501}));assert len(sent)==1
+
+def test_slow_proof_respects_deadline_and_does_not_block_event_loop(bridge,monkeypatch):
+ import base64,json,time
+ snapshot={'source':'CWA','location':{'stationId':'TEST'},'current':{'temperature':20,'observationTime':1}}
+ class Client:
+  async def get(self,*a,**kw):return httpx.Response(200,request=httpx.Request('GET','http://local'),json=snapshot)
+  async def post(self,*a,**kw):return httpx.Response(200,request=httpx.Request('POST','http://local'),json={'body':base64.b64encode(b'modified bytes').decode(),'report':{'modifiedFields':1,'skippedFields':0}})
+ proof_events=[]
+ def slow_proof(*args):proof_events.append(args[-1]);time.sleep(.1);return 'data/proofs/test'
+ bridge.client=Client();bridge.proof=slow_proof;captured=[];bridge.notify_failure=lambda reason,event:captured.append(reason)
+ monkeypatch.setattr(addon,'DEADLINE',.025);f=flow();body=f.response.raw_content;headers=f.response.headers.copy();ticks=[]
+ async def go():
+  async def tick():await asyncio.sleep(.005);ticks.append(time.monotonic())
+  started=time.monotonic();ticker=asyncio.create_task(tick());await bridge.response(f);elapsed=time.monotonic()-started;await ticker;return started,elapsed
+ started,elapsed=asyncio.run(go())
+ assert f.response.raw_content==body and f.response.headers==headers
+ assert bridge.stats['modified']==0 and bridge.stats['errors']==1
+ assert captured==['timeout-3.5s'];assert elapsed<.075;assert ticks[0]-started<.075
+ event=json.loads((addon.ROOT/'data/bridge-status.json').read_text())['last']
+ assert event['status']=='passthrough'
+ assert proof_events[0]['status']=='encoded-candidate' and proof_events[0]['servingOutcomeSource']=='bridge-log'
+ assert proof_events[0]['requestId']==event['requestId']
+
+def test_proof_timeout_does_not_queue_another_disk_worker(bridge):
+ import threading
+ started=threading.Event();release=threading.Event();calls=[]
+ def slow_proof(*args):calls.append(args);started.set();release.wait(1);return 'data/proofs/test'
+ bridge.proof=slow_proof
+ async def go():
+  first=asyncio.create_task(bridge.proof_async(b'original',b'mapped',{}, {},{}))
+  try:
+   assert await asyncio.to_thread(started.wait,1)
+   with pytest.raises(TimeoutError):
+    async with asyncio.timeout(.01):await bridge.proof_async(b'other',b'other',{}, {},{})
+   assert len(calls)==1 and not first.done()
+  finally:release.set()
+  assert await first=='data/proofs/test'
+ asyncio.run(go());assert len(calls)==1
+
+def test_proof_worker_error_is_observed_after_response_timeout(bridge):
+ import gc,threading
+ started=threading.Event();release=threading.Event();errors=[]
+ def failed_proof(*args):started.set();release.wait(1);raise OSError('simulated proof failure')
+ bridge.proof=failed_proof
+ async def go():
+  asyncio.get_running_loop().set_exception_handler(lambda loop,context:errors.append(context))
+  waiting=asyncio.create_task(bridge.proof_async(b'original',b'mapped',{}, {},{}))
+  try:
+   assert await asyncio.to_thread(started.wait,1)
+   with pytest.raises(TimeoutError):
+    async with asyncio.timeout(.01):await waiting
+  finally:release.set()
+  await asyncio.wait({bridge.proof_task})
+  bridge.proof_task=None;gc.collect();await asyncio.sleep(0)
+ asyncio.run(go());assert errors==[]

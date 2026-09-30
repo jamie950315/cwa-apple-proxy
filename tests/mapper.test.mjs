@@ -86,6 +86,13 @@ test('unchanged official values count as source assignments, not only changed by
  const current=root(original).currentWeather(),s=structuredClone(base);s.current={temperature:current.temperature(),humidity:current.humidity()/100,dewPoint:current.temperatureDewPoint(),observationTime:now-600};
  const result=transform(original,s,now);assert.ok(result.report.assignments.some(x=>x.field==='current.temperature'));assert.ok(!result.report.changes.some(x=>x.field==='current.temperature'));
 });
+test('Float32 rounding does not report or rewrite unchanged stored values',()=>{
+ const first=transform(original,base,now),second=transform(first.bytes,base,now);
+ assert.deepEqual(second.bytes,first.bytes);
+ assert.equal(second.report.modifiedFields,0);
+ assert.ok(second.report.assignments.some(x=>x.field==='current.temperature'));
+ assert.ok(second.report.assignments.some(x=>x.field==='current.windSpeed'));
+});
 test('top-level snow phase prevents a daily rain-only companion override',()=>{
  const s=structuredClone(base),daily=WeatherKit2.decode(new ByteBuffer(original),['forecastDaily']).forecastDaily,day=daily.days[2];
  day.precipitationType='SNOW';day.snowfallAmount=0;day.precipitationAmountByType=[{expected:1,expectedSnow:0,maximumSnow:0,minimumSnow:0,precipitationType:'RAIN'}];
@@ -114,4 +121,24 @@ test('interval averages cannot bypass the exact-hour thermodynamic gate',()=>{
 test('CWA warning unavailability preserves the Apple warning root',()=>{
  const s=structuredClone(base);s.weatherAlerts=null;
  assert.deepEqual(WeatherKit2.decode(new ByteBuffer(transform(original,s,now).bytes),['weatherAlerts']),WeatherKit2.decode(new ByteBuffer(original),['weatherAlerts']));
+});
+test('AQI and warning roots rebuild together after scalar expansion and preserve opaque roots',()=>{
+ const s=structuredClone(base),input=Uint8Array.from(original),c=root(input).currentWeather(),view=new DataView(input.buffer),vt=c.bb_pos-view.getInt32(c.bb_pos,true);
+ view.setUint16(vt+72,0,true);
+ s.airQuality={index:20,categoryIndex:1,scale:'TAIWAN_AQI',pollutants:[]};s.weatherAlerts={alerts:[]};
+ const result=transform(input,s,now),decoded=WeatherKit2.decode(new ByteBuffer(result.bytes),['airQuality','weatherAlerts','news']);
+ assert.equal(decoded.airQuality.index,20);assert.equal(decoded.airQuality.scale,'TAIWAN_AQI');assert.deepEqual(decoded.weatherAlerts.alerts,[]);
+ approx(root(result.bytes).currentWeather().temperatureDewPoint(),16.2);
+ assert.deepEqual(decoded.news,WeatherKit2.decode(new ByteBuffer(input),['news']).news);
+ function opaque(b){const v=new DataView(b.buffer,b.byteOffset,b.byteLength),r=v.getUint32(0,true),vt=r-v.getInt32(r,true),off=v.getUint16(vt+28,true),target=r+off+v.getUint32(r+off,true),tv=target-v.getInt32(target,true);return b.slice(target,target+v.getUint16(tv+2,true));}
+ assert.deepEqual(opaque(result.bytes),opaque(input));
+ assert.deepEqual(result.report.rebuiltRoots.map(x=>x.root),['omittedScalarExpansion','airQuality','weatherAlerts']);
+});
+test('failed warning compilation cannot pass verification merely by matching the old count',()=>{
+ const s=structuredClone(base),alert={id:'01020304-0506-0708-090a-0b0c0d0e0f10',description:'Original alert',eventSource:'CWA',token:'original-token',responses:[]};
+ const input=WeatherKit2.encode(new ByteBuffer(original),{weatherAlerts:{alerts:[alert],detailsUrl:'https://www.cwa.gov.tw/'}});
+ s.weatherAlerts={alerts:[{...alert,description:'Replacement alert',responses:undefined}]};
+ assert.throws(()=>transform(input,s,now),/WeatherAlerts/);
+ s.weatherAlerts.alerts[0].responses=['INVALID_RESPONSE'];
+ assert.throws(()=>transform(input,s,now),/WeatherAlerts root verification failed/);
 });

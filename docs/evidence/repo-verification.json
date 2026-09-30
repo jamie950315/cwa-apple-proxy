@@ -19,7 +19,7 @@
       "total": 126,
       "failed": 0
     },
-    "note": "These 0.3.2 acceptance results remain valid because the current change affects documentation and the repository verifier only."
+    "note": "Historical 2026-09-20 deployed 0.3.2 acceptance. See checkoutReview for current local source verification."
   },
   "structureCheck": {
     "status": "passed",
@@ -43,5 +43,13 @@
   "privateEvidenceTracked": false,
   "gitRemote": "git@github.com:jamie950315/cwa-apple-proxy.git",
   "jarvis": "Excluded by explicit user instruction.",
-  "knownIssues": "docs/KNOWN_ISSUES.md"
+  "knownIssues": "docs/KNOWN_ISSUES.md",
+  "checkoutReview": {
+    "reviewedAt": "2026-09-30T19:22:38+08:00",
+    "evidence": "docs/evidence/code-review-20260930.json",
+    "pythonPassed": 130,
+    "javascriptPassed": 40,
+    "deployed": false,
+    "published": false
+  }
 }

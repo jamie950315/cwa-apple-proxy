@@ -1,6 +1,6 @@
 # Current project status
 
-Last updated: 2026-09-20 (Asia/Taipei)
+Last updated: 2026-09-30 (Asia/Taipei)
 
 ## Purpose and operating boundary
 
@@ -44,6 +44,18 @@ The Pi 5 returns valid cache entries without waiting for a refresh lock and chec
 
 Before optimization, 55 native translations had a 284 ms median and 1,295 ms p95. Initial post-deployment Mac requests had proxy totals of 308, 156, and 140 ms, but the samples are not matched and do not establish a percentage speedup. See [Performance](PERFORMANCE.md).
 
+## Reviewed checkout changes - 2026-09-30
+
+The local checkout includes performance and logic fixes that have not been deployed or published. A read-only Pi 5 inspection confirmed healthy services, two enrolled clients, a successful model worker, and matching baseline hashes for 19 runtime modules before editing.
+
+- Codec work now indexes forecast points, sorts pressure points once, reuses getter/schema layouts, combines AQI/warning root rebuilds, and avoids two HTTP buffer copies. Float32 writes compare stored values; warning rebuilds verify final content.
+- The existing four-entry grid cache now retains recently used entries. Unchanged GRIB subsets are validated without rewriting or rehashing them; independent fields survive a sibling download failure, and Range reads stop at their size limit.
+- Conflicting forecasts/WRF accumulations, invalid visibility/grid metadata, null wind direction, county-specific warning hazards, and missing humidity in pressure derivation are guarded.
+- SNI parsing handles fragmented headers and rejects invalid declared boundaries. Proof writes use one disk worker within the translation deadline, first ntfy notifications work during early uptime, and failed enrollment configuration restores AdGuard and managed metadata.
+- Proof artifacts are encoded candidates. Final bridge events identify the served outcome; `/status` shows a proof only for a modified response.
+
+Mac verification passed 130 Python tests (128 integration tests plus two API tests after the final integration fix) and 40 Node tests. Loopback codec HTTP smoke and a replay of real cached GRIB precipitation/pressure both passed. Local codec batch means improved by about 53-60%; each unchanged full worker run avoids rewriting about 56.1 MB of existing subsets. These are work/latency measurements, not measured power or temperature reductions. See [review evidence](evidence/code-review-20260930.json).
+
 ## Validation summary
 
 - Mac and Pi 5 each passed 89 Python and 37 Node tests for version 0.3.2.
@@ -66,5 +78,6 @@ Other limitations are documented in [Known issues](KNOWN_ISSUES.md). Historical 
 - `docs/evidence/watch-diagnostics-20260920.json`: Watch investigation and recovery evidence.
 - `docs/evidence/production-source-manifest.json`: hashes of the initial production source extraction.
 - `docs/evidence/repo-verification.json`: repository verification at the recorded date.
+- `docs/evidence/code-review-20260930.json`: local performance/logic review, regressions, microbenchmark, and deployment boundary.
 - `infra/snapshots/`: dated service, routing, DNS, and dependency snapshots.
 - `.private/`: excluded raw captures, precise location evidence, and private runtime material.

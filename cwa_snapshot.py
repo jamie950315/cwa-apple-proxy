@@ -49,10 +49,11 @@ async def snapshot(store,lat,lon,country='TW'):
     station_pressure=current.pop('pressure',None)
     if station_pressure is not None:
         current['stationPressure']=station_pressure
+        sources['stationPressure']=sources.pop('pressure')
         try:
-            altitude=float(geo['StationAltitude']);t=current['temperature']+273.15
+            altitude=float(geo['StationAltitude']);t=current['temperature']+273.15;humidity=current['humidity']
             if -100<=altitude<=1000:
-                vapour=(current.get('humidity',0))*6.112*math.exp(17.67*(t-273.15)/(t-29.65))
+                vapour=humidity*6.112*math.exp(17.67*(t-273.15)/(t-29.65))
                 tv=t*(1+0.61*0.622*vapour/(station_pressure-vapour))+0.00325*altitude
                 reduced=station_pressure*math.exp(9.80665*altitude/(287.05*tv))
                 if 850<=reduced<=1100:

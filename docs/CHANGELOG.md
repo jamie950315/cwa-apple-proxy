@@ -1,5 +1,15 @@
 # Changelog
 
+## Local performance and logic review - 2026-09-30
+
+Reviewed runtime modules and fixed confirmed source/transport/operational defects. Removed redundant codec scans, sorts, schema introspection, root rebuilds and buffer copies; restored the existing grid cache's LRU behavior; skipped writes/hashes for unchanged GRIB subsets.
+
+Guarded conflicting forecast/model values, malformed grid/visibility inputs, null wind direction, missing humidity in pressure derivation, county-specific warning hazards and warning compilation/content verification. Made retry-backoff stale limits consistent, allowed environment-only CWA keys, retained independent worker fields after a sibling failure, and bounded Range-body consumption.
+
+Fixed fragmented ClientHello handling and declared-message bounds, proof writes outside the deadline, first-notification suppression during early uptime, and incomplete AdGuard/enrollment rollback. Candidate proof artifacts now correlate with final serving events; status diagnostics exclude proofs for fallback responses.
+
+Verification: 130 Python and 40 Node tests, loopback HTTP codec flow, real cached GRIB replay, repository checks, and controlled local benchmarks. No deployment or GitHub publication; no measured power/temperature reduction. See [review evidence](evidence/code-review-20260930.json).
+
 ## Documentation refresh - 2026-09-20
 
 Converted maintained repository documentation to English, replaced the handoff-oriented entry point with a current status document, updated public-repository and GitHub state, and removed stale pending language from README and agent instructions. Historical evidence remains dated and does not override current status.

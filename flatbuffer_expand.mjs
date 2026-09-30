@@ -5,9 +5,21 @@
 import {Weather,ByteBuffer} from './vendor/weatherkit-codec.full.mjs';
 const SIZE={Int8:1,Uint8:1,Int16:2,Uint16:2,Int32:4,Uint32:4,Float32:4,Float64:8};
 const align=(n,a)=>Math.ceil(n/a)*a;
+const SCHEMAS=new WeakMap();
+function tableSchema(t){
+ const prototype=Object.getPrototypeOf(t);let schema=SCHEMAS.get(prototype);if(schema)return schema;
+ schema=[];
+ for(const name of Object.getOwnPropertyNames(prototype)){
+  if(name==='constructor'||typeof prototype[name]!=='function')continue;
+  const body=prototype[name].toString(),match=body.match(/__offset\(this\.bb_pos,\s*(\d+)\)/);if(!match)continue;
+  schema.push({name,index:Number(match[1]),indirect:body.includes('__indirect'),vector:body.includes('__vector'),pointer:body.includes('__indirect')||body.includes('__vector')||body.includes('__string'),skip:name.endsWith('Length')||name.endsWith('Array')});
+ }
+ SCHEMAS.set(prototype,schema);return schema;
+}
 export function expandScalars(source,patches){
  if(!patches.length)return {bytes:source,insertions:[],prefixBytes:0};
  const dv=new DataView(source.buffer,source.byteOffset,source.byteLength),bb=new ByteBuffer(source);
+ const rootPos=dv.getUint32(0,true);
  const graph=new Map(),wanted=new Map();
  for(const p of patches){if(!wanted.has(p.tablePos))wanted.set(p.tablePos,[]);wanted.get(p.tablePos).push(p);}
  function check(pos,size){if(!Number.isInteger(pos)||pos<4||pos+size>source.length)throw Error('Expansion bounds');}
@@ -18,32 +30,28 @@ export function expandScalars(source,patches){
   if(vlen<4||vlen%2||osize<4)throw Error('Expansion invalid table');
   const node={kind:'table',pos,vt,vlen,osize,edges:[],references:[],schema:new Set(),patches:wanted.get(pos)||[]};graph.set(pos,node);
   if(graph.size>20000)throw Error('Expansion node limit');
-  for(const name of Object.getOwnPropertyNames(Object.getPrototypeOf(t))){
-   if(name==="constructor")continue;
-   if(typeof t[name]!=='function')continue;
-   const body=t[name].toString(),m=body.match(/__offset\(this\.bb_pos,\s*(\d+)\)/);if(!m)continue;
-   const index=Number(m[1]);node.schema.add(index);
+  for(const {name,index,indirect,vector,pointer,skip} of tableSchema(t)){
+   node.schema.add(index);
    const off=index<vlen?dv.getUint16(vt+index,true):0;if(!off)continue;
-   if(!body.includes('__indirect')&&!body.includes('__vector')&&!body.includes('__string'))continue;
-   if(name.endsWith('Length')||name.endsWith('Array'))continue;
+   if(!pointer||skip)continue;
    check(pos+off,4);const target=pos+off+dv.getUint32(pos+off,true);check(target,4);
    node.references.push({off,target});
-   if(pos===dv.getUint32(0,true)&&!['currentWeather','forecastHourly','forecastDaily'].includes(name))continue;
-   if(body.includes('__indirect')){
-    if(body.includes('__vector')){
-     let vector=graph.get(target);
-     if(!vector){
+   if(pos===rootPos&&!['currentWeather','forecastHourly','forecastDaily'].includes(name))continue;
+   if(indirect){
+    if(vector){
+     let vectorNode=graph.get(target);
+     if(!vectorNode){
       const count=dv.getUint32(target,true);if(count>10000)throw Error('Expansion vector length');check(target,4+4*count);
-      vector={kind:'vector',pos:target,count,edges:[],references:[]};graph.set(target,vector);
-      for(let i=0;i<count;i++){const pp=target+4+4*i,tp=pp+dv.getUint32(pp,true);try{check(tp,4);}catch(e){throw Error(`Expansion vector ${name}[${i}]/${count} at ${target} target ${tp}`)}const child=table(t[name](i));if(child.pos!==tp)throw Error('Expansion vector target mismatch');vector.edges.push(child);vector.references.push({off:4+4*i,target:tp});}
+      vectorNode={kind:'vector',pos:target,count,edges:[],references:[]};graph.set(target,vectorNode);
+      for(let i=0;i<count;i++){const pp=target+4+4*i,tp=pp+dv.getUint32(pp,true);try{check(tp,4);}catch(e){throw Error(`Expansion vector ${name}[${i}]/${count} at ${target} target ${tp}`)}const child=table(t[name](i));if(child.pos!==tp)throw Error('Expansion vector target mismatch');vectorNode.edges.push(child);vectorNode.references.push({off:4+4*i,target:tp});}
      }
-     node.edges.push(vector);
+     node.edges.push(vectorNode);
     }else node.edges.push(table(t[name]()));
    }
   }
   // WK2.Weather is a root collection of table offsets. Preserve newer roots
   // absent from the vendored getter set after validating their target tables.
-  if(pos===dv.getUint32(0,true))for(let i=4;i<vlen;i+=2){
+  if(pos===rootPos)for(let i=4;i<vlen;i+=2){
    const off=dv.getUint16(vt+i,true);if(!off||node.schema.has(i))continue;
    check(pos+off,4);const target=pos+off+dv.getUint32(pos+off,true);check(target,4);
    const tv=target-dv.getInt32(target,true);check(tv,4);const tl=dv.getUint16(tv,true),sz=dv.getUint16(tv+2,true);

@@ -8,7 +8,7 @@ VERSION='0.3.2';MODE=os.getenv('CWA_PROXY_MODE','reverse');DEADLINE=3.5;NTFY_URL
 PATH=re.compile(r'^/api/v2/weather/[^/]+/(-?\d+(?:\.\d+)?)/(-?\d+(?:\.\d+)?)/?$')
 class Bridge:
     def __init__(self):
-        self.client=None;self.ntfy=None;self.started=int(time.time());self.notify_tasks=set();self.last_notify={}
+        self.client=None;self.ntfy=None;self.started=int(time.time());self.notify_tasks=set();self.last_notify={};self.proof_task=None
         self.stats={'seen':0,'modified':0,'unchanged':0,'passthrough':0,'errors':0,'notifications':0,'notificationErrors':0}
         self.log=logging.getLogger('cwa-weather-bridge');self.log.setLevel(logging.INFO)
         if not self.log.handlers:
@@ -61,10 +61,25 @@ class Bridge:
             for f in d.iterdir():f.unlink()
             d.rmdir()
         return str(folder.relative_to(ROOT))
+    @staticmethod
+    def _proof_completed(task):
+        # Observe errors even if the response timed out while the worker finished.
+        if not task.cancelled():task.exception()
+    async def proof_async(self,original,body,snapshot,report,event):
+        # Keep one disk worker per bridge. A timed-out response must not leave a
+        # growing queue of proof writes or allow concurrent retention cleanup.
+        while self.proof_task is not None and not self.proof_task.done():
+            await asyncio.wait({self.proof_task})
+        # The worker can outlive a deadline fallback. Its files prove only a
+        # candidate encoding; the final bridge event records the served outcome.
+        proof_event={**event,'status':'encoded-candidate','servingOutcomeSource':'bridge-log'}
+        task=asyncio.create_task(asyncio.to_thread(self.proof,original,body,snapshot,report,proof_event))
+        self.proof_task=task;task.add_done_callback(self._proof_completed)
+        return await asyncio.shield(task)
     async def _notify(self,reason,event):
         # ntfy.sh topics are bearer-by-URL unless separately protected, so omit coordinates and any credentials.
         now=time.monotonic();key=reason
-        if now-self.last_notify.get(key,0)<300:return
+        if key in self.last_notify and now-self.last_notify[key]<300:return
         self.last_notify[key]=now
         text=f'CWA→Apple Weather 已回退 Apple 原始資料\n原因: {reason}\n模式: {MODE}\n耗時: {event.get("elapsedMs","?")} ms\n版本: {VERSION}'
         try:
@@ -83,7 +98,7 @@ class Bridge:
         self.transport_response(flow)
         self.stats['seen']+=1;location=self.target(flow)
         if not location or flow.response.status_code!=200 or not re.search(r'application/vnd\.apple\.flatbuffer\s*;\s*messageType=\"?WK2\.Weather(?:[\";\s]|$)',flow.response.headers.get('content-type',''),re.I):self.stats['passthrough']+=1;return
-        original=flow.response.content;original_raw=flow.response.raw_content;headers=flow.response.headers.copy();started=time.monotonic();event={'mode':MODE,'version':VERSION,'time':int(time.time()),'latitude':location[0],'longitude':location[1],'status':'passthrough','app':flow.request.headers.get('user-agent','')}
+        original=flow.response.content;original_raw=flow.response.raw_content;headers=flow.response.headers.copy();started=time.monotonic();event={'mode':MODE,'version':VERSION,'time':int(time.time()),'requestId':uuid.uuid4().hex,'latitude':location[0],'longitude':location[1],'status':'passthrough','app':flow.request.headers.get('user-agent','')}
         request_end=flow.request.timestamp_end;response_end=flow.response.timestamp_end
         if request_end is not None and response_end is not None and response_end>=request_end:event['appleResponseMs']=round((response_end-request_end)*1000)
         try:
@@ -92,16 +107,20 @@ class Bridge:
                 event['cwaMs']=round((time.monotonic()-started)*1000);codec_started=time.monotonic()
                 r=await self.client.post('http://127.0.0.1:18881/transform',json={'body':base64.b64encode(original).decode(),'snapshot':snapshot});r.raise_for_status();mapped=r.json();body=base64.b64decode(mapped['body'],validate=True)
                 event['codecMs']=round((time.monotonic()-codec_started)*1000)
+                if time.monotonic()-started>DEADLINE:raise TimeoutError('translation deadline')
+                report=mapped['report']
+                if len(body)!=len(original) and not report.get('rebuiltRoots'):raise ValueError('Codec changed buffer length without verified root rebuild')
+                if not 12<=len(body)<=4_000_000:raise ValueError('Codec output size invalid')
+                if not report['modifiedFields'] and not report.get('rebuiltRoots'):event['status']='unchanged'
+                else:
+                    event.update(status='modified',fields=report['modifiedFields'],skipped=report['skippedFields'],coverage=report.get('coverage',{}),station=snapshot['location']['stationId'],stationName=snapshot['location'].get('stationName'),temperature=snapshot['current']['temperature'],observationTime=snapshot['current']['observationTime']);proof_started=time.monotonic();event['proof']=await self.proof_async(original,body,snapshot,report,event);event['proofMs']=round((time.monotonic()-proof_started)*1000)
+                    flow.response.content=body
+                    for name in ['etag','content-md5','digest','content-digest','age']:flow.response.headers.pop(name,None)
+                    flow.response.headers['cache-control']='private, max-age=120';flow.response.headers['x-cwa-bridge']=VERSION+'; cwa-first';flow.response.headers['x-cwa-station']=str(snapshot['location']['stationId'])
+            # Response compression and other synchronous work cannot be interrupted
+            # by asyncio.timeout, so check the complete translation once more.
             if time.monotonic()-started>DEADLINE:raise TimeoutError('translation deadline')
-            report=mapped['report']
-            if len(body)!=len(original) and not report.get('rebuiltRoots'):raise ValueError('Codec changed buffer length without verified root rebuild')
-            if not 12<=len(body)<=4_000_000:raise ValueError('Codec output size invalid')
-            if not report['modifiedFields'] and not report.get('rebuiltRoots'):self.stats['unchanged']+=1;event['status']='unchanged'
-            else:
-                event.update(status='modified',fields=report['modifiedFields'],skipped=report['skippedFields'],coverage=report.get('coverage',{}),station=snapshot['location']['stationId'],stationName=snapshot['location'].get('stationName'),temperature=snapshot['current']['temperature'],observationTime=snapshot['current']['observationTime']);proof_started=time.monotonic();event['proof']=self.proof(original,body,snapshot,report,event);event['proofMs']=round((time.monotonic()-proof_started)*1000)
-                flow.response.content=body
-                for name in ['etag','content-md5','digest','content-digest','age']:flow.response.headers.pop(name,None)
-                flow.response.headers['cache-control']='private, max-age=120';flow.response.headers['x-cwa-bridge']=VERSION+'; cwa-first';flow.response.headers['x-cwa-station']=str(snapshot['location']['stationId']);self.stats['modified']+=1
+            self.stats[event['status']]+=1
         except Exception as e:
             flow.response.raw_content=original_raw;flow.response.headers=headers;self.stats['errors']+=1
             reason='timeout-3.5s' if isinstance(e,TimeoutError) else type(e).__name__;event.update(status='passthrough',error=type(e).__name__,fallbackReason=reason);event['elapsedMs']=round((time.monotonic()-started)*1000);self.notify_failure(reason,event)

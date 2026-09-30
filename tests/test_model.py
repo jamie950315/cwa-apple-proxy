@@ -44,3 +44,14 @@ def test_precipitation_interval_preserved(start,end):
  d=normalize_forecast(loc);assert not d['points'];assert len(d['intervals'])==1
  assert math.isclose(d['intervals'][0]['precipitationChance'],.7)
  assert d['intervals'][0]['end']-d['intervals'][0]['start']==epoch(end)-epoch(start)
+
+def test_forecast_duplicate_conflicts_stay_missing_without_losing_other_fields():
+ ts='2026-09-30T12:00:00+08:00'
+ loc={'WeatherElement':[{'Time':[{'DataTime':ts,'ElementValue':[{'Temperature':value,'WindSpeed':'2'}]} for value in ['20','30','20']]},{'Time':[{'DataTime':ts,'ElementValue':[{'RelativeHumidity':'70','DewPoint':'15'}]}]}]}
+ point=normalize_forecast(loc)['points'][0]
+ assert 'temperature' not in point
+ assert point['humidity']==pytest.approx(.7) and point['dewPoint']==15 and point['windSpeed']==7.2
+
+def test_forecast_null_direction_keeps_valid_temperature():
+ loc={'WeatherElement':[{'Time':[{'DataTime':'2026-09-30T12:00:00+08:00','ElementValue':[{'Temperature':'20','WindDirection':None}]}]}]}
+ assert normalize_forecast(loc)['points']==[{'forecastStart':epoch('2026-09-30T12:00:00+08:00'),'temperature':20.0}]

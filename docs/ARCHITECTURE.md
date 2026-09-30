@@ -63,3 +63,5 @@ The Apple response is obtained before the 3.5-second CWA/codec deadline begins. 
 Active CWA cache entries refresh shortly before expiry. A valid cache hit does not wait for a concurrent refresh. TTL and stale limits are unchanged, and complete Apple responses are never cached.
 
 Version 0.3.2 writes only exact or explicitly derived compatible groups. Unknown roots and unsupported values remain Apple. Omitted FlatBuffers scalar storage is distinct from a valid zero value and is covered by regression tests. Any root rebuild must be decoded again and compared through final getters, not inferred from intermediate byte offsets.
+
+The locally reviewed 2026-09-30 source builds one forecast index and pressure series per transformation, caches immutable codec getter layouts, and performs compatible AQI/warning patches in one root rebuild. It compares Float32 values at their stored precision and verifies rebuilt warning content. Proof writes use a single worker within the deadline; candidate proof files and final serving events share a request ID. Unchanged GRIB ETags skip subset rewrites/hashes while retaining validation. These checkout changes are not yet deployed.

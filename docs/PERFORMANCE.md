@@ -1,5 +1,24 @@
 # Latency and cache behavior
 
+## Local source review - 2026-09-30
+
+These changes are verified in the Mac checkout and have not been deployed. Source and read-only runtime evidence are recorded separately in [review evidence](evidence/code-review-20260930.json).
+
+| Controlled workload | Before | After | Measurement |
+|---|---:|---:|---|
+| Codec scalar mapping, 274 hourly samples | 2.069 ms | 0.963 ms | Median of nine batch means, 100 transforms per batch |
+| Codec mapping plus AQI/warning rebuild | 2.578 ms | 1.027 ms | Same fixture, warmup, and batches |
+| Frequently reused temperature grid among four QPF updates | 2 parses / 200,000 cells | 1 parse / 100,000 cells | Existing four-entry cache; QPF parses unchanged |
+| Unchanged full GRIB-subset cache | 24 binary rewrites / 56,116,848 bytes | 0 binary rewrites | Pi inventory plus controlled unchanged-ETag regression |
+
+The codec uses one forecast time index and one sorted pressure series per response, caches fixed getter/schema layouts, combines root rebuilds, and avoids redundant input/output binary copies. Float32 values are rounded before comparison so an already-matching payload reports no scalar modifications. Validated source assignments still count.
+
+The grid cache keeps its existing four-entry capacity and updates recency on a hit. The worker retains GRIB decoding, parameter/time checks, and the existing +72-hour horizon; unchanged subsets skip only redundant disk writes and hashes. A replay using real cached +6-hour APCP and pressure messages validated all 368 township values with one mocked HEAD, no GET, and no subset rewrite. That replay took 38.758 seconds on the Mac, including ecCodes grid lookup; it is not a worker speedup measurement.
+
+Proof file work runs off the event loop with at most one in-flight worker per bridge. Waiting uses the existing translation deadline. A worker finishing after fallback records an encoded candidate; final serving status comes from the bridge event. `/status` exposes proof changes only for a modified response.
+
+The codec benchmark uses a 40,844-byte retained native fixture, 50 warmup calls, Node v23.11.0, and the same synthetic snapshot before/after. Raw batch results and fixture/module hashes are in the review evidence. Local reductions of approximately 53% and 60% cannot be converted into Pi power, temperature, end-to-end speed, or device UI claims. Dataset TTLs, stale-data policy, refresh schedule, download concurrency, and the 3.5-second deadline are preserved.
+
 ## 2026-09-20 optimization
 
 Pi5 already caches raw CWA datasets in memory and on disk. The avoidable wait was on cache expiry: requests could wait for a dataset download and for the per-dataset refresh lock. The old warmup ran every 300 seconds, after the shortest TTL had elapsed, and did not refresh recently used county forecasts.

@@ -10,8 +10,11 @@
 | Apple Watch recovery | User confirmation after Watch CA installation plus four later watchOS transformations | Long-running reliability or every Watch state |
 | Transport 1.0.2 | None, Pi 5, A1-JP, A1-US, and two Mullvad exits on Mac; 12 native responses and 10,846 mapped fields | Every exit, iPhone exit switching, or roaming |
 | Timeout/ntfy | 3.5045-second fallback preserved compressed Apple body/headers; ntfy returned HTTP 200 | Notification display on the user's subscribed device |
+| 2026-09-30 local source review | 130 Python and 40 Node tests; real cached GRIB replay; loopback codec HTTP flow; comparable codec microbenchmark | Deployment, Pi power/temperature changes, or new native UI acceptance |
 
 Dated compact evidence is under `docs/evidence/`. Raw native material is excluded in `.private/native-evidence.tar.gz` and retained production report directories.
+
+The latest local source evidence is [code-review-20260930.json](evidence/code-review-20260930.json). The final Python total combines a 128-test integration run and two API regressions added after the serving-outcome integration check; all unaffected evidence was reused. Candidate proof files alone cannot establish delivery; use the final bridge event with the matching `requestId`.
 
 ## Evidence to retain for a new native acceptance run
 

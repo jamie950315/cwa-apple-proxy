@@ -9,8 +9,12 @@ FILE_ALLOWED={'F-B0046-001','O-A0038-003','M-A0064-000','M-A0064-006'}
 class Unavailable(Exception):pass
 class Store:
     def __init__(self):
-        cfg=dict(l.split('=',1) for l in (ROOT/'.env').read_text().splitlines() if l and not l.startswith('#') and '=' in l)
-        self.key=os.getenv('CWA_API_KEY',cfg.get('CWA_API_KEY',''))
+        self.key=os.getenv('CWA_API_KEY')
+        if self.key is None:
+            env_path=ROOT/'.env'
+            text=env_path.read_text() if env_path.exists() else ''
+            cfg=dict(l.split('=',1) for l in text.splitlines() if l and not l.startswith('#') and '=' in l)
+            self.key=cfg.get('CWA_API_KEY','')
         if not self.key:raise RuntimeError('CWA_API_KEY required')
         self.model_cache=None;self.cache={};self.locks={};self.errors={};self.fetch_count=0
         self.fetchers={};self.last_used={}
@@ -30,6 +34,8 @@ class Store:
         if key=='linked:aqi':return 600
         return 21600
     def _path(self,key):return ROOT/'data'/((key.replace(':','-'))+'.json')
+    def _stale_limit(self,key):
+        return 1800 if key=='file:F-B0046-001' else 7200 if key.startswith('file:') else 3600
     def _disk_entry(self,key):
         path=self._path(key)
         if not path.exists():return None
@@ -51,7 +57,7 @@ class Store:
                 if entry:self.cache[key]=entry
             if entry and now-entry[0]<ttl-refresh_ahead:return entry[1]
             if now-self.errors.get(key,{}).get('time',0)<60:
-                if entry and now-entry[0]<3600:return entry[1]
+                if entry and now-entry[0]<self._stale_limit(key):return entry[1]
                 raise Unavailable('CWA retry backoff')
             try:
                 data=await fetch()
@@ -59,9 +65,8 @@ class Store:
                 self.cache[key]=(time.time(),data);self.fetch_count+=1;self.errors.pop(key,None)
                 return data
             except (httpx.HTTPError,ValueError,OSError,KeyError) as e:
-                self.errors[key]={'time':time.time(),'type':type(e).__name__}
-                stale_limit=1800 if key=='file:F-B0046-001' else 7200 if key.startswith('file:') else 3600
-                if entry and now-entry[0]<stale_limit:return entry[1]
+                now=time.time();self.errors[key]={'time':now,'type':type(e).__name__}
+                if entry and now-entry[0]<self._stale_limit(key):return entry[1]
                 raise Unavailable('CWA data unavailable') from None
     async def refresh_due(self,refresh_ahead=60,active_within=21600):
         now=time.time();jobs=[];keys=[]

@@ -51,7 +51,7 @@ async def status():
             r=await c.get('http://127.0.0.1:18881/healthz');r.raise_for_status();result['codec']=r.json()
     except httpx.HTTPError:result['codec']={'status':'unavailable'}
     event=result['bridge'].get('last',{});proof=event.get('proof')
-    if proof:
+    if proof and event.get('status')=='modified':
         p=(ROOT/proof).resolve()
         if p.is_relative_to((ROOT/'data/proofs').resolve()):
             report=read_json(p/'report.json',{})

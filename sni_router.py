@@ -5,21 +5,33 @@ PORT=int(os.getenv('SNI_PORT','19443'))
 MAX_HELLO=65536
 
 def parse_sni(hello: bytes):
-    if len(hello)<4 or hello[0]!=1: return None
+    # The handshake header may itself be split across TLS records.
+    if len(hello)<4:raise EOFError
+    if hello[0]!=1:raise ValueError('not a TLS ClientHello')
     n=int.from_bytes(hello[1:4],'big')
     if len(hello)<n+4: raise EOFError
+    limit=n+4
+    if n<38:raise ValueError('truncated ClientHello')
     p=4+2+32
     p+=1+hello[p]
+    if p+2>limit:raise ValueError('session ID overflow')
     p+=2+int.from_bytes(hello[p:p+2],'big')
+    if p+1>limit:raise ValueError('cipher suites overflow')
     p+=1+hello[p]
-    if p+2>n+4:return None
+    if p>limit:raise ValueError('compression methods overflow')
+    if p==limit:return None
+    if p+2>limit:raise ValueError('truncated extensions')
     end=p+2+int.from_bytes(hello[p:p+2],'big');p+=2
-    while p+4<=end:
+    if end!=limit:raise ValueError('extensions length mismatch')
+    while p<end:
+        if p+4>end:raise ValueError('truncated extension')
         kind=int.from_bytes(hello[p:p+2],'big');size=int.from_bytes(hello[p+2:p+4],'big');p+=4
         if p+size>end:raise ValueError('extension overflow')
         if kind==0:
+            if size<2 or int.from_bytes(hello[p:p+2],'big')!=size-2:raise ValueError('SNI list length mismatch')
             q=p+2
-            while q+3<=p+size:
+            while q<p+size:
+                if q+3>p+size:raise ValueError('truncated SNI')
                 t=hello[q];ln=int.from_bytes(hello[q+1:q+3],'big');q+=3
                 if q+ln>p+size:raise ValueError('SNI overflow')
                 if t==0:return hello[q:q+ln].decode('ascii').lower().rstrip('.')

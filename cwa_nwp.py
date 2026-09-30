@@ -4,6 +4,16 @@ Rain accumulations are differenced only within one initialization cycle.
 """
 import math
 
+def _unique_rows(rows,cycle,index):
+    grouped={}
+    for row in rows:
+        if not isinstance(row,dict) or not _valid_row_time(row) or row['initialTime']!=cycle:continue
+        grouped.setdefault(row['leadHours'],[]).append(row)
+    return [group[0] for group in grouped.values()
+            if all(type(row['values'][index]) is type(group[0]['values'][index])
+                   and row['values'][index]==group[0]['values'][index]
+                   and row.get('geometry')==group[0].get('geometry') for row in group)]
+
 def _valid_row_time(row):
     initial=row.get('initialTime');lead=row.get('leadHours');forecast=row.get('forecastTime')
     return (not isinstance(initial,bool) and isinstance(initial,(int,float)) and math.isfinite(initial)
@@ -25,19 +35,17 @@ def normalize_nwp(product, county, town, now):
             return None
         cycle = max(cycles)
         pressure = []
-        for row in product['fields'].get('pressure', []):
-            if not isinstance(row,dict) or not _valid_row_time(row) or row.get('initialTime') != cycle:
-                continue
+        for row in _unique_rows(product['fields'].get('pressure', []),cycle,index):
             value = row['values'][index]
-            if isinstance(value, (int, float)) and math.isfinite(value) and 850 <= value <= 1100:
+            if not isinstance(value,bool) and isinstance(value, (int, float)) and math.isfinite(value) and 850 <= value <= 1100:
                 pressure.append({'forecastStart': row['forecastTime'], 'pressure': value})
         rain = []
-        rows = sorted((row for row in product['fields'].get('apcp', []) if isinstance(row,dict) and _valid_row_time(row) and row.get('initialTime') == cycle),
+        rows = sorted(_unique_rows(product['fields'].get('apcp', []),cycle,index),
                       key=lambda row: row['leadHours'])
         previous_time, previous_lead, previous_value = cycle, 0, 0.0
         for row in rows:
             value = row['values'][index]
-            valid = isinstance(value, (int, float)) and math.isfinite(value) and 0 <= value <= 5000
+            valid = not isinstance(value,bool) and isinstance(value, (int, float)) and math.isfinite(value) and 0 <= value <= 5000
             if valid and previous_value is not None and row['leadHours']-previous_lead == 6:
                 difference = value-previous_value
                 if -0.0002 <= difference <= 3000:

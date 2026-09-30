@@ -46,22 +46,33 @@ async def main():
                 try:
                     head=await client.head(url);head.raise_for_status();etag=head.headers.get('etag','')
                     if not etag:raise ValueError('Missing ETag')
-                    for kind,(offset,length,*_) in FIELDS.items():
+                except Exception as e:
+                    out['errors'][dataset]=type(e).__name__+': '+str(e)[:120]
+                    return
+                for kind,(offset,length,*_) in FIELDS.items():
+                    try:
                         if kind=='pressure':offset=int(head.headers['content-length'])-2*length
                         key=f'{dataset}-{kind}';path=cache_dir/(key+'.grib2');meta=cache_dir/(key+'.json')
                         old=json.loads(meta.read_text()) if meta.exists() else {}
-                        if old.get('etag')==etag and path.exists():blob=path.read_bytes()
+                        cached=old.get('etag')==etag and path.exists()
+                        if cached:blob=path.read_bytes()
                         else:
                             async with client.stream('GET',url,headers={'Range':f'bytes={offset}-{offset+length-1}','If-Match':etag}) as r:
                                 if r.status_code!=206:raise ValueError('Server did not return bounded range: '+str(r.status_code))
                                 if not r.headers.get('content-range','').startswith(f'bytes {offset}-{offset+length-1}/'):raise ValueError('Content-Range mismatch')
-                                blob=await r.aread()
+                                chunks=[];size=0
+                                async for chunk in r.aiter_bytes():
+                                    size+=len(chunk)
+                                    if size>length:raise ValueError('Range size exceeds bound')
+                                    chunks.append(chunk)
+                                blob=b''.join(chunks)
                             if len(blob)!=length:raise ValueError('Range size mismatch')
                             out['downloadBytes']+=len(blob)
                         data=decode(blob,kind,hour,out['geometry'])
-                        path.write_bytes(blob);meta.write_text(json.dumps({'etag':etag,'sha256':hashlib.sha256(blob).hexdigest()}))
+                        if not cached:
+                            path.write_bytes(blob);meta.write_text(json.dumps({'etag':etag,'sha256':hashlib.sha256(blob).hexdigest()}))
                         out['fields'].setdefault(kind,[]).append(data)
-                except Exception as e:out['errors'][dataset]=type(e).__name__+': '+str(e)[:120]
+                    except Exception as e:out['errors'][dataset+'-'+kind]=type(e).__name__+': '+str(e)[:120]
         await asyncio.gather(*(one(h) for h in HOURS))
     for rows in out['fields'].values():rows.sort(key=lambda r:(r['initialTime'],r['leadHours']))
     out['towns']=[{'county':t['county'],'town':t['town']} for t in TOWNS]

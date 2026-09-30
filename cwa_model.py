@@ -51,8 +51,8 @@ def visibility_meters(value):
     if s.startswith('>'):
         v=number(s[1:],0,100);return v*1000 if v is not None else None
     if '-' in s:
-        try:a,b=map(float,s.split('-',1));return (a+b)*500
-        except ValueError:return None
+        a,b=(number(v,0,100) for v in s.split('-',1))
+        return (a+b)*500 if a is not None and b is not None and a<=b else None
     v=number(s,0,100);return v*1000 if v is not None else None
 def normalize_observation(s,ts):
     w=s.get('WeatherElement',{});wind=number(w.get('WindSpeed'),0,150);rh=number(w.get('RelativeHumidity'),0,100);temp=number(w.get('AirTemperature'),-60,65)
@@ -105,19 +105,27 @@ def forecast_values(v):
     for src,dst,scale in [('RelativeHumidity','humidity',.01),('WindSpeed','windSpeed',3.6),('ProbabilityOfPrecipitation','precipitationChance',.01)]:
         n=number(v.get(src),0,100)
         if n is not None:fields[dst]=n*scale
-    wd=v.get('WindDirection','').replace('風','').replace('偏','').strip()
+    wd=v.get('WindDirection')
+    wd=wd.replace('風','').replace('偏','').strip() if isinstance(wd,str) else ''
     if wd in DIRECTIONS:fields['windDirection']=DIRECTIONS[wd]
     if v.get('WeatherCode') is not None:
         fields['weatherCode']=str(v['WeatherCode']).zfill(2);fields['weatherText']=v.get('Weather')
     return fields
 def normalize_forecast(loc):
-    points,intervals={},[]
+    points,intervals,conflicts={},[],{}
     for el in loc.get('WeatherElement',loc.get('weatherElement',[])):
         name=el.get('ElementName',el.get('elementName',''))
         for t in el.get('Time',el.get('time',[])):
             vals=t.get('ElementValue',t.get('elementValue',[]));v=vals[0] if vals and isinstance(vals[0],dict) else {};fields=forecast_values(v)
             if not fields:continue
             point=epoch(t.get('DataTime'));start,end=epoch(t.get('StartTime')),epoch(t.get('EndTime'))
-            if point is not None:points.setdefault(point,{'forecastStart':point}).update(fields)
+            if point is not None:
+                row=points.setdefault(point,{'forecastStart':point});blocked=conflicts.get(point,())
+                for key,value in fields.items():
+                    if key in blocked:continue
+                    if key in row and row[key]!=value:
+                        # Conflicting duplicate points must remain unavailable to the mapper.
+                        row.pop(key);conflicts.setdefault(point,set()).add(key)
+                    else:row[key]=value
             elif start is not None and end is not None and end>start:intervals.append({'start':start,'end':end,'element':name,**fields})
     return {'points':sorted(points.values(),key=lambda p:p['forecastStart']),'intervals':intervals}

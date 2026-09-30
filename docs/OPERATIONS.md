@@ -28,6 +28,8 @@ For a 0.3.2 source rollback, restore the changed modules/dashboard/package and r
 
 Mapper `assignments` counts source-validated writes even when the numeric value was unchanged. `sourceCoverage` classifies official/derived/mixed assignments and is not a percentage. `retainedApple` records guarded groups. The published `/source.zip` and source-catalog `/audit` are historical artifacts, not a current source release.
 
+The 2026-09-30 checkout fixes remain local. When reviewing their proof files, `request.json` records `status=encoded-candidate` and `servingOutcomeSource=bridge-log`; match `requestId` with the final bridge event to determine whether the modified response was served or Apple fallback was used. One disk worker may finish after fallback. `/status` exposes a proof only when the final event is `modified`. Offline review tests do not authorize deploying these changes or prove native UI acceptance.
+
 ## Common Pi 5 commands
 
 ```sh

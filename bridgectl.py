@@ -41,23 +41,32 @@ def rules_for(config,peers):
 
 def apply(config,peers):
     newrules=rules_for(config,peers)
-    oldmanaged=json.loads(MANAGED.read_text()) if MANAGED.exists() else []
+    oldmetadata=MANAGED.read_bytes() if MANAGED.exists() else None
+    oldmanaged=json.loads(oldmetadata) if oldmetadata is not None else []
     oldclients=(ROOT/'clients.json').read_bytes()
-    run(['systemctl','stop','AdGuardHome'])
-    old=ADGUARD.read_bytes()
-    backup=ROOT/'backups'/f'AdGuardHome-{time.time_ns()}.yaml';backup.parent.mkdir(exist_ok=True);backup.write_bytes(old);backup.chmod(0o600)
+    old=None;changed=False;metadata_changed=False
     try:
+        run(['systemctl','stop','AdGuardHome'])
+        old=ADGUARD.read_bytes()
+        backup=ROOT/'backups'/f'AdGuardHome-{time.time_ns()}.yaml';backup.parent.mkdir(exist_ok=True);backup.write_bytes(old);backup.chmod(0o600)
         data=yaml.safe_load(old);remove=set(LEGACY+oldmanaged)
         data['user_rules']=[r for r in data.get('user_rules',[]) if r not in remove]+newrules
+        changed=True
         ADGUARD.write_text(yaml.safe_dump(data,allow_unicode=True,sort_keys=False))
         (ROOT/'clients.json').write_text(json.dumps(config,ensure_ascii=False,indent=2))
         run(['systemctl','start','AdGuardHome']);run(['systemctl','is-active','AdGuardHome'])
         run(['systemctl','reload','cwa-weather-routing'])
-        MANAGED.write_text(json.dumps(newrules,ensure_ascii=False,indent=2))
+        metadata_changed=True;MANAGED.write_text(json.dumps(newrules,ensure_ascii=False,indent=2))
     except Exception:
-        run(['systemctl','stop','AdGuardHome']);ADGUARD.write_bytes(old);(ROOT/'clients.json').write_bytes(oldclients)
-        subprocess.run(['systemctl','start','AdGuardHome'],check=False)
-        subprocess.run(['systemctl','reload','cwa-weather-routing'],check=False)
+        try:
+            if changed:
+                run(['systemctl','stop','AdGuardHome']);ADGUARD.write_bytes(old);(ROOT/'clients.json').write_bytes(oldclients)
+            if metadata_changed:
+                if oldmetadata is None:MANAGED.unlink(missing_ok=True)
+                else:MANAGED.write_bytes(oldmetadata)
+        finally:
+            subprocess.run(['systemctl','start','AdGuardHome'],check=False,timeout=30)
+            if changed:subprocess.run(['systemctl','reload','cwa-weather-routing'],check=False,timeout=30)
         raise
     print(json.dumps({'enabled':config['enabled'],'dnsRules':len(newrules),'backup':str(backup)},ensure_ascii=False,indent=2))
 

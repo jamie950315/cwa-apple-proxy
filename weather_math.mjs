@@ -62,9 +62,14 @@ export function rainWindow(intervals,start,end){
  return {amount:totals[0],segments,estimated:false,source:'CWA quantitative precipitation; exact complete source windows'};
 }
 export function nwpPressure(points,ts){
+ return nwpPressureSeries(points)(ts);
+}
+export function nwpPressureSeries(points){
  const rows=(points||[]).filter(p=>Number.isFinite(p.forecastStart)&&Number.isFinite(p.pressure)&&p.pressure>=850&&p.pressure<=1100).sort((a,b)=>a.forecastStart-b.forecastStart);
+ return ts=>{
  let a,b;
  for(const row of rows){if(row.forecastStart===ts)return row.pressure;if(row.forecastStart<ts)a=row;else{b=row;break;}}
  if(!a||!b||b.forecastStart-a.forecastStart>21600)return undefined;
  return a.pressure+(b.pressure-a.pressure)*(ts-a.forecastStart)/(b.forecastStart-a.forecastStart);
+ };
 }

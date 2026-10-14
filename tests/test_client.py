@@ -128,3 +128,21 @@ def test_slow_failure_does_not_return_data_past_stale_limit(tmp_path,monkeypatch
   with pytest.raises(Unavailable):await store._cached('file:F-B0046-001',failing)
   await store.close()
  asyncio.run(go())
+
+def test_short_ttl_refreshes_do_not_rewrite_recent_disk_copy(tmp_path,monkeypatch):
+ monkeypatch.setattr(cwa_client,'ROOT',tmp_path);(tmp_path/'data').mkdir();(tmp_path/'.env').write_text('CWA_API_KEY=test-secret-key')
+ async def go():
+  s=Store();await s.client.aclose();key='O-A0003-001';calls=0
+  async def fetch():
+   nonlocal calls;calls+=1;return {'version':calls}
+  assert await s._cached(key,fetch)=={'version':1}
+  path=s._path(key);assert json.loads(path.read_text())=={'version':1}
+  _,data=s.cache[key];s.cache[key]=(time.time()-400,data)
+  assert await s._cached(key,fetch)=={'version':2}
+  assert json.loads(path.read_text())=={'version':1}
+  old=time.time()-cwa_client.DISK_PERSIST_INTERVAL-1;import os;os.utime(path,(old,old))
+  _,data=s.cache[key];s.cache[key]=(time.time()-400,data)
+  assert await s._cached(key,fetch)=={'version':3}
+  assert json.loads(path.read_text())=={'version':3}
+  await s.close()
+ asyncio.run(go())

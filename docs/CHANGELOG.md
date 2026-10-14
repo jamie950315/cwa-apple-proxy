@@ -1,5 +1,11 @@
 # Changelog
 
+## Disk cache write reduction deployed - 2026-10-14
+
+The API rewrote each refreshed CWA dataset to `data/` on every refresh. The 300-second observation, nowcast, and warning datasets (about 5 MB per cycle) produced roughly 2 GB of SD-card writes per day. The disk copy only seeds a restart, so a dataset is now rewritten only when its disk copy is at least 30 minutes old (`DISK_PERSIST_INTERVAL`). In-memory freshness, TTLs, refresh-ahead, and stale limits are unchanged; after a restart, the seeded copy may be up to 30 minutes older than before.
+
+Deployed only `cwa_client.py` and `tests/test_client.py` with a scoped backup at `backups/disk-cache-writes-20261014/` on the Pi 5. 22 affected Python tests passed on the Mac and the Pi; only `cwa-weather-api` restarted, and a fresh Taipei `/v1/cwa/weather` request returned HTTP 200 with all sections.
+
 ## Native AQI loading repair deployed - 2026-09-30
 
 Confirmed that native Weather waits for the missing `TAIWAN_AQI` descriptor: Apple 404 retries added about four seconds before weather data was published. Added a local native JSON descriptor for Taiwan's official six categories in `zh-Hant-TW` and `en-US`; AQI values and source attribution remain unchanged.

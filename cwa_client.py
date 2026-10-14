@@ -7,6 +7,7 @@ ROOT=Path(__file__).resolve().parent
 REST_ALLOWED={'O-A0001-001','O-A0002-001','O-A0003-001','W-C0033-001','W-C0033-002','A-B0062-001','A-B0063-001'}|{f'F-D0047-{n:03d}' for n in range(1,92,2)}
 FILE_ALLOWED={'F-B0046-001','O-A0038-003','M-A0064-000','M-A0064-006'}
 class Unavailable(Exception):pass
+DISK_PERSIST_INTERVAL=1800
 class Store:
     def __init__(self):
         self.key=os.getenv('CWA_API_KEY')
@@ -34,6 +35,13 @@ class Store:
         if key=='linked:aqi':return 600
         return 21600
     def _path(self,key):return ROOT/'data'/((key.replace(':','-'))+'.json')
+    def _persist(self,key,data):
+        # The disk copy only seeds a restart; rewriting multi-MB observations every refresh wears the SD card.
+        path=self._path(key)
+        try:
+            if time.time()-path.stat().st_mtime<DISK_PERSIST_INTERVAL:return
+        except FileNotFoundError:pass
+        tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(data,ensure_ascii=False));tmp.replace(path)
     def _stale_limit(self,key):
         return 1800 if key=='file:F-B0046-001' else 7200 if key.startswith('file:') else 3600
     def _disk_entry(self,key):
@@ -61,7 +69,7 @@ class Store:
                 raise Unavailable('CWA retry backoff')
             try:
                 data=await fetch()
-                path=self._path(key);tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(data,ensure_ascii=False));tmp.replace(path)
+                self._persist(key,data)
                 self.cache[key]=(time.time(),data);self.fetch_count+=1;self.errors.pop(key,None)
                 return data
             except (httpx.HTTPError,ValueError,OSError,KeyError) as e:

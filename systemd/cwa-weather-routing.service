@@ -5,6 +5,9 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
+# tailscaled.service starting does not mean the node has its tailnet address yet; at boot
+# network_rules.py otherwise fails once and, as a oneshot, never retries.
+ExecStartPre=/bin/sh -c 'for i in $$(seq 60); do tailscale ip -4 >/dev/null 2>&1 && exit 0; sleep 1; done; echo "Tailscale has no IPv4 after 60s" >&2; exit 1'
 ExecStart=/home/jamie/cwa-weather-proxy/.venv/bin/python /home/jamie/cwa-weather-proxy/network_rules.py
 ExecReload=/home/jamie/cwa-weather-proxy/.venv/bin/python /home/jamie/cwa-weather-proxy/network_rules.py
 ExecStop=/home/jamie/cwa-weather-proxy/.venv/bin/python /home/jamie/cwa-weather-proxy/network_rules.py remove

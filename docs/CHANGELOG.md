@@ -2,7 +2,7 @@
 
 ## Routing policy boot race fixed - 2026-10-15
 
-`cwa-weather-routing.service` is a oneshot that ran as soon as `tailscaled.service` started, before the node had its tailnet address. It failed at boot (10 days of uptime on 2026-10-12 with no `cwa_weather` nftables table; `data/routing-status.json` last written 2026-09-11) and never retried, so enrolled clients' UDP/443 was not rejected and Weather could bypass the proxy over QUIC. The boot-time error itself had rotated out of the journal; the 0.1-second failure and a clean dry run with Tailscale `Running` support the race diagnosis.
+`cwa-weather-routing.service` is a oneshot that ran as soon as `tailscaled.service` started, before the node had its tailnet address. It failed at the 2026-10-12 boot, leaving no `cwa_weather` nftables table (`data/routing-status.json` was last written 2026-09-11, so earlier boots likely failed the same way), and never retried, so enrolled clients' UDP/443 was not rejected and Weather could bypass the proxy over QUIC. The boot-time error itself had rotated out of the journal; the 0.1-second failure and a clean dry run with Tailscale `Running` support the race diagnosis.
 
 The unit now waits up to 60 seconds for `tailscale ip -4` before applying the rules and reports a clear error otherwise. Deployed with a backup at `backups/routing-boot-wait-20261015/` on the Pi 5; the service is active, the table contains both enrolled clients and all relay prefixes, and `routing-status.json` was refreshed. Behavior on the next real reboot has not yet been observed.
 
